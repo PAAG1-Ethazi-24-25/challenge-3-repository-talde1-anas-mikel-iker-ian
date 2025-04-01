@@ -1,0 +1,57 @@
+.container-fluid {
+    font-size: 20px;
+}
+
+.izenburua img {
+    width: 150px;
+    margin-bottom: 10px;
+}
+
+.btn img {
+    width: 80px;
+}
+
+.carousel-inner img {
+    width: 100%;
+    height: 550px;
+    margin-bottom: 10px;
+}
+
+.row{
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    
+}
+
+.container img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 100px;
+    margin-top: 150px;
+    border-radius: 25px;
+}
+
+
+body {
+    margin: 0;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+footer {
+    background-color: rgb(255, 214, 196);
+    color: black;
+    text-align: center;
+    padding: 5px;
+    margin-top: 50px;
+}
+
+footer p {
+    padding-bottom: 1px;
+}
