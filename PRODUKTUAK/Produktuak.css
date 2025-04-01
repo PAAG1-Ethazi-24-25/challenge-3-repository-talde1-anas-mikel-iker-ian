@@ -4,69 +4,54 @@
     border-radius: 15%;
 }
 
-.row{
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-}
-
 body {
     margin: 0;
-    background-color: #F4EDE4; /* Beige claro para fondo general */
-    color: #3E2F2B; /* Marrón oscuro para texto */
+    background-color: #F4EDE4;
+    /* Beige claro para fondo general */
+    color: #3E2F2B;
+    /* Marrón oscuro para texto */
     text-align: center;
     font-family: Arial, sans-serif;
+
+    /*Para poner el footer abajo del todo*/
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
 }
 
 /* Navbar */
 .menua {
-    background: linear-gradient(0.25turn, #5A4233, #2D1E15); /* Degradado de colores del menu*/
+    background: linear-gradient(0.25turn, #5A4233, #2D1E15);
+    /* Degradado de colores del menu*/
     padding: 10px 20px 10px 30px;
 }
 
 /*Color de las letras del navbar*/
 .navbar-nav .nav-link {
-    color: #E6D2B5; /* Crema claro para el texto */
+    color: #E6D2B5;
+    /* Crema claro para el texto */
 }
 
 /*Al pasar con el cursor por encima de las letras*/
 .navbar-nav .nav-link:hover {
-    color: #FFD89C; 
+    color: #FFD89C;
 }
 
 /* Botón de inicio de sesión */
 .btn img {
     width: 80px;
-    filter: brightness(0) invert(1); /* Hace que la personita se vea claro */
-}
-
-/* Carrusel */
-.carousel-inner img {
-    border-radius: 3%;
-    width: 100%;
-    height: auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.navbar1 {
-    margin-top: 20px;
-    width: 80%;
-    background: linear-gradient(0.25turn, #6A4C3B, #3E2F2B); /* Degradado de colores del carrousel*/
-    color: white;
-    padding: 25px;
-    font-size: 18px;
-    border-radius: 3%;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.6);
+    filter: brightness(0) invert(1);
+    /* Hace que la personita se vea claro */
 }
 
 /* Todo lo que va dentro de los contenedores, texto e imagen */
 .container {
     max-width: 1200px;
     margin: auto;
-    background-color: #EADDC8; /* Para resaltar el contenido y que nosea todo igual que el fondo */
+    background-color: #EADDC8;   /* Para resaltar el contenido y que nosea todo igual que el fondo */ 
     padding: 50px;
     border-radius: 10px;
-    margin-top: 250px;
+    margin-top: 25px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -75,17 +60,25 @@ body {
     height: auto;
     margin-bottom: 10px;
     margin-top: 10px;
-    border-radius: 25px;
 }
 
+.producto { 
+    cursor: pointer; 
+}
+
+h4 {
+    margin-top: 20px;
+    text-align: left;
+}
 
 /* Footer */
 footer {
-    background-color: #5A4233; /* Mismo color que el principio del header */
-    color: #E6D2B5; 
+    background-color: #5A4233;
+    /* Mismo color que el principio del header */
+    color: #E6D2B5;
     text-align: center;
     padding: 10px;
-    margin-top:
+    margin-top: 50px;
 }
 
 footer p {

@@ -16,6 +16,11 @@ body {
     color: #3E2F2B; /* Marrón oscuro para texto */
     text-align: center;
     font-family: Arial, sans-serif;
+    
+    /*Para poner el footer abajo del todo*/
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
 }
 
 /* Navbar */
