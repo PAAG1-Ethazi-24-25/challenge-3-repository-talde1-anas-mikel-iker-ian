@@ -6,7 +6,7 @@ def show_menu():
     now = datetime.datetime.now()
     print("\nFecha y hora actuales:", now.strftime("%Y-%m-%d %H:%M:%S"))
     print("1.  PRODUKTOAK")
-    print("2. LANGILEAK")
+    print("2.  LANGILEAK")
     print("3.  ERABILTZAILEAK")
     print("4.  SALMENTAK")
     print("5.  IRTEN")
@@ -19,7 +19,7 @@ def main():
         if choice == '1':
             print("Funcionalidad para ERABILTZAILEAK aún no implementada.")
         elif choice == '2':
-            print("Funcionalidad para LANGILEAK aún no implementada.")
+            os.system("python Langilemenu.py")
         elif choice == '3':
             os.system("python menu.py")
         elif choice == '4':
