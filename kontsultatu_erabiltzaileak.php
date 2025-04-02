@@ -1,5 +1,6 @@
 <?php
 	include("test_connect_db.php");
+	
 	$usuario=$_POST["usuario"];
 	$password=$_POST["pasahitza"];
 	$link=KonektatuDatuBasera();

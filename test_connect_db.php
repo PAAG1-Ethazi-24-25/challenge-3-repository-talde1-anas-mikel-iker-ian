@@ -1,8 +1,7 @@
 <?php
 	function KonektatuDatuBasera()
 		{
-		
-			if (!($konexioa=mysqli_connect("localhost","root","")))
+			if (!($konexioa=mysqli_connect("localhost","root","",)))
 			{
 	
 				echo "There is an error connecting the DB.";
