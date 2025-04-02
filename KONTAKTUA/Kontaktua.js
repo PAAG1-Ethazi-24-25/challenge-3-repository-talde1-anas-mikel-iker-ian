@@ -3,25 +3,50 @@ $(document).ready(function () {
         event.preventDefault(); // Evita el envío por defecto
 
         $(".error-message").hide();
-        $("input, textarea").removeClass("error");
+        $("input, textarea, select").removeClass("error");
 
-        let nombre = $("#izena").val().trim();
-        let email = $("#emaila").val().trim();
-        let mensaje = $("#mezua").val().trim();
+        let izena = $("#izena").val().trim();
+        let emaila = $("#emaila").val().trim();
+        let telefonoa = $("#telefonoa").val().trim();
+        let arrazoia = $("#arrazoia").val();
+        let kokapena = $("#kokapena").val().trim();
+        let mezua = $("#mezua").val().trim();
+        let terminoOnarpena = $("#baldintzak").is(":checked");
+        
         let valido = true;
 
-        if (nombre === "") {
-            $("#izena").addClass("error").next(".error-message").text("Izena beharrezkoa da.").show();
+        if (izena === "") {
+            $("#izena").addClass("error").after("<div class='error-message'>Izena beharrezkoa da.</div>").show();
             valido = false;
         }
 
-        if (email === "" || !email.includes("@") || !email.includes(".")) {
-            $("#emaila").addClass("error").next(".error-message").text("Emaila baliogabea da.").show();
+        if (emaila === "" || !emaila.includes("@") || !emaila.includes(".")) {
+            $("#emaila").addClass("error").after("<div class='error-message'>Emaila baliogabea da.</div>").show();
             valido = false;
         }
 
-        if (mensaje === "") {
-            $("#mezua").addClass("error").next(".error-message").text("Mezua idatzi behar duzu.").show();
+        if (telefonoa !== "" && !/^\d{9}$/.test(telefonoa)) {
+            $("#telefonoa").addClass("error").after("<div class='error-message'>Telefono zenbaki baliogabea.</div>").show();
+            valido = false;
+        }
+
+        if (arrazoia === null) {
+            $("#arrazoia").addClass("error").after("<div class='error-message'>Aukeratu kontaktu arrazoia.</div>").show();
+            valido = false;
+        }
+
+        if (kokapena === "") {
+            $("#kokapena").addClass("error").after("<div class='error-message'>Mesedez, idatzi zure kokapena.</div>").show();
+            valido = false;
+        }
+
+        if (mezua === "") {
+            $("#mezua").addClass("error").after("<div class='error-message'>Mezua idatzi behar duzu.</div>").show();
+            valido = false;
+        }
+
+        if (!terminoOnarpena) {
+            $("#baldintzak").addClass("error").after("<div class='error-message'>Baldintzak onartu behar dituzu.</div>").show();
             valido = false;
         }
 
