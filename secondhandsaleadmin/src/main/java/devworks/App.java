@@ -9,16 +9,25 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import devworks.model.ProduktoAtzipena;
+import devworks.model.BezeroAtzipena;
+import devworks.model.LangileAtzipena;
+import devworks.model.SalmentaAtzipena;
+
 /**
  * JavaFX App
  */
 public class App extends Application {
+    public static ProduktoAtzipena produktoak = new ProduktoAtzipena("localhost", "bigarreneskukomerkatua", "produktuak", "root", "");
+    public static BezeroAtzipena bezeroak  = new BezeroAtzipena("localhost", "bigarreneskukomerkatua", "bezeroak", "root", "");
+    public static LangileAtzipena langileak = new LangileAtzipena("localhost", "bigarreneskukomerkatua", "langileak", "root", "");
+    public static SalmentaAtzipena salmentak = new SalmentaAtzipena("localhost", "bigarreneskukomerkatua", "salmentak", "root", "");
 
     private static Scene scene;
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("MenuBotoiak"), 500, 900);
+        scene = new Scene(loadFXML("MenuBotoiak"), 700, 900);
         scene.getStylesheets().add(getClass().getResource("css/ModenaAldatua.css").toExternalForm());
         stage.setTitle("Second Hand Sale Admin");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/devworks/img/icon.png")));

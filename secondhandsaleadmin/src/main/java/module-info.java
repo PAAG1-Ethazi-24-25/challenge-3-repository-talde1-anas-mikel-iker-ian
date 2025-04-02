@@ -2,7 +2,7 @@ module devworks {
     requires transitive javafx.graphics;
     requires transitive javafx.controls;
     requires javafx.fxml;
-    requires java.sql;
+    requires transitive java.sql;
 
     opens devworks to javafx.fxml;
     opens devworks.controller to javafx.fxml;
