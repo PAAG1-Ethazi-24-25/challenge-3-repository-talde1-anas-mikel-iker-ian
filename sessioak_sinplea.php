@@ -10,7 +10,7 @@
 					if(isset($_SESSION['usuario']))
 					{
 						$usuario = $_SESSION['usuario'];
-						echo "Welcome : $usuario <img src=yes.jpg width=50 height=50><br>";
+							echo "Welcome : $usuario //<img src=yes.jpg width=50 height=50><br>";
 						?>
 +		
 						<form action="irten.php">
@@ -29,7 +29,7 @@
 							<input type="text" name="usuario" />
 							<br><br>
 							pass: <br>
-							<input type="password" name="password" />
+							<input type="password" name="pasahitza" />
 							<br><br>
 							<input type="submit" value="Sartu">	
 		</form>
@@ -41,7 +41,7 @@
 							{
 					?>
 								<p style="color:#F00"><b>Something went wrong !</b></p>
-								<img src="stop.jpg">
+								<!-- <img src="stop.jpg"> -->
 					<?php
 							}
 						} 

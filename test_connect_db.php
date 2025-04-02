@@ -9,7 +9,7 @@
 				exit();
 			}
 
-			if (!mysqli_select_db($konexioa,"db_beers"))
+			if (!mysqli_select_db($konexioa,"bigarreneskukomerkatua"))
 			{
 
 			echo "There is an error selecting the DB.";

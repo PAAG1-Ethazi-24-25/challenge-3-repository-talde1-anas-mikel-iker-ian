@@ -1,7 +1,7 @@
 <?php
 	include("test_connect_db.php");
 	$usuario=$_POST["usuario"];
-	$password=$_POST["password"];
+	$password=$_POST["pasahitza"];
 	$link=KonektatuDatuBasera();
 	$result=mysqli_query($link,"select usuario, pasahitza 
 	                            from erabiltzaileak
