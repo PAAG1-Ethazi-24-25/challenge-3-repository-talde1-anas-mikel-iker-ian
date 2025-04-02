@@ -1,6 +1,8 @@
 package devworks.controller;
 
 import java.io.IOException;
+
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 
 import devworks.App;
@@ -24,5 +26,11 @@ public class MenuBotoiak {
     @FXML
     void handleSalmentak() throws IOException {
         System.out.println("Salmentak botoia sakatu da");
+    }
+
+    @FXML
+    void handleIrten() {
+        Platform.exit();
+        System.exit(0); // Asegura que la aplicación se cierre completamente
     }
 }

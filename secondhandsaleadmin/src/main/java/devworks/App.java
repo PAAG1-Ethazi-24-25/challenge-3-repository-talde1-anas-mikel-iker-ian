@@ -21,7 +21,7 @@ public class App extends Application {
         scene = new Scene(loadFXML("MenuBotoiak"), 500, 900);
         scene.getStylesheets().add(getClass().getResource("css/ModenaAldatua.css").toExternalForm());
         stage.setTitle("Second Hand Sale Admin");
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/devworks/images/icon.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/devworks/img/icon.png")));
         stage.setScene(scene);
         stage.show();
     }
