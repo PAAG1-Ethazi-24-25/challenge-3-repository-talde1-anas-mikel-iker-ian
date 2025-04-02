@@ -14,8 +14,41 @@
 </head>
 
 <body>
-
     <header>
+        <?php
+        session_start();
+
+        if (isset($_SESSION['usuario'])) {
+            // Si el usuario ha iniciado sesión
+            $usuario = $_SESSION['usuario'];
+            $kargua = $_SESSION['kargua'];  // Suponiendo que el rol se guarda en la sesión
+        
+            echo "Welcome : $usuario";
+
+            // Opciones generales para todos los usuarios 
+            echo '<a href="index.php">Produktuak</a><br>';
+            echo '<a href="PRODUKTUAK\Produktuak.php">Produktuak</a><br>';
+            echo '<a href="KONTAKTUA\Kontaktua.php">Produktuak</a><br>';
+
+            // Si el usuario es un administrador, mostramos más opciones
+            if ($kargua == 'administraria') {
+                echo '<a href="insert beers/insert.php">Insert beer</a><br>';
+                echo '<a href="delete beers/deleteLang.php">Delete beer</a><br>';
+                echo '<a href="manage_users/manage.php">Manage users</a><br>'; // Ejemplo de opción de administrador
+            }
+            // Si el usuario es normal, mostramos solo las opciones básicas
+            elseif ($rol == 'normala') {
+                echo '<a href="update_profile.php">Update Profile</a><br>'; // Opción para usuarios normales
+            }
+            // Opción para cerrar sesión
+            echo '<form action="irten.php"><br>
+                <input type="submit" value="Logout" />
+            </form>';
+        } else {
+            // Si el usuario no ha iniciado sesión, mostramos solo la opción de login
+            echo '<a href="sessioak_sinplea.php">Login</a>';
+        }
+        ?>
         <nav class="navbar navbar-expand-lg bg-body-tertiary menua">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
