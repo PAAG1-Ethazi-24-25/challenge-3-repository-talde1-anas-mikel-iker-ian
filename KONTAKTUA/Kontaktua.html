@@ -44,82 +44,34 @@
             </div>
         </nav>
     </header>
-
-    <div class="container mt-4">
-        <h3>Kontaktuan jartzeko</h3>
-        <form id="contactForm">
-            <!-- Nombre -->
-            <div class="mb-3">
-                <label for="izena" class="form-label">Izena:</label>
-                <input type="text" id="izena" class="form-control">
-                <div class="error-message"></div>
-            </div>
     
-            <!-- Email -->
-            <div class="mb-3">
-                <label for="emaila" class="form-label">Emaila:</label>
-                <input type="email" id="emaila" class="form-control">
-                <div class="error-message"></div>
-            </div>
-    
-            <!-- Teléfono -->
-            <div class="mb-3">
-                <label for="telefonoa" class="form-label">Telefonoa:</label>
-                <input type="tel" id="telefonoa" class="form-control">
-                <div class="error-message"></div>
-            </div>
-    
-            <!-- Razón del contacto -->
-            <div class="mb-3">
-                <label for="arrazoia" class="form-label">Kontakturako arrazoia:</label>
-                <select id="arrazoia" class="form-control">
-                    <option value="" disabled selected>Aukeratu bat</option>
-                    <option value="salmenta">Nire produktuak saldu nahi ditut</option>
-                    <option value="erosketa">Produktu baten inguruko zalantza</option>
-                    <option value="laguntza">Arazo teknikoa</option>
-                    <option value="beste">Beste arrazoi bat</option>
-                </select>
-                <div class="error-message"></div>
-            </div>
-    
-            <!-- Ubicación -->
-            <div class="mb-3">
-                <label for="kokapena" class="form-label">Non zaude?</label>
-                <input type="text" id="kokapena" class="form-control" placeholder="Eibar, Donostia, Bilbo...">
-                <div class="error-message"></div>
-            </div>
-    
-            <!-- Preferencia de contacto -->
-            <div class="mb-3">
-                <label class="form-label">Nola nahi duzu erantzuna?</label>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="emailPreferentzia">
-                    <label class="form-check-label" for="emailPreferentzia">Email bidez</label>
+        <div class="container">
+            <h3>Kontaktuan jartzeko</h3>
+            <form id="contactForm">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Izena:</label>
+                    <input type="text" id="nombre" class="form-control">
+                    <div class="error-message"></div>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="telefonoPreferentzia">
-                    <label class="form-check-label" for="telefonoPreferentzia">Telefono bidez</label>
+    
+                <div class="mb-3">
+                    <label for="email" class="form-label">Emaila:</label>
+                    <input type="email" id="email" class="form-control">
+                    <div class="error-message"></div>
                 </div>
-            </div>
     
-            <!-- Mensaje -->
-            <div class="mb-3">
-                <label for="mezua" class="form-label">Mezua:</label>
-                <textarea id="mezua" class="form-control" rows="4"></textarea>
-                <div class="error-message"></div>
-            </div>
+                <div class="mb-3">
+                    <label for="mensaje" class="form-label">Mezua:</label>
+                    <textarea id="mensaje" class="form-control" rows="4"></textarea>
+                    <div class="error-message"></div>
+                </div>
     
-            <!-- Aceptación de términos -->
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="baldintzak">
-                <label class="form-check-label" for="baldintzak">Onartzen ditut baldintzak eta pribatutasun-politika.</label>
-            </div>
+                <button type="submit" class="btn-submit">Bidali</button>
+                <p id="successMessage" class="success-message">Formulario enviado correctamente.</p>
+            </form>
+        </div>
     
-            <!-- Botón de enviar -->
-            <button type="submit" class="btn btn-primary">Bidali</button>
-            <p id="successMessage" class="text-success mt-2" style="display:none;">Formularioa bidali egin da.</p>
-        </form>
-    </div>
+        <script src="contacto.js"></script>
     
 
     <footer>
