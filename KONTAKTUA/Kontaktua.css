@@ -1,0 +1,137 @@
+/* Variables de colores para todo el sitio */
+:root {
+    --background-color: #F4EDE4; /* Beige claro */
+    --text-color: #3E2F2B; /* Marrón oscuro */
+    --container-bg: #EADDC8; /* Crema para resaltar */
+    --primary-color: #5A4233; /* Marrón oscuro */
+    --secondary-color: #2D1E15; /* Marrón más oscuro */
+    --highlight-color: #FFD89C; /* Color crema más claro */
+    --error-color: #d9534f;
+    --success-color: #28a745;
+}
+
+/* Reset */
+body {
+    margin: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    text-align: center;
+    font-family: Arial, sans-serif;
+    
+    /* Para que el footer esté abajo */
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
+}
+
+/*Imagen del Logo*/
+.izenburua img {
+    width: 150px;
+    border-radius: 15%;
+}
+
+/* Navbar */
+.menua {
+    background: linear-gradient(0.25turn, #5A4233, #2D1E15); /* Degradado de colores del menu*/
+    padding: 10px 20px 10px 30px;
+}
+
+/*Color de las letras del navbar*/
+.navbar-nav .nav-link {
+    color: #E6D2B5; /* Crema claro para el texto */
+}
+
+/*Al pasar con el cursor por encima de las letras*/
+.navbar-nav .nav-link:hover {
+    color: #FFD89C; 
+}
+
+/* Botón de inicio de sesión */
+.btn img {
+    width: 80px;
+    filter: brightness(0) invert(1); /* Hace que la personita se vea claro */
+}
+
+/* Contenedor del formulario */
+.container {
+    max-width: 600px;
+    background-color: var(--container-bg);
+    padding: 30px;
+    border-radius: 10px;
+    margin: 50px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* titulo de "Kontaktuan jarri */
+h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Estilos para el mensaje de error */
+input, textarea {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    width: 100%;
+    background: #e00000;
+    color: var(--text-color);
+}
+
+/* Efecto al hacer focus */
+input:focus, textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    outline: none;
+}
+
+/* Mensajes de error */
+.error-message {
+    color: var(--error-color);
+    font-size: 14px;
+    margin-top: 5px;
+    display: none;
+}
+
+/* Botón */
+.btn-submit {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(0.25turn, var(--primary-color), var(--secondary-color));
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+/* Efecto hover */
+.btn-submit:hover {
+    background: var(--highlight-color);
+    color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+/* Mensaje de éxito */
+.success-message {
+    color: var(--success-color);
+    font-size: 16px;
+    text-align: center;
+    margin-top: 10px;
+    display: none;
+}
+
+/* Footer */
+footer {
+    background-color: var(--primary-color);
+    color: var(--highlight-color);
+    text-align: center;
+    padding: 10px;
+    margin-top: 50px;
+}
+
+footer p {
+    padding-bottom: 1px;
+}
