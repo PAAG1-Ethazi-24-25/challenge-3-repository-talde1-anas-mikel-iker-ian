@@ -155,6 +155,7 @@ public class Aldatu {
 
     @FXML
     void handleAtzera() throws IOException {
+        App.pagina = "MenuBotoiak";
         App.setRoot("MenuBotoiak");
     }
 }

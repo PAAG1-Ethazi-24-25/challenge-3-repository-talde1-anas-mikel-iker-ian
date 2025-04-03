@@ -120,6 +120,7 @@ public class Bistaratu {
 
     @FXML
     private void handleIrten() throws IOException {
+        App.pagina = "MenuBotoiak";
         App.setRoot("MenuBotoiak");
     }
 }

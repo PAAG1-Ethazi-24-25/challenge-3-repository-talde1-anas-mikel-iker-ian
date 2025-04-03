@@ -112,6 +112,7 @@ public class Txertatu {
 
     @FXML
     void handleAtzera() throws IOException {
+        App.pagina = "MenuBotoiak";
         App.setRoot("MenuBotoiak");
     }
 }

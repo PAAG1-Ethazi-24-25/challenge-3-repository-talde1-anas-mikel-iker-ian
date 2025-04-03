@@ -44,18 +44,19 @@ public class SalmentaAtzipena {
         return conn;
     }
 
-    public Salmentak searchSalmentak(String idProduktu) {
+    public Salmentak searchSalmentak(int idProduktu) {
         String sql = "SELECT * FROM " + taula + " WHERE id_produktu = ?";
 
         Salmentak salmenta = null;
 
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, idProduktu);
+            pstmt.setInt(1, idProduktu);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 salmenta = new Salmentak(rs.getInt("id_salmenta"), rs.getInt("id_produktu"),
-                        rs.getInt("id_bezero"), rs.getDate("data"), rs.getDouble("salmenta_prezioa"));
+                        rs.getInt("id_saltzaile"), rs.getInt("id_erosle"), rs.getDate("data"),
+                        rs.getDouble("salmenta_prezioa"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -73,7 +74,8 @@ public class SalmentaAtzipena {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 salmentak.add(new Salmentak(rs.getInt("id_salmenta"), rs.getInt("id_produktu"),
-                        rs.getInt("id_bezero"), rs.getDate("data"), rs.getDouble("salmenta_prezioa")));
+                        rs.getInt("id_saltzaile"), rs.getInt("id_erosle"), rs.getDate("data"),
+                        rs.getDouble("salmenta_prezioa")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

@@ -5,14 +5,16 @@ import java.sql.Date;
 public class Salmentak {
     private int id;
     private int idProduktu;
-    private int idBezero;
+    private int idSaltzaile;
+    private int idErosle;
     private Date data;
     private double salmentaPrezioa;
 
-    public Salmentak(int id, int idProduktu, int idBezero, Date data, double salmentaPrezioa) {
+    public Salmentak(int id, int idProduktu, int idSaltzaile, int idErosle, Date data, double salmentaPrezioa) {
         this.id = id;
         this.idProduktu = idProduktu;
-        this.idBezero = idBezero;
+        this.idSaltzaile = idSaltzaile;
+        this.idErosle = idErosle;
         this.data = data;
         this.salmentaPrezioa = salmentaPrezioa;
     }
@@ -25,8 +27,12 @@ public class Salmentak {
         return idProduktu;
     }
 
-    public int getIdBezero() {
-        return idBezero;
+    public int getIdSaltzaile() {
+        return idSaltzaile;
+    }
+
+    public int getIdErosle() {
+        return idErosle;
     }
 
     public Date getData() {
@@ -45,8 +51,12 @@ public class Salmentak {
         this.idProduktu = idProduktu;
     }
 
-    public void setIdBezero(int idBezero) {
-        this.idBezero = idBezero;
+    public void setIdSaltzaile(int idSaltzaile) {
+        this.idSaltzaile = idSaltzaile;
+    }
+
+    public void setIdErosle(int idErosle) {
+        this.idErosle = idErosle;
     }
 
     public void setData(Date data) {
@@ -59,7 +69,13 @@ public class Salmentak {
 
     @Override
     public String toString() {
-        return "Salmentak {id=" + id + ", idProduktu=" + idProduktu + ", idBezero=" + idBezero + ", data=" + data
-                + ", salmentaPrezioa=" + salmentaPrezioa + "}";
+        return "Salmentak{" +
+                "id=" + id +
+                ", idProduktu=" + idProduktu +
+                ", idSaltzaile=" + idSaltzaile +
+                ", idErosle=" + idErosle +
+                ", data=" + data +
+                ", salmentaPrezioa=" + salmentaPrezioa +
+                '}';
     }
 }

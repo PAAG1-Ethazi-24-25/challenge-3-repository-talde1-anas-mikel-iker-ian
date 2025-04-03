@@ -18,10 +18,12 @@ import devworks.model.SalmentaAtzipena;
  * JavaFX App
  */
 public class App extends Application {
-    public static ProduktoAtzipena produktoak = new ProduktoAtzipena("localhost", "bigarreneskukomerkatua", "produktuak", "root", "");
-    public static BezeroAtzipena bezeroak  = new BezeroAtzipena("localhost", "bigarreneskukomerkatua", "bezeroak", "root", "");
-    public static LangileAtzipena langileak = new LangileAtzipena("localhost", "bigarreneskukomerkatua", "langileak", "root", "");
-    public static SalmentaAtzipena salmentak = new SalmentaAtzipena("localhost", "bigarreneskukomerkatua", "salmentak", "root", "");
+    public static ProduktoAtzipena produktoak = new ProduktoAtzipena("localhost", "db_bigarreneskukomerkatua", "produktuak", "root", "");
+    public static BezeroAtzipena bezeroak  = new BezeroAtzipena("localhost", "db_bigarreneskukomerkatua", "bezeroak", "root", "");
+    public static LangileAtzipena langileak = new LangileAtzipena("localhost", "db_bigarreneskukomerkatua", "langileak", "root", "");
+    public static SalmentaAtzipena salmentak = new SalmentaAtzipena("localhost", "db_bigarreneskukomerkatua", "salmentak", "root", "");
+
+    public static String pagina = "MenuBotoiak"; // To know on what page we are
 
     private static Scene scene;
 

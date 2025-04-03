@@ -44,14 +44,14 @@ public class ProduktoAtzipena {
         return conn;
     }
 
-    public Produktoak searchProduktoa(String idKategoria) {
+    public Produktoak searchProduktoa(int idKategoria) {
         String sql = "SELECT * FROM " + taula + " WHERE id_kategoria = ?";
 
         Produktoak produktoa = null;
 
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, idKategoria);
+            pstmt.setInt(1, idKategoria);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 produktoa = new Produktoak(rs.getInt("id_produktu"), rs.getString("izena"),

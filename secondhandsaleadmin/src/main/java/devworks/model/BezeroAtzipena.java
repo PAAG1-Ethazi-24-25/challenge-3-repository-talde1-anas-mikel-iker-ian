@@ -55,7 +55,7 @@ public class BezeroAtzipena {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 bezeroa = new Bezeroak(rs.getInt("id_bezero"), rs.getString("izena"), rs.getString("email"),
-                        rs.getInt("telefona"), rs.getString("herria"),
+                        rs.getInt("telefonoa"), rs.getString("herria"),
                         rs.getString("posta_kodea"), rs.getString("helbidea"), rs.getString("alta_data"));
             }
         } catch (SQLException e) {
@@ -74,7 +74,7 @@ public class BezeroAtzipena {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 bezeroak.add(new Bezeroak(rs.getInt("id_bezero"), rs.getString("izena"), rs.getString("email"),
-                        rs.getInt("telefona"), rs.getString("herria"),
+                        rs.getInt("telefonoa"), rs.getString("herria"),
                         rs.getString("posta_kodea"), rs.getString("helbidea"), rs.getString("alta_data")));
             }
         } catch (SQLException e) {
