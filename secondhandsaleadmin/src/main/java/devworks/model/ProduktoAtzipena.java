@@ -46,7 +46,8 @@ public class ProduktoAtzipena {
     }
 
     public Produktoak searchProduktoa(int idKategoria) {
-        String sql = "SELECT * FROM " + taula + " WHERE id_kategoria = ?";
+        String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
+        + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_produktu WHERE id_kategoria = ?";
 
         Produktoak produktoa = null;
 
@@ -58,7 +59,7 @@ public class ProduktoAtzipena {
                 produktoa = new Produktoak(rs.getInt("id_produktu"), rs.getString("izena"),
                         rs.getString("deskribapena"),
                         rs.getInt("prezioa"), rs.getInt("id_kategoria"), rs.getString("egoera"),
-                        rs.getInt("id_saltzaile"));
+                        rs.getString("email"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -68,7 +69,8 @@ public class ProduktoAtzipena {
     }
 
     public List<Produktoak> getProduktoak() {
-        String sql = "SELECT * FROM " + taula;
+        String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
+                + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_produktu";
         List<Produktoak> produktuak = new ArrayList<>();
 
         try (Connection conn = konektatu();
@@ -78,7 +80,7 @@ public class ProduktoAtzipena {
                 produktuak.add(new Produktoak(rs.getInt("id_produktu"), rs.getString("izena"),
                         rs.getString("deskribapena"),
                         rs.getInt("prezioa"), rs.getInt("id_kategoria"), rs.getString("egoera"),
-                        rs.getInt("id_saltzaile")));
+                        rs.getString("email")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
