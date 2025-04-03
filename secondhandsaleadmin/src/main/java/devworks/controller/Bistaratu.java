@@ -111,7 +111,7 @@ public class Bistaratu {
                 Kategoria selectedKategoria = choiceBoxBilatu.getSelectionModel().getSelectedItem();
                 if (selectedKategoria != null) {
                     int idKategoria = selectedKategoria.getId();
-                    List<Produktuak> produktuakFiltrados = App.produktuak.searchProduktoa(idKategoria);
+                    List<Produktuak> produktuakFiltrados = App.produktuak.filterProduktoa(idKategoria);
                     ObservableList<Produktuak> observableList = FXCollections.observableArrayList(produktuakFiltrados);
                     tableView.setItems(observableList);
                 }
