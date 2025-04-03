@@ -17,7 +17,7 @@ def main():
         choice = input("\nSeleccione una opción (1-5): ")
 
         if choice == '1':
-            print("Funcionalidad para ERABILTZAILEAK aún no implementada.")
+            os.system("python Produktoakmenu.py")
         elif choice == '2':
             os.system("python Langilemenu.py")
         elif choice == '3':
