@@ -18,12 +18,16 @@ def main():
 
         if choice == '1':
             os.system("python Produktoakmenu.py")
+            break
         elif choice == '2':
             os.system("python Langilemenu.py")
+            break
         elif choice == '3':
             os.system("python menu.py")
+            break
         elif choice == '4':
             os.system("python Salmentakmenu.py")
+            break
         elif choice == '5':
             print("\nTenga un buen día!")
             break
