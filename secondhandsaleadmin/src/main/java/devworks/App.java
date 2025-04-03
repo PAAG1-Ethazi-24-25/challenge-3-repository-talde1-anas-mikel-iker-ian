@@ -18,10 +18,14 @@ import devworks.model.SalmentaAtzipena;
  * JavaFX App
  */
 public class App extends Application {
-    public static ProduktoAtzipena produktoak = new ProduktoAtzipena("localhost", "db_bigarreneskukomerkatua", "produktuak", "root", "");
-    public static BezeroAtzipena bezeroak  = new BezeroAtzipena("localhost", "db_bigarreneskukomerkatua", "bezeroak", "root", "");
-    public static LangileAtzipena langileak = new LangileAtzipena("localhost", "db_bigarreneskukomerkatua", "langileak", "root", "");
-    public static SalmentaAtzipena salmentak = new SalmentaAtzipena("localhost", "db_bigarreneskukomerkatua", "salmentak", "root", "");
+    public static ProduktoAtzipena produktoak = new ProduktoAtzipena("localhost", "db_bigarreneskukomerkatua",
+            "produktuak", "root", "");
+    public static BezeroAtzipena bezeroak = new BezeroAtzipena("localhost", "db_bigarreneskukomerkatua", "bezeroak",
+            "root", "");
+    public static LangileAtzipena langileak = new LangileAtzipena("localhost", "db_bigarreneskukomerkatua", "langileak",
+            "root", "");
+    public static SalmentaAtzipena salmentak = new SalmentaAtzipena("localhost", "db_bigarreneskukomerkatua",
+            "salmentak", "root", "");
 
     public static String conectionIdentifier = "MenuBotoiak"; // To know on what page we are
 
@@ -29,10 +33,12 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("MenuBotoiak"), 700, 900);
+        scene = new Scene(loadFXML("MenuBotoiak"));
         scene.getStylesheets().add(getClass().getResource("css/ModenaAldatua.css").toExternalForm());
         stage.setTitle("Second Hand Sale Admin");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/devworks/img/icon.png")));
+        stage.setFullScreen(true);
+        stage.setFullScreenExitHint("Sakatu ESC pantaila osoa moduan ateratzeko");
         stage.setScene(scene);
         stage.show();
     }
