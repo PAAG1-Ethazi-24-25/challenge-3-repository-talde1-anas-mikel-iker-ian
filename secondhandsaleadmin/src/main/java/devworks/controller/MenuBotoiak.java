@@ -10,25 +10,25 @@ import devworks.App;
 public class MenuBotoiak {
     @FXML
     void handleProduktoak() throws IOException {
-        App.pagina = "Produktuak";
+        App.conectionIdentifier = "Produktuak";
         App.setRoot("Bistaratu");
     }
 
     @FXML
     void handleLangileak() throws IOException {
-        App.pagina = "Langileak";
+        App.conectionIdentifier = "Langileak";
         App.setRoot("Bistaratu");
     }
 
     @FXML
     void handleErabiltzaileak() throws IOException {
-        App.pagina = "Erabiltzaileak";
+        App.conectionIdentifier = "Erabiltzaileak";
         App.setRoot("Bistaratu");
     }
 
     @FXML
     void handleSalmentak() throws IOException {
-        App.pagina = "Salmentak";
+        App.conectionIdentifier = "Salmentak";
         App.setRoot("Bistaratu");
     }
 

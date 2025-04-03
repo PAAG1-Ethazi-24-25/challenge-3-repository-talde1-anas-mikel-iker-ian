@@ -23,7 +23,7 @@ public class App extends Application {
     public static LangileAtzipena langileak = new LangileAtzipena("localhost", "db_bigarreneskukomerkatua", "langileak", "root", "");
     public static SalmentaAtzipena salmentak = new SalmentaAtzipena("localhost", "db_bigarreneskukomerkatua", "salmentak", "root", "");
 
-    public static String pagina = "MenuBotoiak"; // To know on what page we are
+    public static String conectionIdentifier = "MenuBotoiak"; // To know on what page we are
 
     private static Scene scene;
 

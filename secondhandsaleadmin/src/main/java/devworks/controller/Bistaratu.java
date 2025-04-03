@@ -4,15 +4,47 @@ import java.io.IOException;
 import java.util.List;
 
 import devworks.App;
+import devworks.model.base.Kategoria;
+import devworks.model.base.Produktoak;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.StringConverter;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
 public class Bistaratu {
+    ChoiceBox<Kategoria> choiceBoxBilatu;
+
+    @FXML
+    private TableView<Produktoak> tableView;
+
+    @FXML
+    private TableColumn<Produktoak, Integer> tableColumnId;
+
+    @FXML
+    private TableColumn<Produktoak, String> tableColumnIzena;
+
+    @FXML
+    private TableColumn<Produktoak, String> tableColumnDeskribapena;
+
+    @FXML
+    private TableColumn<Produktoak, Integer> tableColumnPrezioa;
+
+    @FXML
+    private TableColumn<Produktoak, Integer> tableColumnKategoria;
+
+    @FXML
+    private TableColumn<Produktoak, String> tableColumnEgoera;
+
+    @FXML
+    private TableColumn<Produktoak, Integer> tableColumnSaltzaile;
+
     @FXML
     protected void initialize() {
         // textAreaBete(false);
@@ -22,80 +54,62 @@ public class Bistaratu {
 
     @FXML
     private void fillChoiceBox() {
-        // choiceBoxHerria.getItems().clear();
-        // List<String> herriakIzenak = App.herriak.getAllProbintzia();
-        // for (String Izenak : herriakIzenak) {
-        // choiceBoxHerria.getItems().add(Izenak);
-        // }
+        choiceBoxBilatu.getItems().clear();
+
+        if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
+            List<Kategoria> kategoriak = App.produktoak.getAllKategoriak();
+
+            ObservableList<Kategoria> observableKategoriak = FXCollections.observableArrayList(kategoriak);
+
+            choiceBoxBilatu.setItems(observableKategoriak);
+
+            choiceBoxBilatu.setConverter(new StringConverter<Kategoria>() {
+                @Override
+                public String toString(Kategoria kategoria) {
+                    return (kategoria != null) ? kategoria.getIzena() : "";
+                }
+
+                @Override
+                public Kategoria fromString(String string) {
+                    return null;
+                }
+            });
+        }
+
     }
 
     @FXML
     private void textAreaBete(boolean bilatu) {
-        // List<Herria> herriak;
-        // if (bilatu) {
-        // herriak = App.herriak.getHerriakProbintzia(choiceBoxHerria.getValue());
-        // } else {
-        // choiceBoxHerria.setValue(null);
-        // herriak = App.herriak.getHerrienZerrenda();
-        // }
-        //
-        // ObservableList<Herria> herrienObservableLista =
-        // FXCollections.observableArrayList(herriak);
-        //
-        // tableColumnHerria.prefWidthProperty().bind(tableViewHerriak.widthProperty().multiply(0.3));
-        // tableColumnProbintzia.prefWidthProperty().bind(tableViewHerriak.widthProperty().multiply(0.3));
-        // tableColumnHondartzak.prefWidthProperty().bind(tableViewHerriak.widthProperty().multiply(0.4));
-        //
-        // tableViewHerriak.setItems(herrienObservableLista);
-        //
-        // tableColumnHerria.setCellValueFactory(new PropertyValueFactory<Herria,
-        // String>("HerriIzena")); // getHerriIzena
-        // tableColumnProbintzia.setCellValueFactory(new PropertyValueFactory<Herria,
-        // String>("Probintzia")); // getProbintzia
-        // tableColumnHondartzak.setCellValueFactory(cellData -> {
-        // Herria herria = cellData.getValue();
-        //
-        // // Verificar si el herria tiene hondartzak
-        // KostakoHerria kostakoHerria =
-        // App.hondartzak.getHondartzakHerriaBatek(herria.getHerriIzena());
-        //
-        // // Comprobar que no sea null y tenga playas
-        // if (kostakoHerria != null && kostakoHerria.getHondartzak() != null
-        // && kostakoHerria.getHondartzak().length > 0) {
-        // return new SimpleStringProperty(String.join(", ",
-        // kostakoHerria.getHondartzak()));
-        // }
-        //
-        // return new SimpleStringProperty("NO");
-        // });
-        //
-        // tableViewHerriak.setEditable(true);
-        //
-        // tableColumnProbintzia.setCellFactory(TextFieldTableCell.<Herria>forTableColumn());
-        // tableColumnProbintzia.setOnEditCommit((TableColumn.CellEditEvent<Herria,
-        // String> t) -> {
-        // Herria herria = t.getRowValue();
-        // String oldValue = herria.getProbintzia();
-        // String newValue = t.getNewValue();
-        //
-        // if (!oldValue.equals(newValue)) {
-        // herria.setProbintzia(newValue);
-        //
-        // int result = App.herriak.updateProbintzia(herria, herria.getHerriIzena());
-        //
-        // fillChoiceBox();
-        //
-        // if (result == -1) {
-        // System.out.println("Error al actualizar la base de datos");
-        // herria.setProbintzia(oldValue);
-        // }
-        // }
-        // });
+        if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
+            if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
+                // Obtener lista de productos
+                List<Produktoak> produktuak = App.produktoak.getProduktoak();
+
+                // Convertir a ObservableList
+                ObservableList<Produktoak> observableList = FXCollections.observableArrayList(produktuak);
+
+                // Configurar columnas con los atributos de Produktoak
+                tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
+                tableColumnIzena.setCellValueFactory(new PropertyValueFactory<>("izena"));
+                tableColumnDeskribapena.setCellValueFactory(new PropertyValueFactory<>("deskribapena"));
+                tableColumnPrezioa.setCellValueFactory(new PropertyValueFactory<>("prezioa"));
+                tableColumnKategoria.setCellValueFactory(new PropertyValueFactory<>("id_kategoria"));
+                tableColumnEgoera.setCellValueFactory(new PropertyValueFactory<>("egoera"));
+                tableColumnSaltzaile.setCellValueFactory(new PropertyValueFactory<>("id_saltzaile"));
+
+                // Agregar los datos al TableView
+                tableView.setItems(observableList);
+            }
+        }
     }
 
     @FXML
     private void handleBilatu() {
-        // textAreaBete(true);
+        Kategoria selectedKategoria = choiceBoxBilatu.getSelectionModel().getSelectedItem();
+        if (selectedKategoria != null) {
+            int idKategoria = selectedKategoria.getId();
+            System.out.println("ID seleccionado: " + idKategoria);
+        }
     }
 
     @FXML
@@ -120,7 +134,7 @@ public class Bistaratu {
 
     @FXML
     private void handleIrten() throws IOException {
-        App.pagina = "MenuBotoiak";
+        App.conectionIdentifier = "MenuBotoiak";
         App.setRoot("MenuBotoiak");
     }
 }

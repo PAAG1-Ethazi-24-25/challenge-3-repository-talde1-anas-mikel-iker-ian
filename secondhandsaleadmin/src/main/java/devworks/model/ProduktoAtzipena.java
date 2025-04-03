@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import devworks.model.base.Kategoria;
 import devworks.model.base.Produktoak;
 
 public class ProduktoAtzipena {
@@ -84,5 +85,23 @@ public class ProduktoAtzipena {
         }
 
         return produktuak;
+    }
+
+    public List<Kategoria> getAllKategoriak() {
+        String sql = "SELECT * FROM kategoriak";
+        List<Kategoria> kategoriak = new ArrayList<>();
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                kategoriak.add(
+                        new Kategoria(rs.getInt("id_kategoria"), rs.getString("izena"), rs.getString("deskribapena")));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return kategoriak;
     }
 }
