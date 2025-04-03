@@ -175,3 +175,22 @@ VALUES
 UPDATE Produktuak SET salduta = TRUE WHERE id_produktu = 1;
 UPDATE Produktuak SET salduta = TRUE WHERE id_produktu = 3;
 UPDATE Produktuak SET salduta = TRUE WHERE id_produktu = 5;
+
+
+---------------------------------------KONSULTAK---------------------------------------------
+
+--- left join produktuak kategoria gabe ere erakusteko ---
+SELECT p.id_produktu, p.izena AS produktua, p.prezioa, p.egoera, k.izena AS kategoria, k.deskribapena 
+FROM produktuak p LEFT JOIN kategoriak k ON p.id_kategoria = k.id_kategoria;
+
+---inner join produktu oso ikusteko----
+
+select produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, kategoriak.izena as Kategoria, produktuak.egoera, bezeroak.izena as Saltzailea, produktuak.salduta 
+from produktuak inner join kategoriak on produktuak.id_produktu=kategoriak.id_kategoria 
+inner join bezeroak on produktuak.id_produktu=bezeroak.id_bezero;
+
+---SALMETA ETA PRODUKTUAK EZ DUTEN BEZEROAK EZABATU---
+
+DELETE FROM bezeroak
+WHERE NOT EXISTS (SELECT 1 FROM produktuak WHERE produktuak.id_saltzaile = bezeroak.id_bezero)
+AND NOT EXISTS (SELECT 1 FROM salmentak WHERE salmentak.id_erosle = bezeroak.id_bezero);
