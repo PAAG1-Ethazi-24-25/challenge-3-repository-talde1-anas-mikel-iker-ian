@@ -38,7 +38,7 @@ public class Bistaratu {
         choiceBoxBilatu.getItems().clear();
 
         if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
-            List<Kategoria> kategoriak = App.produktoak.getAllKategoriak();
+            List<Kategoria> kategoriak = App.produktuak.getAllKategoriak();
 
             ObservableList<Kategoria> observableKategoriak = FXCollections.observableArrayList(kategoriak);
 
@@ -83,7 +83,7 @@ public class Bistaratu {
                         @Override
                         public ObservableValue<String> call(CellDataFeatures<Produktuak, String> param) {
                             int idKategoria = param.getValue().getIdKategoria();
-                            List<Kategoria> kategoriak = App.produktoak.getAllKategoriak();
+                            List<Kategoria> kategoriak = App.produktuak.getAllKategoriak();
                             String categoriaNombre = kategoriak.stream()
                                     .filter(kategoria -> kategoria.getId() == idKategoria)
                                     .map(Kategoria::getIzena)
@@ -104,14 +104,14 @@ public class Bistaratu {
                     columnEgoera, columnSaltzaile);
 
             if (!bilatu) {
-                List<Produktuak> produktuak = App.produktoak.getProduktoak(); // Obtener todos los productos
+                List<Produktuak> produktuak = App.produktuak.getProduktoak(); // Obtener todos los productos
                 ObservableList<Produktuak> observableList = FXCollections.observableArrayList(produktuak);
                 tableView.setItems(observableList);
             } else {
                 Kategoria selectedKategoria = choiceBoxBilatu.getSelectionModel().getSelectedItem();
                 if (selectedKategoria != null) {
                     int idKategoria = selectedKategoria.getId();
-                    List<Produktuak> produktuakFiltrados = App.produktoak.searchProduktoa(idKategoria);
+                    List<Produktuak> produktuakFiltrados = App.produktuak.searchProduktoa(idKategoria);
                     ObservableList<Produktuak> observableList = FXCollections.observableArrayList(produktuakFiltrados);
                     tableView.setItems(observableList);
                 }
