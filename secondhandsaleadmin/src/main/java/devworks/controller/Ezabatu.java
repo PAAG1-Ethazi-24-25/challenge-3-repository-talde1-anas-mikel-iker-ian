@@ -29,7 +29,6 @@ public class Ezabatu {
 
     List<String> deleteList = new ArrayList<String>();
 
-    /** Herri bakoitzeko checkbox bat sortuko da. */
     private ProduktoAtzipena produktuak;
     private BezeroAtzipena bezeroak;
     private LangileAtzipena langileak;
