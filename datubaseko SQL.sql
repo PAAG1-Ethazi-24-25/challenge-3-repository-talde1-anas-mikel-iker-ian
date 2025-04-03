@@ -1,5 +1,5 @@
-CREATE DATABASE BigarrenEskukoMerkatua;
-USE BigarrenEskukoMerkatua;
+CREATE DATABASE DB_BigarrenEskukoMerkatua;
+USE DB_BigarrenEskukoMerkatua;
 
 CREATE TABLE Kategoriak (
     id_kategoria INT PRIMARY KEY AUTO_INCREMENT,
@@ -55,9 +55,18 @@ CREATE TABLE Produktuak (
     data DATETIME,
     salmenta_prezioa DECIMAL(10,2),
     FOREIGN KEY (id_produktu) REFERENCES Produktuak(id_produktu) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (id_saltzaile) REFERENCES Bezeroak(id_bezero) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (id_saltzaile) REFERENCES Bezeroak(id_bezero) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (id_erosle) REFERENCES Bezeroak(id_bezero) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+CREATE TABLE Erabiltzaileak (
+    id_erabiltzaile INT PRIMARY KEY AUTO_INCREMENT,
+    izena VARCHAR(255) NOT NULL,
+    erabiltzailea VARCHAR(255) UNIQUE NOT NULL,
+    pasahitza VARCHAR(255) NOT NULL,
+    administratzailea ENUM('bai', 'ez') NOT NULL
+);
+
 
 ----------------------TRIGERRAK----------------------------
 
@@ -96,13 +105,13 @@ DELIMITER ;
 CREATE TRIGGER trg_InsertLangileak AFTER INSERT ON Langileak
 FOR EACH ROW
 INSERT INTO Erabiltzaileak (izena, erabiltzailea, pasahitza, administratzailea)
-VALUES (NEW.izena, NEW.erabiltzailea, NEW.pasahitza, 'bai');
+VALUES (NEW.izena, NEW.erablitzaile_izena, NEW.pasahitza, 'bai');
 
 -- Trigger-a: Bezeroa gehitzean Erabiltzaile bezala gehitu
 CREATE TRIGGER trg_InsertBezeroak AFTER INSERT ON Bezeroak
 FOR EACH ROW
 INSERT INTO Erabiltzaileak (izena, erabiltzailea, pasahitza, administratzailea)
-VALUES (NEW.izena, NEW.erabiltzailea, NEW.pasahitza, 'ez');
+VALUES (NEW.izena, NEW.erablitzaile_izena, NEW.pasahitza, 'ez');
 
 
 DELIMITER $$
