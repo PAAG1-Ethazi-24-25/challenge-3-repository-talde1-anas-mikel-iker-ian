@@ -79,6 +79,12 @@ public class Ezabatu {
             for (Salmentak salmentak : App.salmentak.getSalmentak()) {
                 CheckBox cbx = new CheckBox( salmentak.getId() + " " +salmentak.getIzenaProduktu());
                 vBoxProduktuak.getChildren().add(cbx);
+
+                cbx.setOnMouseClicked (event -> {
+                    if (((CheckBox) event.getSource()).isSelected()) {
+                        deleteList.add(salmentak.getId() + " " + salmentak.getIzenaProduktu());
+                    }
+                });
             }
         }
 
