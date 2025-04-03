@@ -6,48 +6,30 @@ import java.util.List;
 import devworks.App;
 import devworks.model.base.Kategoria;
 import devworks.model.base.Produktoak;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.StringConverter;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.util.Callback;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+
 
 public class Bistaratu {
-    ChoiceBox<Kategoria> choiceBoxBilatu;
+    @FXML
+    private ChoiceBox<Kategoria> choiceBoxBilatu;
 
     @FXML
     private TableView<Produktoak> tableView;
 
     @FXML
-    private TableColumn<Produktoak, Integer> tableColumnId;
-
-    @FXML
-    private TableColumn<Produktoak, String> tableColumnIzena;
-
-    @FXML
-    private TableColumn<Produktoak, String> tableColumnDeskribapena;
-
-    @FXML
-    private TableColumn<Produktoak, Integer> tableColumnPrezioa;
-
-    @FXML
-    private TableColumn<Produktoak, Integer> tableColumnKategoria;
-
-    @FXML
-    private TableColumn<Produktoak, String> tableColumnEgoera;
-
-    @FXML
-    private TableColumn<Produktoak, Integer> tableColumnSaltzaile;
-
-    @FXML
     protected void initialize() {
-        // textAreaBete(false);
+        textAreaBete(false);
 
         fillChoiceBox();
     }
@@ -81,26 +63,55 @@ public class Bistaratu {
     @FXML
     private void textAreaBete(boolean bilatu) {
         if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
-            if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
-                // Obtener lista de productos
-                List<Produktoak> produktuak = App.produktoak.getProduktoak();
+            TableColumn<Produktoak, Integer> columnId = new TableColumn<>("ID");
+            columnId.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-                // Convertir a ObservableList
-                ObservableList<Produktoak> observableList = FXCollections.observableArrayList(produktuak);
+            TableColumn<Produktoak, String> columnIzena = new TableColumn<>("Izena");
+            columnIzena.setCellValueFactory(new PropertyValueFactory<>("izena"));
 
-                // Configurar columnas con los atributos de Produktoak
-                tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
-                tableColumnIzena.setCellValueFactory(new PropertyValueFactory<>("izena"));
-                tableColumnDeskribapena.setCellValueFactory(new PropertyValueFactory<>("deskribapena"));
-                tableColumnPrezioa.setCellValueFactory(new PropertyValueFactory<>("prezioa"));
-                tableColumnKategoria.setCellValueFactory(new PropertyValueFactory<>("id_kategoria"));
-                tableColumnEgoera.setCellValueFactory(new PropertyValueFactory<>("egoera"));
-                tableColumnSaltzaile.setCellValueFactory(new PropertyValueFactory<>("id_saltzaile"));
+            TableColumn<Produktoak, String> columnDeskribapena = new TableColumn<>("Deskribapena");
+            columnDeskribapena.setCellValueFactory(new PropertyValueFactory<>("deskribapena"));
 
-                // Agregar los datos al TableView
-                tableView.setItems(observableList);
-            }
+            TableColumn<Produktoak, Integer> columnPrezioa = new TableColumn<>("Prezioa");
+            columnPrezioa.setCellValueFactory(new PropertyValueFactory<>("prezioa"));
+
+            TableColumn<Produktoak, String> columnKategoria = new TableColumn<>("Kategoria");
+            columnKategoria.setCellValueFactory(
+                    new Callback<TableColumn.CellDataFeatures<Produktoak, String>, ObservableValue<String>>() {
+                        @Override
+                        public ObservableValue<String> call(CellDataFeatures<Produktoak, String> param) {
+                            int idKategoria = param.getValue().getIdKategoria();
+                            // Obtener todas las categorías desde App.produktoak.getAllKategoriak()
+                            List<Kategoria> kategoriak = App.produktoak.getAllKategoriak();
+                            // Buscar la categoría correspondiente al idKategoria
+                            String categoriaNombre = kategoriak.stream()
+                                    .filter(kategoria -> kategoria.getId() == idKategoria)
+                                    .map(Kategoria::getIzena)
+                                    .findFirst()
+                                    .orElse("Desconocida");
+                            return new SimpleStringProperty(categoriaNombre);
+                        }
+                    });
+
+            TableColumn<Produktoak, String> columnEgoera = new TableColumn<>("Egoera");
+            columnEgoera.setCellValueFactory(new PropertyValueFactory<>("egoera"));
+
+            TableColumn<Produktoak, Integer> columnSaltzaile = new TableColumn<>("Saltzaile");
+            columnSaltzaile.setCellValueFactory(new PropertyValueFactory<>("email"));
+
+            // Añadir las columnas al TableView
+            tableView.getColumns().addAll(columnId, columnIzena, columnDeskribapena, columnPrezioa, columnKategoria,
+                    columnEgoera, columnSaltzaile);
+
+            // Obtener la lista de productos
+            List<Produktoak> produktuak = App.produktoak.getProduktoak();
+            // Convertir a ObservableList
+            ObservableList<Produktoak> observableList = FXCollections.observableArrayList(produktuak);
+
+            // Establecer los items del TableView
+            tableView.setItems(observableList);
         }
+
     }
 
     @FXML
