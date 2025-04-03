@@ -9,8 +9,10 @@ public class Salmentak {
     private int idErosle;
     private Date data;
     private double salmentaPrezioa;
+    private String izenaProduktu;
 
-    public Salmentak(int id, int idProduktu, int idSaltzaile, int idErosle, Date data, double salmentaPrezioa) {
+    public Salmentak(int id, int idProduktu, int idSaltzaile, int idErosle, Date data, double salmentaPrezioa,
+            String izenaProduktu) {
         this.id = id;
         this.idProduktu = idProduktu;
         this.idSaltzaile = idSaltzaile;
@@ -21,10 +23,6 @@ public class Salmentak {
 
     public int getId() {
         return id;
-    }
-
-    public int getIdProduktu() {
-        return idProduktu;
     }
 
     public int getIdSaltzaile() {
@@ -42,6 +40,15 @@ public class Salmentak {
     public double getSalmentaPrezioa() {
         return salmentaPrezioa;
     }
+
+    public int getIdProduktu() {
+        return idProduktu;
+    }
+
+    public String getIzenaProduktu() {
+        return izenaProduktu;
+    }
+
 
     public void setId(int id) {
         this.id = id;
@@ -67,6 +74,10 @@ public class Salmentak {
         this.salmentaPrezioa = salmentaPrezioa;
     }
 
+    public void setIzenaProduktu(String izenaProduktu) {
+        this.izenaProduktu =  izenaProduktu;
+    }
+
     @Override
     public String toString() {
         return "Salmentak{" +
@@ -76,6 +87,7 @@ public class Salmentak {
                 ", idErosle=" + idErosle +
                 ", data=" + data +
                 ", salmentaPrezioa=" + salmentaPrezioa +
+                ", izenaProduktu=" + izenaProduktu +
                 '}';
     }
 }

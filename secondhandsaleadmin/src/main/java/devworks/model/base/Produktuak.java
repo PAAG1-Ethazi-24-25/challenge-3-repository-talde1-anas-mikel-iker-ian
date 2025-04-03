@@ -1,6 +1,6 @@
 package devworks.model.base;
 
-public class Produktoak {
+public class Produktuak {
     private int id;
     private String izena;
     private String deskribapena;
@@ -9,7 +9,7 @@ public class Produktoak {
     private String egoera;
     private String email;
 
-    public Produktoak(int id, String izena, String deskribapena, int prezioa, int idKategoria, String egoera,
+    public Produktuak(int id, String izena, String deskribapena, int prezioa, int idKategoria, String egoera,
             String email) {
         this.id = id;
         this.izena = izena;

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import devworks.model.base.Kategoria;
-import devworks.model.base.Produktoak;
+import devworks.model.base.Produktuak;
 
 public class ProduktoAtzipena {
     private String server;
@@ -45,18 +45,18 @@ public class ProduktoAtzipena {
         return conn;
     }
 
-    public List<Produktoak> searchProduktoa(int idKategoria) {
+    public List<Produktuak> searchProduktoa(int idKategoria) {
         String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
                 + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_produktu WHERE id_kategoria = ?";
 
-        List<Produktoak> produktuak = new ArrayList<>();
+        List<Produktuak> produktuak = new ArrayList<>();
 
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idKategoria);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                produktuak.add(new Produktoak(rs.getInt("id_produktu"), rs.getString("izena"),
+                produktuak.add(new Produktuak(rs.getInt("id_produktu"), rs.getString("izena"),
                         rs.getString("deskribapena"),
                         rs.getInt("prezioa"), rs.getInt("id_kategoria"), rs.getString("egoera"),
                         rs.getString("email")));
@@ -68,16 +68,16 @@ public class ProduktoAtzipena {
         return produktuak;
     }
 
-    public List<Produktoak> getProduktoak() {
+    public List<Produktuak> getProduktoak() {
         String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
                 + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_produktu";
-        List<Produktoak> produktuak = new ArrayList<>();
+        List<Produktuak> produktuak = new ArrayList<>();
 
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                produktuak.add(new Produktoak(rs.getInt("id_produktu"), rs.getString("izena"),
+                produktuak.add(new Produktuak(rs.getInt("id_produktu"), rs.getString("izena"),
                         rs.getString("deskribapena"),
                         rs.getInt("prezioa"), rs.getInt("id_kategoria"), rs.getString("egoera"),
                         rs.getString("email")));

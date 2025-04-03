@@ -44,29 +44,29 @@ public class SalmentaAtzipena {
         return conn;
     }
 
-    public Salmentak searchSalmentak(int idProduktu) {
-        String sql = "SELECT * FROM " + taula + " WHERE id_produktu = ?";
+    public List<Salmentak> filterSalmentak(int idProduktu) {
+        String sql = "SELECT salmentak.id_salmenta, salmentak.id_produktu, salmentak.id_saltzaile, salmentak.id_erosle, salmentak.data, salmentak.salmenta_prezioa, produktuak.izena FROM " + taula + " salmentak INNER JOIN produktuak ON salmentak.id_produktu = produktuak.id_produktu WHERE id_produktu = ?";
 
-        Salmentak salmenta = null;
+        List<Salmentak> salmentak = new ArrayList<>();
 
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idProduktu);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                salmenta = new Salmentak(rs.getInt("id_salmenta"), rs.getInt("id_produktu"),
+                salmentak.add(new Salmentak(rs.getInt("id_salmenta"), rs.getInt("id_produktu"),
                         rs.getInt("id_saltzaile"), rs.getInt("id_erosle"), rs.getDate("data"),
-                        rs.getDouble("salmenta_prezioa"));
+                        rs.getDouble("salmenta_prezioa"), rs.getString("izena")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
-        return salmenta;
+        return salmentak;
     }
 
     public List<Salmentak> getSalmentak() {
-        String sql = "SELECT * FROM " + taula;
+        String sql = "SELECT salmentak.id_salmenta, salmentak.id_produktu, salmentak.id_saltzaile, salmentak.id_erosle, salmentak.data, salmentak.salmenta_prezioa, produktuak.izena FROM " + taula + " salmentak INNER JOIN produktuak ON salmentak.id_produktu = produktuak.id_produktu";
         List<Salmentak> salmentak = new ArrayList<>();
 
         try (Connection conn = konektatu();
@@ -75,7 +75,7 @@ public class SalmentaAtzipena {
             while (rs.next()) {
                 salmentak.add(new Salmentak(rs.getInt("id_salmenta"), rs.getInt("id_produktu"),
                         rs.getInt("id_saltzaile"), rs.getInt("id_erosle"), rs.getDate("data"),
-                        rs.getDouble("salmenta_prezioa")));
+                        rs.getDouble("salmenta_prezioa"), rs.getString("izena")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

@@ -5,7 +5,7 @@ import java.util.List;
 
 import devworks.App;
 import devworks.model.base.Kategoria;
-import devworks.model.base.Produktoak;
+import devworks.model.base.Produktuak;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -24,7 +24,7 @@ public class Bistaratu {
     private ChoiceBox<Kategoria> choiceBoxBilatu;
 
     @FXML
-    private TableView<Produktoak> tableView;
+    private TableView<Produktuak> tableView;
 
     @FXML
     protected void initialize() {
@@ -65,23 +65,23 @@ public class Bistaratu {
         tableView.getColumns().clear();
 
         if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
-            TableColumn<Produktoak, Integer> columnId = new TableColumn<>("ID");
+            TableColumn<Produktuak, Integer> columnId = new TableColumn<>("ID");
             columnId.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-            TableColumn<Produktoak, String> columnIzena = new TableColumn<>("Izena");
+            TableColumn<Produktuak, String> columnIzena = new TableColumn<>("Izena");
             columnIzena.setCellValueFactory(new PropertyValueFactory<>("izena"));
 
-            TableColumn<Produktoak, String> columnDeskribapena = new TableColumn<>("Deskribapena");
+            TableColumn<Produktuak, String> columnDeskribapena = new TableColumn<>("Deskribapena");
             columnDeskribapena.setCellValueFactory(new PropertyValueFactory<>("deskribapena"));
 
-            TableColumn<Produktoak, Integer> columnPrezioa = new TableColumn<>("Prezioa");
+            TableColumn<Produktuak, Integer> columnPrezioa = new TableColumn<>("Prezioa");
             columnPrezioa.setCellValueFactory(new PropertyValueFactory<>("prezioa"));
 
-            TableColumn<Produktoak, String> columnKategoria = new TableColumn<>("Kategoria");
+            TableColumn<Produktuak, String> columnKategoria = new TableColumn<>("Kategoria");
             columnKategoria.setCellValueFactory(
-                    new Callback<TableColumn.CellDataFeatures<Produktoak, String>, ObservableValue<String>>() {
+                    new Callback<TableColumn.CellDataFeatures<Produktuak, String>, ObservableValue<String>>() {
                         @Override
-                        public ObservableValue<String> call(CellDataFeatures<Produktoak, String> param) {
+                        public ObservableValue<String> call(CellDataFeatures<Produktuak, String> param) {
                             int idKategoria = param.getValue().getIdKategoria();
                             List<Kategoria> kategoriak = App.produktoak.getAllKategoriak();
                             String categoriaNombre = kategoriak.stream()
@@ -93,10 +93,10 @@ public class Bistaratu {
                         }
                     });
 
-            TableColumn<Produktoak, String> columnEgoera = new TableColumn<>("Egoera");
+            TableColumn<Produktuak, String> columnEgoera = new TableColumn<>("Egoera");
             columnEgoera.setCellValueFactory(new PropertyValueFactory<>("egoera"));
 
-            TableColumn<Produktoak, String> columnSaltzaile = new TableColumn<>("Saltzaile");
+            TableColumn<Produktuak, String> columnSaltzaile = new TableColumn<>("Saltzaile");
             columnSaltzaile.setCellValueFactory(new PropertyValueFactory<>("email"));
 
             // Add the tableview columns
@@ -104,15 +104,15 @@ public class Bistaratu {
                     columnEgoera, columnSaltzaile);
 
             if (!bilatu) {
-                List<Produktoak> produktuak = App.produktoak.getProduktoak(); // Obtener todos los productos
-                ObservableList<Produktoak> observableList = FXCollections.observableArrayList(produktuak);
+                List<Produktuak> produktuak = App.produktoak.getProduktoak(); // Obtener todos los productos
+                ObservableList<Produktuak> observableList = FXCollections.observableArrayList(produktuak);
                 tableView.setItems(observableList);
             } else {
                 Kategoria selectedKategoria = choiceBoxBilatu.getSelectionModel().getSelectedItem();
                 if (selectedKategoria != null) {
                     int idKategoria = selectedKategoria.getId();
-                    List<Produktoak> produktuakFiltrados = App.produktoak.searchProduktoa(idKategoria);
-                    ObservableList<Produktoak> observableList = FXCollections.observableArrayList(produktuakFiltrados);
+                    List<Produktuak> produktuakFiltrados = App.produktoak.searchProduktoa(idKategoria);
+                    ObservableList<Produktuak> observableList = FXCollections.observableArrayList(produktuakFiltrados);
                     tableView.setItems(observableList);
                 }
             }
