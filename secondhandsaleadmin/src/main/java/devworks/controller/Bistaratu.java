@@ -104,7 +104,7 @@ public class Bistaratu {
                     columnEgoera, columnSaltzaile);
 
             if (!bilatu) {
-                List<Produktoak> produktuak = App.produktoak.getProduktoak(); // Obtener todos los productos
+                List<Produktoak> produktuak = App.produktoak.getProduktoak();
                 ObservableList<Produktoak> observableList = FXCollections.observableArrayList(produktuak);
                 tableView.setItems(observableList);
             } else {
