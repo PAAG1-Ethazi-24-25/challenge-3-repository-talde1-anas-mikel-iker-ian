@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import devworks.App;
+import devworks.model.ProduktoAtzipena;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -22,9 +23,19 @@ public class Ezabatu {
     List<String> deleteList = new ArrayList<String>();
 
     /** Herri bakoitzeko checkbox bat sortuko da. */
-
+    private ProduktoAtzipena produktuak;
+    private ProduktoAtzipena bezeroak;
+    private ProduktoAtzipena langileak;
+    private ProduktoAtzipena salmentak;
     @FXML
     protected void initialize() {
+
+        produktuak = new ProduktoAtzipena("localhost", "db_bigarreneskukomerkatua", "produktuak", "root", "");
+        bezeroak = new ProduktoAtzipena("localhost", "db_bigarreneskukomerkatua", "bezeroak", "root", "");
+        langileak = new ProduktoAtzipena("localhost", "db_bigarreneskukomerkatua", "langileak", "root", "");
+        salmentak = new ProduktoAtzipena("localhost", "db_bigarreneskukomerkatua", "salmentak", "root", "");
+        
+
         // vBoxHerriak.getChildren().clear();
         //
         // for (String pueblo : App.herriak.getHerriIzenak()) {
