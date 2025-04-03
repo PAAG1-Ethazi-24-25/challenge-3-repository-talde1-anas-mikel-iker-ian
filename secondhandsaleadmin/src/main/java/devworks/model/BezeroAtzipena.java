@@ -83,4 +83,31 @@ public class BezeroAtzipena {
 
         return bezeroak;
     }
+
+    public boolean deleteBezeroa(String izena) {
+
+        if (taula == null || taula.isEmpty()) { //Para verificar que la taula no este vacia antes de empezar
+            System.out.println("Errorea: taula ez da definitu");
+            return false;
+        }
+
+        String sql = "DELETE FROM " + taula + " WHERE izena = ?";
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) { 
+            pstmt.setString(1, izena.trim());   //Simplemente por si el usuario meter el nombre con espacios en blanco
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows > 0) {
+                System.out.println(izena + " bezeroa ezabatu egin da.");
+                return true;
+            } else {
+                System.out.println(izena + " bezeroa ez da existitzen.");
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("Errorea ezabatzerakoan: " + e.getMessage());
+            return false;
+        }
+    }
 }

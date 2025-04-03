@@ -83,4 +83,32 @@ public class LangileAtzipena {
 
         return langileak;
     }
+
+    public boolean deleteLangilea(String izena) {
+
+        if (taula == null || taula.isEmpty()) {
+            System.out.println("Errorea: taula ez da definitu");
+            return false;
+        }
+
+        String sql = "DELETE FROM " + taula + " WHERE izena = ?";
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, izena.trim());
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows > 0) {
+                System.out.println(izena + " langilea ezabatu egin da.");
+                return true;
+            } else {
+                System.out.println(izena + " langilea ez da existitzen.");
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("Errorea: " + e.getMessage());
+            return false;
+        }
+    }
 }

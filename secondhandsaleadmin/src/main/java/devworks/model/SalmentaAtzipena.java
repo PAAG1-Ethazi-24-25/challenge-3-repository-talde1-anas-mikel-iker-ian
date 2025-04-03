@@ -45,7 +45,9 @@ public class SalmentaAtzipena {
     }
 
     public List<Salmentak> filterSalmentak(int idProduktu) {
-        String sql = "SELECT salmentak.id_salmenta, salmentak.id_produktu, salmentak.id_saltzaile, salmentak.id_erosle, salmentak.data, salmentak.salmenta_prezioa, produktuak.izena FROM " + taula + " salmentak INNER JOIN produktuak ON salmentak.id_produktu = produktuak.id_produktu WHERE id_produktu = ?";
+        String sql = "SELECT salmentak.id_salmenta, salmentak.id_produktu, salmentak.id_saltzaile, salmentak.id_erosle, salmentak.data, salmentak.salmenta_prezioa, produktuak.izena FROM "
+                + taula
+                + " salmentak INNER JOIN produktuak ON salmentak.id_produktu = produktuak.id_produktu WHERE id_produktu = ?";
 
         List<Salmentak> salmentak = new ArrayList<>();
 
@@ -66,7 +68,8 @@ public class SalmentaAtzipena {
     }
 
     public List<Salmentak> getSalmentak() {
-        String sql = "SELECT salmentak.id_salmenta, salmentak.id_produktu, salmentak.id_saltzaile, salmentak.id_erosle, salmentak.data, salmentak.salmenta_prezioa, produktuak.izena FROM " + taula + " salmentak INNER JOIN produktuak ON salmentak.id_produktu = produktuak.id_produktu";
+        String sql = "SELECT salmentak.id_salmenta, salmentak.id_produktu, salmentak.id_saltzaile, salmentak.id_erosle, salmentak.data, salmentak.salmenta_prezioa, produktuak.izena FROM "
+                + taula + " salmentak INNER JOIN produktuak ON salmentak.id_produktu = produktuak.id_produktu";
         List<Salmentak> salmentak = new ArrayList<>();
 
         try (Connection conn = konektatu();
@@ -82,5 +85,43 @@ public class SalmentaAtzipena {
         }
 
         return salmentak;
+    }
+
+    public boolean deletesSalmentak(String produktuIzena) {
+
+        if (taula == null || taula.isEmpty()) {
+            System.out.println("Errorea: taula ez da definitu");
+            return false;
+        }
+        /*
+         * 
+         * 
+         * 
+         * EL NOMBRE DE LA COLUMNA, NOSE SI ESTA BIEN "produktuIzena"
+         * 
+         * 
+         * 
+         */
+        String sql = "DELETE FROM " + taula + " WHERE produktuIzena = ?";
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, produktuIzena);
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows > 0) {
+                System.out.println(produktuIzena + " ezabatu egin da.");
+                return true;
+            } else {
+                System.out.println(produktuIzena + " ez da exititzen.");
+                return false;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Errorea: " + e.getMessage());
+            return false;
+        }
+
     }
 }
