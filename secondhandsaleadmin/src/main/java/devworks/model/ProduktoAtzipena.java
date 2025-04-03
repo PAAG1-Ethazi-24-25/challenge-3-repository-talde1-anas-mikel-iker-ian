@@ -45,7 +45,7 @@ public class ProduktoAtzipena {
         return conn;
     }
 
-    public List<Produktuak> searchProduktoa(int idKategoria) {
+    public List<Produktuak> filterProduktoa(int idKategoria) {
         String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
                 + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_produktu WHERE id_kategoria = ?";
 
