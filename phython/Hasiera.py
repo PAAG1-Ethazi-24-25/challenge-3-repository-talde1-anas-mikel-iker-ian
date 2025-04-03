@@ -23,7 +23,7 @@ def main():
         elif choice == '3':
             os.system("python menu.py")
         elif choice == '4':
-            print("Funcionalidad para SALMENTAK aún no implementada.")
+            os.system("python Salmentakmenu.py")
         elif choice == '5':
             print("\nTenga un buen día!")
             break

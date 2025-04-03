@@ -1,9 +1,9 @@
 import pickle
 import os
 import datetime
-from Langileak import Langileak
+from Salmentak import Salmentak
 
-FILE_NAME = 'langileak.pkl'
+FILE_NAME = 'Salmentak.pkl'
 
 def save_data(data):
     with open(FILE_NAME, 'wb') as file:
@@ -16,17 +16,17 @@ def load_data():
     return []
 
 def add_item(my_list):
-    langilea = Langileak("", "", "", "", "", "", "", "","")
-    langilea.setAtributte()
-    my_list.append(langilea)
+    salmenta = Salmentak("", "", "", "", "")
+    salmenta.setAtributte()
+    my_list.append(salmenta)
     save_data(my_list)
 
 def view_list(my_list):
     if not my_list:
         print("Ez dago daturik.")
     else:
-        for langilea in my_list:
-            langilea.print()
+        for salmenta in my_list:
+            salmenta.print()
             print()
 
 def view_date_time():

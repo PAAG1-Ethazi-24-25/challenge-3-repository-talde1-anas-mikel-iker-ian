@@ -50,6 +50,7 @@ def menu_cliente():
             view_list(my_list)
         elif choice == '3':
             os.system("python Hasiera.py")
+            break
         else:
             print("\nMezedez, sartu 1-3 era zenbaki bat.")
 
