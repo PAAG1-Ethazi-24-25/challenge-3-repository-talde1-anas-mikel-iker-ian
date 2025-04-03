@@ -19,7 +19,6 @@ import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 
-
 public class Bistaratu {
     @FXML
     private ChoiceBox<Kategoria> choiceBoxBilatu;
@@ -60,8 +59,11 @@ public class Bistaratu {
 
     }
 
+    @SuppressWarnings("unchecked")
     @FXML
     private void textAreaBete(boolean bilatu) {
+        tableView.getColumns().clear();
+
         if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
             TableColumn<Produktoak, Integer> columnId = new TableColumn<>("ID");
             columnId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -81,9 +83,7 @@ public class Bistaratu {
                         @Override
                         public ObservableValue<String> call(CellDataFeatures<Produktoak, String> param) {
                             int idKategoria = param.getValue().getIdKategoria();
-                            // Obtener todas las categorías desde App.produktoak.getAllKategoriak()
                             List<Kategoria> kategoriak = App.produktoak.getAllKategoriak();
-                            // Buscar la categoría correspondiente al idKategoria
                             String categoriaNombre = kategoriak.stream()
                                     .filter(kategoria -> kategoria.getId() == idKategoria)
                                     .map(Kategoria::getIzena)
@@ -96,36 +96,44 @@ public class Bistaratu {
             TableColumn<Produktoak, String> columnEgoera = new TableColumn<>("Egoera");
             columnEgoera.setCellValueFactory(new PropertyValueFactory<>("egoera"));
 
-            TableColumn<Produktoak, Integer> columnSaltzaile = new TableColumn<>("Saltzaile");
+            TableColumn<Produktoak, String> columnSaltzaile = new TableColumn<>("Saltzaile");
             columnSaltzaile.setCellValueFactory(new PropertyValueFactory<>("email"));
 
-            // Añadir las columnas al TableView
+            // Add the tableview columns
             tableView.getColumns().addAll(columnId, columnIzena, columnDeskribapena, columnPrezioa, columnKategoria,
                     columnEgoera, columnSaltzaile);
 
-            // Obtener la lista de productos
-            List<Produktoak> produktuak = App.produktoak.getProduktoak();
-            // Convertir a ObservableList
-            ObservableList<Produktoak> observableList = FXCollections.observableArrayList(produktuak);
-
-            // Establecer los items del TableView
-            tableView.setItems(observableList);
+            if (!bilatu) {
+                List<Produktoak> produktuak = App.produktoak.getProduktoak(); // Obtener todos los productos
+                ObservableList<Produktoak> observableList = FXCollections.observableArrayList(produktuak);
+                tableView.setItems(observableList);
+            } else {
+                Kategoria selectedKategoria = choiceBoxBilatu.getSelectionModel().getSelectedItem();
+                if (selectedKategoria != null) {
+                    int idKategoria = selectedKategoria.getId();
+                    List<Produktoak> produktuakFiltrados = App.produktoak.searchProduktoa(idKategoria);
+                    ObservableList<Produktoak> observableList = FXCollections.observableArrayList(produktuakFiltrados);
+                    tableView.setItems(observableList);
+                }
+            }
         }
-
     }
 
     @FXML
     private void handleBilatu() {
         Kategoria selectedKategoria = choiceBoxBilatu.getSelectionModel().getSelectedItem();
-        if (selectedKategoria != null) {
-            int idKategoria = selectedKategoria.getId();
-            System.out.println("ID seleccionado: " + idKategoria);
+
+        if (selectedKategoria == null) {
+            textAreaBete(false);
+        } else {
+            textAreaBete(true);
         }
     }
 
     @FXML
     private void handleClear() throws IOException {
-        // textAreaBete(false);
+        choiceBoxBilatu.getSelectionModel().clearSelection();
+        textAreaBete(false);
     }
 
     @FXML

@@ -45,27 +45,27 @@ public class ProduktoAtzipena {
         return conn;
     }
 
-    public Produktoak searchProduktoa(int idKategoria) {
+    public List<Produktoak> searchProduktoa(int idKategoria) {
         String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
-        + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_produktu WHERE id_kategoria = ?";
+                + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_produktu WHERE id_kategoria = ?";
 
-        Produktoak produktoa = null;
+        List<Produktoak> produktuak = new ArrayList<>();
 
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idKategoria);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                produktoa = new Produktoak(rs.getInt("id_produktu"), rs.getString("izena"),
+                produktuak.add(new Produktoak(rs.getInt("id_produktu"), rs.getString("izena"),
                         rs.getString("deskribapena"),
                         rs.getInt("prezioa"), rs.getInt("id_kategoria"), rs.getString("egoera"),
-                        rs.getString("email"));
+                        rs.getString("email")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
-        return produktoa;
+        return produktuak;
     }
 
     public List<Produktoak> getProduktoak() {
