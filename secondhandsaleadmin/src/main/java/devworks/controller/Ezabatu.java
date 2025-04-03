@@ -35,6 +35,7 @@ public class Ezabatu {
         langileak = new ProduktoAtzipena("localhost", "db_bigarreneskukomerkatua", "langileak", "root", "");
         salmentak = new ProduktoAtzipena("localhost", "db_bigarreneskukomerkatua", "salmentak", "root", "");
         
+        
 
         // vBoxHerriak.getChildren().clear();
         //

@@ -38,7 +38,7 @@
             <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleEzabatu"
                prefHeight="24.0" prefWidth="200.0" text="EZABATU" />
             <Button mnemonicParsing="false" onAction="#handleIrten" prefHeight="24.0"
-               prefWidth="200.0" text="IRTEN" />
+               prefWidth="200.0" text="ATZERA" />
          </children>
       </HBox>
    </children>
