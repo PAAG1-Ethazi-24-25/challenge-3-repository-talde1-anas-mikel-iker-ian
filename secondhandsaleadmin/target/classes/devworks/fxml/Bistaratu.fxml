@@ -16,7 +16,7 @@
    xmlns="http://javafx.com/javafx/21"
    xmlns:fx="http://javafx.com/fxml/1" fx:controller="devworks.controller.Bistaratu">
    <children>
-      <Label id="lbIzenburua" text="Herriak" />
+      <Label id="lbIzenburua" text="" />
       <HBox prefHeight="24.0" prefWidth="313.0">
          <children>
             <ChoiceBox fx:id="choiceBoxBilatu" prefWidth="150.0" />

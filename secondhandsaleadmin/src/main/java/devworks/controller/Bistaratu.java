@@ -21,7 +21,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 
 public class Bistaratu {
     @FXML
-    private ChoiceBox<Kategoria> choiceBoxBilatu;
+    private ChoiceBox<Object> choiceBoxBilatu;
 
     @FXML
     private TableView<Produktuak> tableView;
@@ -39,38 +39,41 @@ public class Bistaratu {
 
         if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
             List<Kategoria> kategoriak = App.produktuak.getAllKategoriak();
-
-            ObservableList<Kategoria> observableKategoriak = FXCollections.observableArrayList(kategoriak);
-
+            ObservableList<Object> observableKategoriak = FXCollections.observableArrayList(kategoriak);
             choiceBoxBilatu.setItems(observableKategoriak);
 
-            choiceBoxBilatu.setConverter(new StringConverter<Kategoria>() {
+            choiceBoxBilatu.setConverter(new StringConverter<Object>() {
                 @Override
-                public String toString(Kategoria kategoria) {
-                    return (kategoria != null) ? kategoria.getIzena() : "";
+                public String toString(Object obj) {
+                    if (obj instanceof Kategoria) {
+                        return ((Kategoria) obj).getIzena();
+                    }
+                    return "";
                 }
 
                 @Override
-                public Kategoria fromString(String string) {
-                    return null;
+                public Object fromString(String string) {
+                    return null; // No se necesita aquí normalmente
                 }
             });
-        } elseif (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
-            List<Kategoria> kategoriak = App.bezeroak.getAllKategoriak();
 
-            ObservableList<Kategoria> observableKategoriak = FXCollections.observableArrayList(kategoriak);
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
+            List<String> herriak = App.bezeroak.getAllHerriak();
+            ObservableList<Object> observableHerriak = FXCollections.observableArrayList(herriak);
+            choiceBoxBilatu.setItems(observableHerriak);
 
-            choiceBoxBilatu.setItems(observableKategoriak);
-
-            choiceBoxBilatu.setConverter(new StringConverter<Kategoria>() {
+            choiceBoxBilatu.setConverter(new StringConverter<Object>() {
                 @Override
-                public String toString(Kategoria kategoria) {
-                    return (kategoria != null) ? kategoria.getIzena() : "";
+                public String toString(Object obj) {
+                    if (obj instanceof String) {
+                        return (String) obj;
+                    }
+                    return "";
                 }
 
                 @Override
-                public Kategoria fromString(String string) {
-                    return null;
+                public Object fromString(String string) {
+                    return string;
                 }
             });
         }
@@ -126,7 +129,7 @@ public class Bistaratu {
                 ObservableList<Produktuak> observableList = FXCollections.observableArrayList(produktuak);
                 tableView.setItems(observableList);
             } else {
-                Kategoria selectedKategoria = choiceBoxBilatu.getSelectionModel().getSelectedItem();
+                Kategoria selectedKategoria = (Kategoria) choiceBoxBilatu.getSelectionModel().getSelectedItem();
                 if (selectedKategoria != null) {
                     int idKategoria = selectedKategoria.getId();
                     List<Produktuak> produktuakFiltrados = App.produktuak.filterProduktoa(idKategoria);
@@ -139,7 +142,7 @@ public class Bistaratu {
 
     @FXML
     private void handleBilatu() {
-        Kategoria selectedKategoria = choiceBoxBilatu.getSelectionModel().getSelectedItem();
+        Kategoria selectedKategoria = (Kategoria) choiceBoxBilatu.getSelectionModel().getSelectedItem();
 
         if (selectedKategoria == null) {
             textAreaBete(false);

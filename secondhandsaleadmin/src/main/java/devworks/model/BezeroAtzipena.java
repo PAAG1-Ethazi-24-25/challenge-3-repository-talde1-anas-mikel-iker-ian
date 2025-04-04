@@ -44,25 +44,25 @@ public class BezeroAtzipena {
         return conn;
     }
 
-    public Bezeroak searchBezeroak(String herria) {
+    public List<Bezeroak> filterBezeroak(String herria) {
         String sql = "SELECT * FROM " + taula + " WHERE herria = ?";
 
-        Bezeroak bezeroa = null;
+        List<Bezeroak> bezeroak = new ArrayList<>();
 
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, herria);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                bezeroa = new Bezeroak(rs.getInt("id_bezero"), rs.getString("izena"), rs.getString("email"),
+                bezeroak.add(new Bezeroak(rs.getInt("id_bezero"), rs.getString("izena"), rs.getString("email"),
                         rs.getInt("telefonoa"), rs.getString("herria"),
-                        rs.getString("posta_kodea"), rs.getString("helbidea"), rs.getString("alta_data"));
+                        rs.getString("posta_kodea"), rs.getString("helbidea"), rs.getString("alta_data")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
-        return bezeroa;
+        return bezeroak;
     }
 
     public List<Bezeroak> getBezeroak() {
@@ -84,9 +84,26 @@ public class BezeroAtzipena {
         return bezeroak;
     }
 
+    public List<String> getAllHerriak() {
+        String sql = "SELECT herria FROM " + taula + " GROUP BY herria";
+        List<String> herriak = new ArrayList<>();
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                herriak.add(rs.getString("herria"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return herriak;
+    }
+
     public boolean deleteBezeroa(String izena) {
 
-        if (taula == null || taula.isEmpty()) { //Para verificar que la taula no este vacia antes de empezar
+        if (taula == null || taula.isEmpty()) { // Para verificar que la taula no este vacia antes de empezar
             System.out.println("Errorea: taula ez da definitu");
             return false;
         }
@@ -94,8 +111,8 @@ public class BezeroAtzipena {
         String sql = "DELETE FROM " + taula + " WHERE izena = ?";
 
         try (Connection conn = konektatu();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) { 
-            pstmt.setString(1, izena.trim());   //Simplemente por si el usuario meter el nombre con espacios en blanco
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, izena.trim()); // Simplemente por si el usuario meter el nombre con espacios en blanco
             int affectedRows = pstmt.executeUpdate();
 
             if (affectedRows > 0) {
