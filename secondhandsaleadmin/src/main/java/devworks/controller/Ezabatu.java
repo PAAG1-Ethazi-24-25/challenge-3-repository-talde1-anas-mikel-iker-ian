@@ -5,10 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import devworks.App;
-import devworks.model.BezeroAtzipena;
-import devworks.model.LangileAtzipena;
-import devworks.model.ProduktoAtzipena;
-import devworks.model.SalmentaAtzipena;
 import devworks.model.base.Bezeroak;
 import devworks.model.base.Langileak;
 import devworks.model.base.Produktuak;

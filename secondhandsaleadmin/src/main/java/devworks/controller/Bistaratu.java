@@ -53,7 +53,7 @@ public class Bistaratu {
 
                 @Override
                 public Object fromString(String string) {
-                    return null; // No se necesita aquí normalmente
+                    return null;
                 }
             });
 

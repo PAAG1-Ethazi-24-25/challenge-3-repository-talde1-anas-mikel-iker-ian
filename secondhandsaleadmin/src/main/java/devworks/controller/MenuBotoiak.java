@@ -21,8 +21,8 @@ public class MenuBotoiak {
     }
 
     @FXML
-    void handleErabiltzaileak() throws IOException {
-        App.conectionIdentifier = "Erabiltzaileak";
+    void handleBezeroak() throws IOException {
+        App.conectionIdentifier = "Bezeroak";
         App.setRoot("Bistaratu");
     }
 
