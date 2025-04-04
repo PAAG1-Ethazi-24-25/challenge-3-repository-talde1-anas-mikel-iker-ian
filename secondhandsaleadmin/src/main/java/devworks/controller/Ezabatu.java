@@ -25,6 +25,9 @@ public class Ezabatu {
     @FXML
     Label lbMezua;
 
+    @FXML
+    Label lbIzenburua;
+
     int aukeratuak = 0;
 
     List<String> deleteList = new ArrayList<String>();
@@ -45,6 +48,7 @@ public class Ezabatu {
         vBoxProduktuak.getChildren().clear();
 
         if (App.conectionIdentifier.equals("Bezeroak")) {
+            lbIzenburua.setText(("Ezabatu nahi dituzun Bezeroak"));
             for (Bezeroak bezero : App.bezeroak.getBezeroak()) {
                 CheckBox cbx = new CheckBox(bezero.getIzena());
                 vBoxProduktuak.getChildren().add(cbx);
@@ -56,6 +60,7 @@ public class Ezabatu {
                 });
             }
         } else if (App.conectionIdentifier.equals("Langileak")) {
+            lbIzenburua.setText(("Ezabatu nahi dituzun Langileak"));
             for (Langileak langile : App.langileak.getLangileak()) {
                 CheckBox cbx = new CheckBox(langile.getIzena());
                 vBoxProduktuak.getChildren().add(cbx);
@@ -67,6 +72,7 @@ public class Ezabatu {
                 });
             }
         } else if (App.conectionIdentifier.equals("Produktuak")) {
+            lbIzenburua.setText(("Ezabatu nahi dituzun Produktuak"));
             for (Produktuak produktu : App.produktuak.getProduktoak()) {
                 CheckBox cbx = new CheckBox(produktu.getIzena());
                 vBoxProduktuak.getChildren().add(cbx);
@@ -78,6 +84,7 @@ public class Ezabatu {
                 });
             }
         } else if (App.conectionIdentifier.equals("Salmentak")) {
+            lbIzenburua.setText(("Ezabatu nahi dituzun Salmentak"));
             for (Salmentak salmentak : App.salmentak.getSalmentak()) {
                 CheckBox cbx = new CheckBox( salmentak.getId() + " " +salmentak.getIzenaProduktu());
                 vBoxProduktuak.getChildren().add(cbx);
