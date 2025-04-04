@@ -68,7 +68,7 @@ public class SalmentaAtzipena {
     }
 
     public List<Salmentak> getSalmentak() {
-        String sql = "SELECT salmentak.id_salmenta, salmentak.id_produktu, salmentak.id_saltzaile, salmentak.id_erosle, salmentak.data, salmentak.salmenta_prezioa, produktuak.izena AS izena FROM "
+        String sql = "SELECT salmentak.id_salmenta, salmentak.id_produktu, salmentak.id_saltzaile, salmentak.id_erosle, salmentak.data, salmentak.salmenta_prezioa, produktuak.izena FROM "
                 + taula + " INNER JOIN produktuak ON salmentak.id_produktu = produktuak.id_produktu";
         List<Salmentak> salmentak = new ArrayList<>();
 

@@ -19,6 +19,7 @@ public class Salmentak {
         this.idErosle = idErosle;
         this.data = data;
         this.salmentaPrezioa = salmentaPrezioa;
+        this.izenaProduktu = izenaProduktu;
     }
 
     public int getId() {
