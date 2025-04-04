@@ -55,6 +55,24 @@ public class Bistaratu {
                     return null;
                 }
             });
+        } elseif (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
+            List<Kategoria> kategoriak = App.bezeroak.getAllKategoriak();
+
+            ObservableList<Kategoria> observableKategoriak = FXCollections.observableArrayList(kategoriak);
+
+            choiceBoxBilatu.setItems(observableKategoriak);
+
+            choiceBoxBilatu.setConverter(new StringConverter<Kategoria>() {
+                @Override
+                public String toString(Kategoria kategoria) {
+                    return (kategoria != null) ? kategoria.getIzena() : "";
+                }
+
+                @Override
+                public Kategoria fromString(String string) {
+                    return null;
+                }
+            });
         }
 
     }

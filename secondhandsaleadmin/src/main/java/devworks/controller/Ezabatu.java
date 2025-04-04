@@ -32,19 +32,8 @@ public class Ezabatu {
 
     List<String> deleteList = new ArrayList<String>();
 
-    private ProduktoAtzipena produktuak;
-    private BezeroAtzipena bezeroak;
-    private LangileAtzipena langileak;
-    private SalmentaAtzipena salmentak;
-
     @FXML
     protected void initialize() {
-
-        produktuak = new ProduktoAtzipena("localhost", "db_bigarreneskukomerkatua", "produktuak", "root", "");
-        bezeroak = new BezeroAtzipena("localhost", "db_bigarreneskukomerkatua", "bezeroak", "root", "");
-        langileak = new LangileAtzipena("localhost", "db_bigarreneskukomerkatua", "langileak", "root", "");
-        salmentak = new SalmentaAtzipena("localhost", "db_bigarreneskukomerkatua", "salmentak", "root", "");
-
         vBoxProduktuak.getChildren().clear();
 
         if (App.conectionIdentifier.equals("Bezeroak")) {
@@ -52,7 +41,7 @@ public class Ezabatu {
             for (Bezeroak bezero : App.bezeroak.getBezeroak()) {
                 CheckBox cbx = new CheckBox(bezero.getIzena());
                 vBoxProduktuak.getChildren().add(cbx);
-                
+
                 cbx.setOnMouseClicked(event -> {
                     if (cbx.isSelected()) {
                         deleteList.add(bezero.getIzena());
@@ -64,7 +53,7 @@ public class Ezabatu {
             for (Langileak langile : App.langileak.getLangileak()) {
                 CheckBox cbx = new CheckBox(langile.getIzena());
                 vBoxProduktuak.getChildren().add(cbx);
-                
+
                 cbx.setOnMouseClicked(event -> {
                     if (cbx.isSelected()) {
                         deleteList.add(langile.getIzena());
@@ -86,10 +75,10 @@ public class Ezabatu {
         } else if (App.conectionIdentifier.equals("Salmentak")) {
             lbIzenburua.setText(("Ezabatu nahi dituzun Salmentak"));
             for (Salmentak salmentak : App.salmentak.getSalmentak()) {
-                CheckBox cbx = new CheckBox( salmentak.getId() + " " +salmentak.getIzenaProduktu());
+                CheckBox cbx = new CheckBox(salmentak.getId() + " " + salmentak.getIzenaProduktu());
                 vBoxProduktuak.getChildren().add(cbx);
 
-                cbx.setOnMouseClicked (event -> {
+                cbx.setOnMouseClicked(event -> {
                     if (cbx.isSelected()) {
                         deleteList.add(salmentak.getId() + " " + salmentak.getIzenaProduktu());
                     }
@@ -123,7 +112,7 @@ public class Ezabatu {
                 }
                 break;
             case "Salmentak":
-                for (String izena :deleteList) {
+                for (String izena : deleteList) {
                     App.salmentak.deletesSalmentak(izena);
                 }
                 break;
