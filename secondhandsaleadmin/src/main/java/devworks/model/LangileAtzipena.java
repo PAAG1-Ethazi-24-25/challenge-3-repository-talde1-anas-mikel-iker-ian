@@ -44,25 +44,25 @@ public class LangileAtzipena {
         return conn;
     }
 
-    public Langileak searchLangileak(String herria) {
+    public List<Langileak> filterLangileak(String herria) {
         String sql = "SELECT * FROM " + taula + " WHERE herria = ?";
 
-        Langileak langilea = null;
+        List<Langileak> langileak = new ArrayList<>();
 
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, herria);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                langilea = new Langileak(rs.getInt("id_langile"), rs.getString("izena"), rs.getString("kargua"),
+                langileak.add(new Langileak(rs.getInt("id_langile"), rs.getString("izena"), rs.getString("kargua"),
                         rs.getString("email"), rs.getInt("telefonoa"), rs.getString("herria"),
-                        rs.getString("posta_kodea"), rs.getString("helbidea"), rs.getString("alta_data"));
+                        rs.getString("posta_kodea"), rs.getString("helbidea"), rs.getString("alta_data")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
-        return langilea;
+        return langileak;
     }
 
     public List<Langileak> getLangileak() {
@@ -82,6 +82,23 @@ public class LangileAtzipena {
         }
 
         return langileak;
+    }
+
+    public List<String> getAllHerriak() {
+        String sql = "SELECT herria FROM " + taula + " GROUP BY herria";
+        List<String> herriak = new ArrayList<>();
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                herriak.add(rs.getString("herria"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return herriak;
     }
 
     public boolean deleteLangilea(String izena) {
