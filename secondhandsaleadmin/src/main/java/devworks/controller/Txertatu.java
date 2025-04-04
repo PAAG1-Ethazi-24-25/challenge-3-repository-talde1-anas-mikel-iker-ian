@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import devworks.App;
+import devworks.model.base.Kategoria;
+import devworks.model.base.Produktuak;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -35,62 +37,15 @@ public class Txertatu {
 
     @FXML
     protected void initialize() {
-
+        
     }
 
     @FXML
     public void handleTxertatu() throws IOException {
-        // String izena = txfIzena.getText();
-        // String probintzia = txfProbintzia.getText();
-        //
-        // List<String> playas = new ArrayList<>();
-        // if (!hond1.getText().isEmpty()) {
-        // playas.add(hond1.getText());
-        // }
-        // if (!hond2.getText().isEmpty()) {
-        // playas.add(hond2.getText());
-        // }
-        // if (!hond3.getText().isEmpty()) {
-        // playas.add(hond3.getText());
-        // }
-        //
-        // String[] kostakoString = playas.toArray(new String[0]);
-        //
-        // int herriaInsert = 0;
-        //
-        // //if (izena != null && !izena.isEmpty() && probintzia != null &&
-        // !probintzia.isEmpty()) {
-        // // try {
-        // // if (checkboxSelected) {
-        // // KostakoHerria herria = new KostakoHerria(izena, probintzia,
-        // kostakoString);
-        // // herriaInsert = App.herriak.insertKostakoHerria(herria);
-        // // } else {
-        // // Herria herria = new Herria(izena, probintzia);
-        // // herriaInsert = App.herriak.insert(herria);
-        // // }
-        //
-        // if (herriaInsert == 1) {
-        // // System.out.println("Herria ondo gordeta");
-        // } else if (herriaInsert == -1062) {
-        // lbMezua.setText("Datu hori badago");
-        // } else {
-        // lbMezua.setText("Barne-errore bat gertatu da programan");
-        // }
-        // } catch (Exception e) {
-        // lbMezua.setText("Errorea gertatu da datuak txertatzean");
-        // }
-        // } else {
-        // lbMezua.setText("Izena eta probintzia beteta behar du");
-        // }
-        //
-        // txfIzena.clear();
-        // txfProbintzia.clear();
-        // if (checkboxSelected) {
-        // hond1.clear();
-        // hond2.clear();
-        // hond3.clear();
-        // }
+        if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
+            List<Kategoria> produktuak = App.produktuak.getAllKategoriak();
+            
+        }
     }
 
     @FXML
