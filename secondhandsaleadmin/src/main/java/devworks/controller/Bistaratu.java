@@ -6,6 +6,7 @@ import java.util.List;
 import devworks.App;
 import devworks.model.base.Bezeroak;
 import devworks.model.base.Kategoria;
+import devworks.model.base.Langileak;
 import devworks.model.base.Produktuak;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -55,7 +56,8 @@ public class Bistaratu {
                 }
             });
 
-        } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")
+                || App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
             List<String> herriak = App.bezeroak.getAllHerriak();
             ObservableList<Object> observableHerriak = FXCollections.observableArrayList(herriak);
             choiceBoxBilatu.setItems(observableHerriak);
@@ -74,6 +76,8 @@ public class Bistaratu {
                     return string;
                 }
             });
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
+
         }
 
     }
@@ -219,6 +223,80 @@ public class Bistaratu {
                     tableView.setItems(observableList);
                 }
             }
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
+
+            TableColumn<Object, Integer> columnId = new TableColumn<>("ID");
+            columnId.setCellValueFactory(cellData -> {
+                Langileak l = (Langileak) cellData.getValue();
+                return new SimpleIntegerProperty(l.getId()).asObject();
+            });
+
+            TableColumn<Object, String> columnIzena = new TableColumn<>("Izena");
+            columnIzena.setCellValueFactory(cellData -> {
+                Langileak l = (Langileak) cellData.getValue();
+                return new SimpleStringProperty(l.getIzena());
+            });
+
+            TableColumn<Object, String> columnKargua = new TableColumn<>("Kargua");
+            columnKargua.setCellValueFactory(cellData -> {
+                Langileak l = (Langileak) cellData.getValue();
+                return new SimpleStringProperty(l.getKargua());
+            });
+
+            TableColumn<Object, String> columnEmail = new TableColumn<>("Email");
+            columnEmail.setCellValueFactory(cellData -> {
+                Langileak l = (Langileak) cellData.getValue();
+                return new SimpleStringProperty(l.getEmail());
+            });
+
+            TableColumn<Object, Integer> columnTelefonoa = new TableColumn<>("Telefonoa");
+            columnTelefonoa.setCellValueFactory(cellData -> {
+                Langileak l = (Langileak) cellData.getValue();
+                return new SimpleIntegerProperty(l.getTelefonoa()).asObject();
+            });
+
+            TableColumn<Object, String> columnHerria = new TableColumn<>("Herria");
+            columnHerria.setCellValueFactory(cellData -> {
+                Langileak l = (Langileak) cellData.getValue();
+                return new SimpleStringProperty(l.getHerriIzena());
+            });
+
+            TableColumn<Object, String> columnPostaKodea = new TableColumn<>("PostaKodea");
+            columnPostaKodea.setCellValueFactory(cellData -> {
+                Langileak l = (Langileak) cellData.getValue();
+                return new SimpleStringProperty(l.getPostaKodea());
+            });
+
+            TableColumn<Object, String> columnHelbidea = new TableColumn<>("Helbidea");
+            columnHelbidea.setCellValueFactory(cellData -> {
+                Langileak l = (Langileak) cellData.getValue();
+                return new SimpleStringProperty(l.getHelbidea());
+            });
+
+            TableColumn<Object, String> columnAltaData = new TableColumn<>("AltaData");
+            columnAltaData.setCellValueFactory(cellData -> {
+                Langileak l = (Langileak) cellData.getValue();
+                return new SimpleStringProperty(l.getAltaData());
+            });
+
+            tableView.getColumns().addAll(
+                    columnId, columnIzena, columnKargua, columnEmail,
+                    columnTelefonoa, columnHerria, columnPostaKodea, columnHelbidea, columnAltaData);
+
+            if (!bilatu) {
+                List<Langileak> langileak = App.langileak.getLangileak();
+                ObservableList<Object> observableList = FXCollections.observableArrayList(langileak);
+                tableView.setItems(observableList);
+            } else {
+                String selectedHiria = (String) choiceBoxBilatu.getSelectionModel().getSelectedItem();
+                if (selectedHiria != null) {
+                    List<Langileak> langileakFiltrados = App.langileak.filterLangileak(selectedHiria);
+                    ObservableList<Object> observableList = FXCollections.observableArrayList(langileakFiltrados);
+                    tableView.setItems(observableList);
+                }
+            }
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
+
         }
 
     }
@@ -233,7 +311,8 @@ public class Bistaratu {
             } else {
                 textAreaBete(true);
             }
-        } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")
+                || App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
             String selectedHiria = (String) choiceBoxBilatu.getSelectionModel().getSelectedItem();
             if (selectedHiria != null) {
                 textAreaBete(true);
