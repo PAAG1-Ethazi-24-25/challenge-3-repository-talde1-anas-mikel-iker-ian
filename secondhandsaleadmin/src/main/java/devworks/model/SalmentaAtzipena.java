@@ -44,16 +44,16 @@ public class SalmentaAtzipena {
         return conn;
     }
 
-    public List<Salmentak> filterSalmentak(int idProduktu) {
+    public List<Salmentak> filterSalmentak(int idSaltzaile) {
         String sql = "SELECT salmentak.id_salmenta, salmentak.id_produktu, salmentak.id_saltzaile, salmentak.id_erosle, salmentak.data, salmentak.salmenta_prezioa, produktuak.izena FROM "
                 + taula
-                + " salmentak INNER JOIN produktuak ON salmentak.id_produktu = produktuak.id_produktu WHERE id_produktu = ?";
+                + " salmentak INNER JOIN produktuak ON salmentak.id_produktu = produktuak.id_produktu WHERE id_saltzaile = ?";
 
         List<Salmentak> salmentak = new ArrayList<>();
 
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, idProduktu);
+            pstmt.setInt(1, idSaltzaile);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 salmentak.add(new Salmentak(rs.getInt("id_salmenta"), rs.getInt("id_produktu"),
@@ -85,6 +85,23 @@ public class SalmentaAtzipena {
         }
 
         return salmentak;
+    }
+
+    public List<String> getAllSaltzaileak() {
+        String sql = "SELECT id_saltzaile FROM " + taula;
+        List<String> saltzaileak = new ArrayList<>();
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                saltzaileak.add(rs.getString("id_saltzaile"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return saltzaileak;
     }
 
     public boolean deletesSalmentak(String produktuIzena) {

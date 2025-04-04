@@ -1,6 +1,7 @@
 package devworks.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import devworks.App;
@@ -58,7 +59,14 @@ public class Bistaratu {
 
         } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")
                 || App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
-            List<String> herriak = App.bezeroak.getAllHerriak();
+
+            List<String> herriak = new ArrayList<>();
+
+            if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
+                herriak = App.bezeroak.getAllHerriak();
+            } else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
+                herriak = App.langileak.getAllHerriak();
+            }
             ObservableList<Object> observableHerriak = FXCollections.observableArrayList(herriak);
             choiceBoxBilatu.setItems(observableHerriak);
 
@@ -77,7 +85,24 @@ public class Bistaratu {
                 }
             });
         } else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
+            List<String> saltzaileak = App.salmentak.getAllSaltzaileak();
+            ObservableList<Object> observableSaltzaileak = FXCollections.observableArrayList(saltzaileak);
+            choiceBoxBilatu.setItems(observableSaltzaileak);
 
+            choiceBoxBilatu.setConverter(new StringConverter<Object>() {
+                @Override
+                public String toString(Object obj) {
+                    if (obj instanceof String) {
+                        return (String) obj;
+                    }
+                    return "";
+                }
+
+                @Override
+                public Object fromString(String string) {
+                    return string;
+                }
+            });
         }
 
     }
