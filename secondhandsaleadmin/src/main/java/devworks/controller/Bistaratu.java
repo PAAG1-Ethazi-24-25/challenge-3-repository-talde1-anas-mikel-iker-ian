@@ -186,6 +186,19 @@ public class Bistaratu {
                 }
             }
 
+            // COLUMNEN ZABALERA ----> GUZTIRA = 1
+            tableView.widthProperty().addListener((obs, oldVal, newVal) -> {
+                double totalWidth = newVal.doubleValue();
+
+                columnId.setPrefWidth(totalWidth * 0.05);
+                columnIzena.setPrefWidth(totalWidth * 0.2);
+                columnDeskribapena.setPrefWidth(totalWidth * 0.2);
+                columnPrezioa.setPrefWidth(totalWidth * 0.1);
+                columnKategoria.setPrefWidth(totalWidth * 0.15);
+                columnEgoera.setPrefWidth(totalWidth * 0.15);
+                columnSaltzaile.setPrefWidth(totalWidth * 0.15);
+            });
+
         } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
 
             TableColumn<Object, Integer> columnId = new TableColumn<>("ID");
@@ -252,6 +265,21 @@ public class Bistaratu {
                     tableView.setItems(observableList);
                 }
             }
+
+            // COLUMNEN ZABALERA ----> GUZTIRA = 1
+            tableView.widthProperty().addListener((obs, oldVal, newVal) -> {
+                double totalWidth = newVal.doubleValue();
+
+                columnId.setPrefWidth(totalWidth * 0.05);
+                columnIzena.setPrefWidth(totalWidth * 0.15);
+                columnAltaData.setPrefWidth(totalWidth * 0.15);
+                columnEmail.setPrefWidth(totalWidth * 0.15);
+                columnHelbidea.setPrefWidth(totalWidth * 0.2);
+                columnHerria.setPrefWidth(totalWidth * 0.1);
+                columnPostaKodea.setPrefWidth(totalWidth * 0.1);
+                columnTelefonoa.setPrefWidth(totalWidth * 0.1);
+
+            });
         } else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
 
             TableColumn<Object, Integer> columnId = new TableColumn<>("ID");
@@ -324,6 +352,21 @@ public class Bistaratu {
                     tableView.setItems(observableList);
                 }
             }
+            // COLUMNEN ZABALERA ----> GUZTIRA = 1
+            tableView.widthProperty().addListener((obs, oldVal, newVal) -> {
+                double totalWidth = newVal.doubleValue();
+
+                columnId.setPrefWidth(totalWidth * 0.05);
+                columnIzena.setPrefWidth(totalWidth * 0.08);
+                columnKargua.setPrefWidth(totalWidth * 0.1);
+                columnAltaData.setPrefWidth(totalWidth * 0.15);
+                columnEmail.setPrefWidth(totalWidth * 0.15);
+                columnHelbidea.setPrefWidth(totalWidth * 0.2);
+                columnHerria.setPrefWidth(totalWidth * 0.07);
+                columnPostaKodea.setPrefWidth(totalWidth * 0.1);
+                columnTelefonoa.setPrefWidth(totalWidth * 0.1);
+
+            });
         } else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
             TableColumn<Object, Integer> columnId = new TableColumn<>("ID");
             columnId.setCellValueFactory(cellData -> {
@@ -410,6 +453,22 @@ public class Bistaratu {
                     tableView.setItems(observableList);
                 }
             }
+
+            // COLUMNEN ZABALERA ----> GUZTIRA = 1
+            tableView.widthProperty().addListener((obs, oldVal, newVal) -> {
+                double totalWidth = newVal.doubleValue();
+
+                columnId.setPrefWidth(totalWidth * 0.06);
+                columnIdProduktu.setPrefWidth(totalWidth * 0.1);
+                columnIzenaProduktu.setPrefWidth(totalWidth * 0.16);
+                columnIdSaltzaile.setPrefWidth(totalWidth * 0.1);
+                columnEmailSaltzaile.setPrefWidth(totalWidth * 0.15);
+                columnIdErosle.setPrefWidth(totalWidth * 0.1);
+                columnEmailErosleak.setPrefWidth(totalWidth * 0.1);
+                columnData.setPrefWidth(totalWidth * 0.1);
+                columnSalmentakPrezioa.setPrefWidth(totalWidth * 0.13);
+
+            });
         }
     }
 
