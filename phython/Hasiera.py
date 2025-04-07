@@ -29,10 +29,10 @@ def main():
             os.system("python Salmentakmenu.py")
             break
         elif choice == '5':
-            print("\nTenga un buen día!")
+            print("\nEgun ona izan!")
             break
         else:
-            print("\nOpción inválida. Por favor, introduce un número entre 1 y 5.")
+            print("\nAukera baliogabea. Mesedez, sartu 1 eta 5 arteko zenbaki bat.")
 
 if __name__ == "__main__":
     main()
