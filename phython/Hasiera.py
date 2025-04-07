@@ -4,7 +4,7 @@ import os
 def show_menu():
     print("\n ========= HASIERAKO MENUA ========= ")
     now = datetime.datetime.now()
-    print("\nFecha y hora actuales:", now.strftime("%Y-%m-%d %H:%M:%S"))
+    print("\nData eta ordua:", now.strftime("%Y-%m-%d %H:%M:%S"))
     print("1.  PRODUKTOAK")
     print("2.  LANGILEAK")
     print("3.  ERABILTZAILEAK")
@@ -14,7 +14,7 @@ def show_menu():
 def main():
     while True:
         show_menu()
-        choice = input("\nSeleccione una opción (1-5): ")
+        choice = input("\nzenbaki bat aukeratu (1-5): ")
 
         if choice == '1':
             os.system("python Produktoakmenu.py")

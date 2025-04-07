@@ -31,7 +31,7 @@ def view_list(my_list):
 
 def view_date_time():
     now = datetime.datetime.now()
-    print("\nFecha y hora actuales:", now.strftime("%Y-%m-%d %H:%M:%S"))
+    print("\nData eta ordua:", now.strftime("%Y-%m-%d %H:%M:%S"))
 
 def menu_cliente():
     my_list = load_data()
