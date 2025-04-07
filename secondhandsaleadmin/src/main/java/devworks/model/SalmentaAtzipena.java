@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import devworks.model.base.Salmentak;
+import devworks.model.base.Saltzaileak;
 
 public class SalmentaAtzipena {
     private String server;
@@ -87,15 +88,17 @@ public class SalmentaAtzipena {
         return salmentak;
     }
 
-    public List<String> getAllSaltzaileak() {
-        String sql = "SELECT id_saltzaile FROM " + taula;
-        List<String> saltzaileak = new ArrayList<>();
+    public List<Saltzaileak> getAllSaltzaileak() {
+        String sql = "SELECT salmentak.id_saltzaile, bezeroak.email, bezeroak.izena FROM " + taula
+                + " INNER JOIN bezeroak ON salmentak.id_saltzaile = bezeroak.id_bezero GROUP BY id_saltzaile";
+        List<Saltzaileak> saltzaileak = new ArrayList<>();
 
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                saltzaileak.add(rs.getString("id_saltzaile"));
+                saltzaileak.add(new Saltzaileak(rs.getInt("id_saltzaile"), rs.getString("email"),
+                        rs.getString("izena")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

@@ -9,6 +9,7 @@ import devworks.model.base.Bezeroak;
 import devworks.model.base.Kategoria;
 import devworks.model.base.Langileak;
 import devworks.model.base.Produktuak;
+import devworks.model.base.Saltzaileak;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -85,22 +86,22 @@ public class Bistaratu {
                 }
             });
         } else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
-            List<String> saltzaileak = App.salmentak.getAllSaltzaileak();
+            List<Saltzaileak> saltzaileak = App.salmentak.getAllSaltzaileak();
             ObservableList<Object> observableSaltzaileak = FXCollections.observableArrayList(saltzaileak);
             choiceBoxBilatu.setItems(observableSaltzaileak);
 
             choiceBoxBilatu.setConverter(new StringConverter<Object>() {
                 @Override
                 public String toString(Object obj) {
-                    if (obj instanceof String) {
-                        return (String) obj;
+                    if (obj instanceof Saltzaileak) {
+                        return ((Saltzaileak) obj).getEmail();
                     }
                     return "";
                 }
 
                 @Override
                 public Object fromString(String string) {
-                    return string;
+                    return null;
                 }
             });
         }
