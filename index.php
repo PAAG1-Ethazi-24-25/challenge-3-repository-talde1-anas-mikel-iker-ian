@@ -16,42 +16,7 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary menua">
-        <?php
-        session_start();
 
-        if (isset($_SESSION['usuario'])) {
-
-            // Si el usuario ha iniciado sesión
-            $usuario = $_SESSION['usuario'];
-            $kargua = $_SESSION['administratzailea']; 
-        
-            echo "Welcome : $usuario";
-
-            // Si el usuario es un administrador
-            if ($kargua == 'bai') {
-                echo '<a href="./index.php">Hasiera</a><br>';
-                echo '<a href="PRODUKTUAK/Produktuak.php">Produktuak</a><br>';
-                echo '<a href="SALMENTAK/Salmentak.php">Salmentak</a><br>';
-                echo '<a href="LANGILEAK/Langileak.php">Langileak</a><br>';
-
-            }
-            // Si el usuario es normal
-            elseif ($kargua == 'ez') {
-                echo '<a href="./index.php">Hasiera</a><br>';
-                echo '<a href="PRODUKTUAK/Produktuak.php">Produktuak</a><br>';
-                echo '<a href="NIRE_PRODUKTUAK/Nire_Produktuak.php">NIRE_PRODUKTUAK</a><br>';
-            }
-            // Opción para cerrar sesión
-                echo '<form action="irten.php"><br>
-                <input type="submit" value="Logout" />
-            </form>';
-        } else {
-            // Si el usuario no ha iniciado sesión
-                echo '<a href="index.php">Hasiera</a><br>';
-                echo '<a href="PRODUKTUAK/Produktuak.php">Produktuak</a><br>';
-                echo '<a href="KONTAKTUA/Kontaktua.php">Kontaktua</a><br>';
-        }
-        ?>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -64,6 +29,22 @@
             </div>
             <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <?php if (isset($_SESSION["usuario"])): ?>
+                    <p>Bienvenido, <?php echo htmlspecialchars($_SESSION["usuario"]); ?>.</p>
+
+                    <?php if ($_SESSION["admin"]): ?>
+                        <p>Eres administrador.</p>
+                        <!-- Opciones de administrador -->
+                        <a href="admin_panel.php">Panel de administración</a>
+                    <?php else: ?>
+                        <p>Eres usuario normal.</p>
+                        <!-- Opciones de usuario -->
+                         
+                    <?php endif; ?>
+
+                    <a href="logout.php">Cerrar sesión</a>
+
+                <?php else: ?>
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="index.php">Hasiera</a>
@@ -76,10 +57,12 @@
                         </li>
                     </ul>
                     <button class="btn">
-                        <a href="./SAIOA_HASI/Saioa_Hasi.php">
+                        <a href="./SAIOA_HASI/Saioa_Hasi.html">
                             <img src="./HASIERA/img/imagen inicio sesion copy.png" class="img-fluid">
                         </a>
                     </button>
+                    <p >ez duzu saioa hasi</p>
+                <?php endif; ?>
                 </div>
             </div>
         </nav>
