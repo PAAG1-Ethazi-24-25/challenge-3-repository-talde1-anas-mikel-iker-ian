@@ -1,11 +1,11 @@
 package devworks.model.base;
 
-public class Saltzaileak {
-    public int id;
-    public String email;
-    public String izena;
+public class Erosleak {
+    private int id;
+    private String email;
+    private String izena;
 
-    public Saltzaileak(int id, String email, String izena) {
+    public Erosleak(int id, String email, String izena) {
         this.id = id;
         this.email = email;
         this.izena = izena;
@@ -37,6 +37,6 @@ public class Saltzaileak {
 
     @Override
     public String toString() {
-        return "Saltzaileak {id=" + id + ", email=" + email + ", izena=" + izena + "}";
+        return "Erosleak {id=" + id + ", email=" + email + ", izena=" + izena + "}";
     }
 }

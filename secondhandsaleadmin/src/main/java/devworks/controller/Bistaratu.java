@@ -6,10 +6,13 @@ import java.util.List;
 
 import devworks.App;
 import devworks.model.base.Bezeroak;
+import devworks.model.base.Erosleak;
 import devworks.model.base.Kategoria;
 import devworks.model.base.Langileak;
 import devworks.model.base.Produktuak;
+import devworks.model.base.Salmentak;
 import devworks.model.base.Saltzaileak;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -322,9 +325,92 @@ public class Bistaratu {
                 }
             }
         } else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
+            TableColumn<Object, Integer> columnId = new TableColumn<>("ID");
+            columnId.setCellValueFactory(cellData -> {
+                Salmentak s = (Salmentak) cellData.getValue();
+                return new SimpleIntegerProperty(s.getId()).asObject();
+            });
 
+            TableColumn<Object, Integer> columnIdProduktu = new TableColumn<>("ID Produktu");
+            columnIdProduktu.setCellValueFactory(cellData -> {
+                Salmentak s = (Salmentak) cellData.getValue();
+                return new SimpleIntegerProperty(s.getIdProduktu()).asObject();
+            });
+
+            TableColumn<Object, String> columnIzenaProduktu = new TableColumn<>("Izena Produktu");
+            columnIzenaProduktu.setCellValueFactory(cellData -> {
+                Salmentak s = (Salmentak) cellData.getValue();
+                return new SimpleStringProperty(s.getIzenaProduktu());
+            });
+
+            TableColumn<Object, Integer> columnIdSaltzaile = new TableColumn<>("ID Saltzaile");
+            columnIdSaltzaile.setCellValueFactory(cellData -> {
+                Salmentak s = (Salmentak) cellData.getValue();
+                return new SimpleIntegerProperty(s.getIdSaltzaile()).asObject();
+            });
+
+            TableColumn<Object, String> columnEmailSaltzaile = new TableColumn<>("Email Saltzaile");
+            columnEmailSaltzaile.setCellValueFactory(cellData -> {
+                Salmentak s = (Salmentak) cellData.getValue();
+                int idSaltzaile = s.getIdSaltzaile();
+                String email = App.salmentak.getAllSaltzaileak().stream()
+                        .filter(saltzaile -> saltzaile.getId() == idSaltzaile)
+                        .map(Saltzaileak::getEmail)
+                        .findFirst()
+                        .orElse("Desconocido");
+                return new SimpleStringProperty(email);
+            });
+
+            TableColumn<Object, Integer> columnIdErosle = new TableColumn<>("ID Erosle");
+            columnIdErosle.setCellValueFactory(cellData -> {
+                Salmentak s = (Salmentak) cellData.getValue();
+                return new SimpleIntegerProperty(s.getIdErosle()).asObject();
+            });
+
+            TableColumn<Object, String> columnEmailErosleak = new TableColumn<>("Email Erosle");
+            columnEmailErosleak.setCellValueFactory(cellData -> {
+                Salmentak s = (Salmentak) cellData.getValue();
+                int idErosle = s.getIdErosle();
+
+                String email = App.salmentak.getAllErosleak().stream()
+                        .filter(erosle -> erosle.getId() == idErosle)
+                        .map(Erosleak::getEmail)
+                        .findFirst()
+                        .orElse("Desconocido");
+
+                return new SimpleStringProperty(email);
+            });
+
+            TableColumn<Object, String> columnData = new TableColumn<>("Data");
+            columnData.setCellValueFactory(cellData -> {
+                Salmentak s = (Salmentak) cellData.getValue();
+                return new SimpleStringProperty(s.getData().toString());
+            });
+
+            TableColumn<Object, Double> columnSalmentakPrezioa = new TableColumn<>("Salmenta Prezioa");
+            columnSalmentakPrezioa.setCellValueFactory(cellData -> {
+                Salmentak s = (Salmentak) cellData.getValue();
+                return new SimpleDoubleProperty(s.getSalmentaPrezioa()).asObject();
+            });
+
+            tableView.getColumns().addAll(columnId, columnIdProduktu, columnIzenaProduktu,
+                    columnIdSaltzaile, columnEmailSaltzaile, columnIdErosle, columnEmailErosleak, columnData,
+                    columnSalmentakPrezioa);
+
+            if (!bilatu) {
+                List<Salmentak> salmentak = App.salmentak.getSalmentak();
+                ObservableList<Object> observableList = FXCollections.observableArrayList(salmentak);
+                tableView.setItems(observableList);
+            } else {
+                Saltzaileak selectedSaltzaile = (Saltzaileak) choiceBoxBilatu.getSelectionModel().getSelectedItem();
+                if (selectedSaltzaile != null) {
+                    int idSaltzaile = selectedSaltzaile.getId();
+                    List<Salmentak> salmentakFiltrados = App.salmentak.filterSalmentak(idSaltzaile);
+                    ObservableList<Object> observableList = FXCollections.observableArrayList(salmentakFiltrados);
+                    tableView.setItems(observableList);
+                }
+            }
         }
-
     }
 
     @FXML
@@ -341,6 +427,14 @@ public class Bistaratu {
                 || App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
             String selectedHiria = (String) choiceBoxBilatu.getSelectionModel().getSelectedItem();
             if (selectedHiria != null) {
+                textAreaBete(true);
+            } else {
+                textAreaBete(false);
+            }
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
+            Saltzaileak selectedSaltzaile = (Saltzaileak) choiceBoxBilatu.getSelectionModel().getSelectedItem();
+
+            if (selectedSaltzaile != null) {
                 textAreaBete(true);
             } else {
                 textAreaBete(false);
