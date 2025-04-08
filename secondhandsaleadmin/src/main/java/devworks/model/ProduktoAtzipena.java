@@ -70,6 +70,9 @@ public class ProduktoAtzipena {
         return produktuak;
     }
 
+    // Produktuak(int id, String izena, String deskribapena, int prezioa, int idKategoria, int idSaltzaile, String egoera,
+    //         String email)
+
     public List<Produktuak> getProduktoak() {
         String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.id_saltzaile, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
                 + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_produktu";
@@ -279,7 +282,7 @@ public class ProduktoAtzipena {
         }
     }
 
-    public boolean produktuaTxertatu(Produktuak produktua, int idSaltzaile) {
+    public boolean produktuaTxertatu(Produktuak produktua) {
         String sql = "INSERT INTO " + taula
                 + " (izena, deskribapena, prezioa, id_kategoria, egoera, id_saltzaile, salduta) " +
                 "VALUES (?, ?, ?, ?, ?, ?, 0)";
@@ -296,7 +299,7 @@ public class ProduktoAtzipena {
             pstmt.setInt(3, produktua.getPrezioa());
             pstmt.setInt(4, produktua.getIdKategoria());
             pstmt.setString(5, produktua.getEgoera());
-            pstmt.setInt(6, idSaltzaile);
+            pstmt.setInt(6, produktua.getIdSaltzaile());
 
             int affectedRows = pstmt.executeUpdate();
             return affectedRows > 0;

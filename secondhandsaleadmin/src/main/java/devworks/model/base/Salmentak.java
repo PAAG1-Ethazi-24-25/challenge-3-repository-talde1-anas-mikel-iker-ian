@@ -7,11 +7,11 @@ public class Salmentak {
     private int idProduktu;
     private int idSaltzaile;
     private int idErosle;
-    private Date data;
+    private String data;
     private double salmentaPrezioa;
     private String izenaProduktu;
 
-    public Salmentak(int id, int idProduktu, int idSaltzaile, int idErosle, Date data, double salmentaPrezioa,
+    public Salmentak(int id, int idProduktu, int idSaltzaile, int idErosle, String data, double salmentaPrezioa,
             String izenaProduktu) {
         this.id = id;
         this.idProduktu = idProduktu;
@@ -34,7 +34,7 @@ public class Salmentak {
         return idErosle;
     }
 
-    public Date getData() {
+    public String getData() {
         return data;
     }
 
@@ -67,7 +67,7 @@ public class Salmentak {
         this.idErosle = idErosle;
     }
 
-    public void setData(Date data) {
+    public void setData(String data) {
         this.data = data;
     }
 

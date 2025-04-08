@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import devworks.model.base.Erosleak;
+import devworks.model.base.Produktuak;
 import devworks.model.base.Salmentak;
 import devworks.model.base.Saltzaileak;
 
@@ -59,7 +60,7 @@ public class SalmentaAtzipena {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 salmentak.add(new Salmentak(rs.getInt("id_salmenta"), rs.getInt("id_produktu"),
-                        rs.getInt("id_saltzaile"), rs.getInt("id_erosle"), rs.getDate("data"),
+                        rs.getInt("id_saltzaile"), rs.getInt("id_erosle"), rs.getString("data"),
                         rs.getDouble("salmenta_prezioa"), rs.getString("izena")));
             }
         } catch (SQLException e) {
@@ -79,7 +80,7 @@ public class SalmentaAtzipena {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 salmentak.add(new Salmentak(rs.getInt("id_salmenta"), rs.getInt("id_produktu"),
-                        rs.getInt("id_saltzaile"), rs.getInt("id_erosle"), rs.getDate("data"),
+                        rs.getInt("id_saltzaile"), rs.getInt("id_erosle"), rs.getString("data"),
                         rs.getDouble("salmenta_prezioa"), rs.getString("izena")));
             }
         } catch (SQLException e) {
@@ -162,5 +163,31 @@ public class SalmentaAtzipena {
             return false;
         }
 
+    }
+
+        public boolean salmentaTxertatu(Salmentak salmenta) {
+        String sql = "INSERT INTO " + taula
+                + " (id_produktu, id_saltzaile, id_erosle, data, salmenta_prezioa) " +
+                "VALUES (?, ?, ?, NOW(), ?)";
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // Produktuak(int id, String izena, String deskribapena, int prezioa, int
+            // idKategoria, String egoera,
+            // String email) {
+
+            pstmt.setInt(1, salmenta.getIdProduktu());
+            pstmt.setInt(2, salmenta.getIdSaltzaile());
+            pstmt.setInt(3, salmenta.getIdErosle());
+            pstmt.setDouble(4, salmenta.getSalmentaPrezioa());
+
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            System.out.println("Errorea produktua txertatzean: " + e.getMessage());
+            return false;
+        }
     }
 }

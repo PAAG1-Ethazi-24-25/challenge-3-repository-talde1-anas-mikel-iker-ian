@@ -8,6 +8,7 @@ import devworks.model.base.Kategoria;
 import devworks.model.base.Produktuak;
 import devworks.model.base.Bezeroak;
 import devworks.model.base.Saltzaileak;
+import devworks.model.base.Salmentak;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -34,15 +35,16 @@ public class Txertatu {
     TextField deskribapena = new TextField();
     TextField prezioa = new TextField();
     ChoiceBox<Kategoria> kategoriacbx = new ChoiceBox<>();
-    ChoiceBox<String> egoera = new ChoiceBox();
+    ChoiceBox<String> egoera = new ChoiceBox<>();
     ChoiceBox<Saltzaileak> saltzaileacbx = new ChoiceBox<>();
     ChoiceBox<Produktuak> produktuakcbx = new ChoiceBox<>();
 
     Label mezua = new Label();
 
-
+    
     List<Kategoria> ListKategoriak = App.produktuak.getAllKategoriak();
     List<Saltzaileak> listSaltzaileak = App.produktuak.getAllSaltzaileak();
+    List<Produktuak> listProduktuak = App.produktuak.getProduktoak();
 
 
     // que asco dan los negros
@@ -78,6 +80,14 @@ public class Txertatu {
                                                 new Label("posta kodea:"), pk,
                                                 new Label("erabiltzaile izena:"), erabiltzailea,
                                                 new Label("pasahitza:"), pasahitza );
+        }else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")){
+            produktuakcbx.getItems().addAll(listProduktuak);
+
+            vBoxDatuak.getChildren().addAll( new Label("Produktua:"), produktuakcbx, new Label("eroslea:"), saltzaileacbx,
+                                                mezua );
+
+            vBoxDatuak2.getChildren().addAll( new Label("herria:"), prezioa );
+
         }
     }
 
@@ -94,9 +104,12 @@ public class Txertatu {
                 Kategoria kategoria= kategoriacbx.getValue();
                 Saltzaileak saltzailea= saltzaileacbx.getValue();
 
-                Produktuak produktua= new Produktuak(0, izena.getText(), deskribapena.getText(), Integer.parseInt(prezioa.getText()) ,kategoria.getId(), egoera.getValue(), null);
+            //     Produktuak(int id, String izena, String deskribapena, int prezioa, int idKategoria, int idSaltzaile, String egoera,
+            // String email)
 
-                App.produktuak.produktuaTxertatu(produktua, saltzailea.getId());
+                Produktuak produktua= new Produktuak(0, izena.getText(), deskribapena.getText(), Integer.parseInt(prezioa.getText()) ,kategoria.getId(), saltzailea.getId() ,egoera.getValue(), null);
+
+                App.produktuak.produktuaTxertatu(produktua);
 
             }
             
@@ -116,6 +129,25 @@ public class Txertatu {
 
             }
             
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")){
+
+            if (produktuakcbx.getValue() == null ||  saltzaileacbx.getValue() == null || prezioa == null ) {
+
+                mezua.setText("Balio batzuk sartu gabe dituzu");
+            }else{
+                
+            Produktuak produktua= produktuakcbx.getValue();
+            Saltzaileak saltzailea= saltzaileacbx.getValue();
+
+            // Salmentak(int id, int idProduktu, int idSaltzaile, int idErosle, Date data, double salmentaPrezioa,
+            // String izenaProduktu)
+
+            Salmentak salmenta = new Salmentak(0, produktua.getId(), produktua.getIdSaltzaile(), 
+                                                saltzailea.getId(), "01/01/2000" , Double.parseDouble(prezioa.getText()), produktua.getIzena() );
+
+
+            }
+
         }
     }
 
