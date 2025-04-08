@@ -144,6 +144,9 @@ public class Txertatu {
 
             Salmentak salmenta = new Salmentak(0, produktua.getId(), produktua.getIdSaltzaile(), 
                                                 saltzailea.getId(), "01/01/2000" , Double.parseDouble(prezioa.getText()), produktua.getIzena() );
+            
+            App.salmentak.salmentaTxertatu(salmenta);
+            
 
 
             }
