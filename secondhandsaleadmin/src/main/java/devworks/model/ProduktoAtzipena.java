@@ -160,6 +160,39 @@ public class ProduktoAtzipena {
         return false;
     }
 
+    public Kategoria getKategoriaById(int id) {
+        String sql = "SELECT * FROM kategoriak WHERE id_kategoria = ?";
+        Kategoria kategoria = null;
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                kategoria = new Kategoria(rs.getInt("id_kategoria"), rs.getString("izena"),
+                        rs.getString("deskribapena"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return kategoria;
+    }
+
+    public Saltzaileak getSaltzaileById(int id) {
+        String sql = "SELECT * FROM bezeroak WHERE id_bezero = ?";
+        Saltzaileak saltzailea = null;
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                saltzailea = new Saltzaileak(rs.getInt("id_bezero"), rs.getString("email"), rs.getString("izena"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return saltzailea;
+    }
+
     public Produktuak searchProduktuak(int id) {
         String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.id_saltzaile, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
                 + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_produktu WHERE id_produktu = ?";

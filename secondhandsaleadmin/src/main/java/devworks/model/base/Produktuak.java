@@ -9,9 +9,20 @@ public class Produktuak {
     private int idSaltzaile;
     private String egoera;
     private String email;
-    
 
-    public Produktuak(int id, String izena, String deskribapena, int prezioa, int idKategoria, int idSaltzaile, String egoera,
+    public Produktuak() {
+        this.id = 0;
+        this.izena = "";
+        this.deskribapena = "";
+        this.prezioa = 0;
+        this.idKategoria = 0;
+        this.idSaltzaile = 0;
+        this.egoera = "";
+        this.email = "";
+    }
+
+    public Produktuak(int id, String izena, String deskribapena, int prezioa, int idKategoria, int idSaltzaile,
+            String egoera,
             String email) {
         this.id = id;
         this.izena = izena;
@@ -55,7 +66,6 @@ public class Produktuak {
         return email;
     }
 
-
     public void setId(int id) {
         this.id = id;
     }
@@ -87,7 +97,6 @@ public class Produktuak {
     public void setEmail(String email) {
         this.email = email;
     }
-
 
     @Override
     public String toString() {

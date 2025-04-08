@@ -3,10 +3,13 @@ package devworks.controller;
 import java.io.IOException;
 
 import devworks.App;
+import devworks.model.base.Kategoria;
 import devworks.model.base.Produktuak;
+import devworks.model.base.Saltzaileak;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -31,6 +34,18 @@ public class Aldatu {
 
     @FXML
     Label lbBilatu;
+
+    private TextField txfIzenaLocal;
+    private TextField txfDeskribapena;
+    private TextField txfPrezioa;
+    private ChoiceBox<Kategoria> kategoriaChoiceBox;
+    private ChoiceBox<String> egoeraChoiceBox;
+    private ChoiceBox<Saltzaileak> saltzaileChoiceBox;
+    private CheckBox cbSalduta;
+    private TextField txfIdErosle;
+    private Label lblIdErosle;
+
+    private Produktuak produktua;
 
     @FXML
     protected void initialize() {
@@ -83,11 +98,11 @@ public class Aldatu {
 
     @FXML
     void imprimatuAldatu(int bilatu) throws IOException {
-        if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
-            Produktuak produktua = App.produktuak.searchProduktuak(bilatu);
+        HBAldatu.getChildren().clear();
+        HBBotoiak.getChildren().clear();
 
-            HBAldatu.getChildren().clear();
-            HBBotoiak.getChildren().clear();
+        if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
+            produktua = App.produktuak.searchProduktuak(bilatu);
 
             GridPane grid = new GridPane();
             grid.setVgap(10);
@@ -95,41 +110,50 @@ public class Aldatu {
 
             // Izena
             grid.add(new Label("Izena:"), 0, 0);
-            TextField txfIzenaLocal = new TextField(produktua.getIzena());
+            txfIzenaLocal = new TextField(produktua.getIzena());
             grid.add(txfIzenaLocal, 1, 0);
 
             // Deskribapena
             grid.add(new Label("Deskribapena:"), 0, 1);
-            TextField txfDeskribapena = new TextField(produktua.getDeskribapena());
+            txfDeskribapena = new TextField(produktua.getDeskribapena());
             grid.add(txfDeskribapena, 1, 1);
 
             // Prezioa
             grid.add(new Label("Prezioa:"), 0, 2);
-            TextField txfPrezioa = new TextField(String.valueOf(produktua.getPrezioa()));
+            txfPrezioa = new TextField(String.valueOf(produktua.getPrezioa()));
             grid.add(txfPrezioa, 1, 2);
 
-            // Id Kategoria
-            grid.add(new Label("ID Kategoria:"), 0, 3);
-            TextField txfKategoria = new TextField(String.valueOf(produktua.getIdKategoria()));
-            grid.add(txfKategoria, 1, 3);
+            // Kategoria (ChoiceBox)
+            grid.add(new Label("Kategoria:"), 0, 3);
+            kategoriaChoiceBox = new ChoiceBox<>();
+            kategoriaChoiceBox.getItems().addAll(App.produktuak.getAllKategoriak());
+            Kategoria selectedKategoria = App.produktuak.getKategoriaById(produktua.getIdKategoria());
+            kategoriaChoiceBox.setValue(selectedKategoria);
+            grid.add(kategoriaChoiceBox, 1, 3);
 
-            // Egoera
+            // Egoera (ChoiceBox)
             grid.add(new Label("Egoera:"), 0, 4);
-            TextField txfEgoera = new TextField(produktua.getEgoera());
-            grid.add(txfEgoera, 1, 4);
+            egoeraChoiceBox = new ChoiceBox<>();
+            egoeraChoiceBox.getItems().addAll("berria", "erabilia", "hondatua");
+            egoeraChoiceBox.setValue(produktua.getEgoera()); // Set the selected value based on the product's current
+                                                             // state
+            grid.add(egoeraChoiceBox, 1, 4);
 
-            // Id Saltzaile
-            grid.add(new Label("ID Saltzaile:"), 0, 5);
-            TextField txfSaltzaile = new TextField(String.valueOf(produktua.getIdSaltzaile()));
-            grid.add(txfSaltzaile, 1, 5);
+            // Saltzailea (ChoiceBox)
+            grid.add(new Label("Saltzailea:"), 0, 5);
+            saltzaileChoiceBox = new ChoiceBox<>();
+            saltzaileChoiceBox.getItems().addAll(App.produktuak.getAllSaltzaileak());
+            Saltzaileak selectedSaltzaile = App.produktuak.getSaltzaileById(produktua.getIdSaltzaile());
+            saltzaileChoiceBox.setValue(selectedSaltzaile);
+            grid.add(saltzaileChoiceBox, 1, 5);
 
             // Checkbox salduta
-            CheckBox cbSalduta = new CheckBox("Produktua salduta?");
+            cbSalduta = new CheckBox("Produktua salduta?");
             grid.add(cbSalduta, 0, 6);
 
             // ID Erosle (oculto por defecto)
-            Label lblIdErosle = new Label("ID Erosle:");
-            TextField txfIdErosle = new TextField();
+            lblIdErosle = new Label("ID Erosle:");
+            txfIdErosle = new TextField();
             grid.add(lblIdErosle, 0, 7);
             grid.add(txfIdErosle, 1, 7);
             lblIdErosle.setVisible(false);
@@ -161,21 +185,10 @@ public class Aldatu {
             btnAldatu.setPrefSize(300, 24);
             btnAldatu.setOnAction(event -> {
                 try {
-                    // Crear Produktuak objektua actualizado
-                    produktua.setIzena(txfIzenaLocal.getText());
-                    produktua.setDeskribapena(txfDeskribapena.getText());
-                    produktua.setPrezioa(Integer.parseInt(txfPrezioa.getText()));
-                    produktua.setIdKategoria(Integer.parseInt(txfKategoria.getText()));
-                    produktua.setEgoera(txfEgoera.getText());
-                    produktua.setIdSaltzaile(Integer.parseInt(txfSaltzaile.getText()));
-
-                    int salduta = cbSalduta.isSelected() ? 1 : 0;
-                    int idErosle = salduta == 1 ? Integer.parseInt(txfIdErosle.getText()) : 0;
-
-                    handleAldatu(produktua, salduta, idErosle);
-                } catch (Exception ex) {
+                    handleAldatu(); // Llamamos directamente al método handleAldatu
+                } catch (Exception e) {
                     lbMezua.setText("Errorea datuak bidaltzean.");
-                    ex.printStackTrace();
+                    e.printStackTrace();
                 }
             });
 
@@ -194,47 +207,81 @@ public class Aldatu {
         }
     }
 
-    @FXML
-    public void handleAldatu(Produktuak produktua, int salduta, int idErosle) throws IOException {
-        if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
-            if (produktua.getIzena() != null && !produktua.getIzena().isEmpty()
-                    && produktua.getDeskribapena() != null && !produktua.getDeskribapena().isEmpty()
-                    && produktua.getEgoera() != null && !produktua.getEgoera().isEmpty()) {
-
+    public void handleAldatu() {
+        // Acceder a los elementos creados dinámicamente
+        String izena = txfIzenaLocal.getText();
+        String deskribapena = txfDeskribapena.getText();
+        String prezioa = txfPrezioa.getText();
+        String egoera = egoeraChoiceBox.getValue();
+        Kategoria kategoria = kategoriaChoiceBox.getValue();
+        Saltzaileak saltzaile = saltzaileChoiceBox.getValue();
+        boolean salduta = cbSalduta.isSelected();
+        String idErosle = txfIdErosle.getText();
+    
+        // Asegúrate de realizar las comprobaciones necesarias
+        if (izena != null && !izena.isEmpty() && deskribapena != null && !deskribapena.isEmpty() && egoera != null && kategoria != null && saltzaile != null) {
+            try {
+                // Verificar que el precio sea un número válido
+                double precio;
                 try {
-                    int emaitza = App.produktuak.handleAldatu(produktua, salduta, idErosle);
-
-                    if (emaitza == 1) {
-                        lbMezua.setText("Datuak behar bezala eguneratu dira.");
-                        txfBilatu.clear();
-                        HBAldatu.getChildren().clear();
-                        HBBotoiak.getChildren().clear();
-                        initialize();
-
-                    } else if (emaitza == 0) {
-                        lbMezua.setText("Produktua ez da existitzen edo ez da aldatu.");
-                    } else if (emaitza == -2) {
-                        lbMezua.setText("Produktua eguneratu da, baina salmenta txertatzea huts egin du.");
-                    } else if (emaitza == -1062) {
-                        lbMezua.setText("Produktu berdina jada existitzen da (datu errepikatua).");
-                    } else {
-                        lbMezua.setText("Barne-errore bat gertatu da datuak eguneratzean.");
-                    }
-
-                } catch (Exception e) {
-                    lbMezua.setText("Errorea gertatu da datuak txertatzean.");
-                    e.printStackTrace();
+                    precio = Double.parseDouble(prezioa);
+                } catch (NumberFormatException e) {
+                    lbMezua.setText("Prezioa zenbaki baliozkoa izan behar da.");
+                    return;  // Detener la ejecución si el precio no es válido
                 }
-
-            } else {
-                lbMezua.setText("Izena, deskribapena eta egoera bete behar dira.");
+    
+                // Obtener el producto de la interfaz de usuario
+                Produktuak produktuaActualizado = new Produktuak(
+                    produktua.getId(),  // El ID del producto existente (asumimos que ya está disponible)
+                    izena, 
+                    deskribapena, 
+                    (int) precio,  // Convertir el precio a int para compatibilidad con la base de datos
+                    kategoria.getId(),  // ID de la categoría seleccionada
+                    saltzaile.getId(),  // ID del vendedor seleccionado
+                    egoera,
+                    null // Email aún no usado en este caso, si es necesario se puede añadir.
+                );
+    
+                // Si el producto está marcado como vendido, asignar el ID del comprador
+                if (salduta) {
+                    if (idErosle != null && !idErosle.isEmpty()) {
+                        try {
+                            int erosleId = Integer.parseInt(idErosle);
+                            // Llamamos al método handleAldatu para actualizar el producto y la venta
+                            int result = App.produktuak.handleAldatu(produktuaActualizado, 1, erosleId);
+                            if (result > 0) {
+                                lbMezua.setText("Produktua eguneratu da.");
+                            } else {
+                                lbMezua.setText("Errorea salmenta eguneratzerakoan.");
+                            }
+                        } catch (NumberFormatException e) {
+                            lbMezua.setText("ID Erosle baliozkoa izan behar da.");
+                        }
+                    } else {
+                        lbMezua.setText("Erosle ID beharrezkoa da salduta dagoen produktuarentzat.");
+                    }
+                } else {
+                    // Si el producto no está vendido, solo actualizamos el producto
+                    int result = App.produktuak.handleAldatu(produktuaActualizado, 0, 0);
+                    if (result > 0) {
+                        lbMezua.setText("Produktua eguneratu da.");
+                    } else {
+                        lbMezua.setText("Errorea produktua eguneratzerakoan.");
+                    }
+                }
+    
+            } catch (Exception e) {
+                lbMezua.setText("Errorea datuak bidaltzean.");
+                e.printStackTrace();
             }
+        } else {
+            lbMezua.setText("Izena, deskribapena, egoera eta saltzailea bete behar dira.");
         }
     }
+    
 
     @FXML
     void handleAtzera() throws IOException {
-        App.conectionIdentifier = "MenuBotoiak";
-        App.setRoot("MenuBotoiak");
+        App.setRoot("Bistaratu");
     }
 }
