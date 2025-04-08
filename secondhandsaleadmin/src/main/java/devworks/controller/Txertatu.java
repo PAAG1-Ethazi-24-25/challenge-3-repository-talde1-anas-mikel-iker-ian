@@ -238,7 +238,6 @@ public class Txertatu {
 
     @FXML
     void handleAtzera() throws IOException {
-        App.conectionIdentifier = "MenuBotoiak";
-        App.setRoot("MenuBotoiak");
+        App.setRoot("Bistaratu");
     }
 }

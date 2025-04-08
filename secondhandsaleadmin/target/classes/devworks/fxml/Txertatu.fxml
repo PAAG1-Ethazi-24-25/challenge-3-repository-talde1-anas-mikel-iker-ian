@@ -9,7 +9,7 @@
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="devworks.controller.Txertatu">
    <children>
       <Label id="lbIzenburua" text="Sartu hemen datuak: " />
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox prefHeight="9.0" prefWidth="600.0">
          <children>
             <VBox fx:id="vBoxDatuak" prefHeight="242.0" prefWidth="299.0" spacing="20.0" />
             <VBox fx:id="vBoxDatuak2" prefHeight="242.0" prefWidth="299.0" spacing="20.0">
@@ -19,7 +19,7 @@
             </VBox>
          </children>
       </HBox>
-      <HBox>
+      <HBox prefHeight="30.0" prefWidth="600.0">
          <children>
             <Button mnemonicParsing="false" onAction="#handleTxertatu" prefHeight="24.0" prefWidth="300.0" text="TXERTATU" />
             <Button mnemonicParsing="false" onAction="#handleAtzera" prefHeight="24.0" prefWidth="300.0" text="ATZERA" />
