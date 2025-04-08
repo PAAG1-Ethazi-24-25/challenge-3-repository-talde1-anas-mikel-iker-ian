@@ -91,8 +91,6 @@ public class Produktuak {
 
     @Override
     public String toString() {
-        return "Produktuak [id=" + id + ", izena=" + izena + ", deskribapena=" + deskribapena + ", prezioa=" + prezioa
-                + ", idKategoria=" + idKategoria + ", idSaltzaile=" + idSaltzaile + ", egoera=" + egoera + ", email="
-                + email + "]";
+        return id + "_ " + izena;
     }
 }
