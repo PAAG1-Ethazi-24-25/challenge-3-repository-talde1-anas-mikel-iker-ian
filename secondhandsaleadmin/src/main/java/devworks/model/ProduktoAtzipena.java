@@ -142,6 +142,21 @@ public class ProduktoAtzipena {
         }
     }
 
+    public boolean saldutaBaDago(int id) {
+        String sql = "SELECT salduta FROM " + taula + " WHERE id_produktu = ?";
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("salduta") == 1; // Returns true if the product is sold
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
     public Produktuak searchProduktuak(int id) {
         String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.id_saltzaile, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
                 + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_produktu WHERE id_produktu = ?";
@@ -161,6 +176,22 @@ public class ProduktoAtzipena {
             System.out.println(e.getMessage());
         }
         return produktua;
+    }
+
+    public int searchSalmentaErosle(int id) {
+        String sql = "SELECT id_erosle FROM salmentak WHERE id_produktu = ?";
+        int idErosle = -1;
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                idErosle = rs.getInt("id_erosle");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return idErosle;
     }
 
     public int handleAldatu(Produktuak produktua, int salduta, int idErosle) {
