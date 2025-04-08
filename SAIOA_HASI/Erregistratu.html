@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="eu">
+<head>
+  <meta charset="UTF-8">
+  <title>Erregistratu</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="Erregistratu.css">
+</head>
+<body class="bg-light d-flex align-items-center justify-content-center vh-100">
+
+  <div class="card shadow p-4" style="min-width: 320px; max-width: 500px; width: 100%;">
+    <h2 class="text-center mb-4">Erregistro orria</h2>
+    <form action="register.php" method="POST">
+      <div class="mb-3">
+        <label for="izena" class="form-label">Izena</label>
+        <input type="text" class="form-control" id="izena" name="izena" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Emaila</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="telefonoa" class="form-label">Telefonoa</label>
+        <input type="tel" class="form-control" id="telefonoa" name="telefonoa">
+      </div>
+
+      <div class="mb-3">
+        <label for="helbidea" class="form-label">Helbidea</label>
+        <input type="text" class="form-control" id="helbidea" name="helbidea">
+      </div>
+
+      <div class="mb-3">
+        <label for="herria" class="form-label">Herria</label>
+        <input type="text" class="form-control" id="herria" name="herria">
+      </div>
+
+      <div class="mb-3">
+        <label for="postakodea" class="form-label">Posta kodea</label>
+        <input type="text" class="form-control" id="postakodea" name="postakodea">
+      </div>
+
+      <div class="mb-3">
+        <label for="erabiltzaile" class="form-label">Erabiltzaile izena</label>
+        <input type="text" class="form-control" id="erabiltzaile" name="erabiltzaile" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="pasahitza" class="form-label">Pasahitza</label>
+        <input type="password" class="form-control" id="pasahitza" name="pasahitza" required>
+      </div>
+
+      <label>Sexua</label>
+      <br>
+      <label for="gizona">Gizona</label>
+      <input type="radio" name="sexua" id="gizona" value="gizona">
+      <label for="emakumea">Emakumea</label>
+      <input type="radio" name="sexua" id="emakumea" value="emakumea">
+
+      <button type="submit" class="btn btn-success w-100">Erregistratu</button>
+    </form>
+    <div class="text-center mt-3">
+      <small>Dagoeneko kontua duzu? <a href="login.html">Hasi saioa</a></small>
+    </div>
+  </div>
+
+</body>
+</html>
