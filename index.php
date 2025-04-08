@@ -29,40 +29,51 @@
             </div>
             <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <?php if (isset($_SESSION["usuario"])): ?>
-                    <p>Bienvenido, <?php echo htmlspecialchars($_SESSION["usuario"]); ?>.</p>
+                    <?php if (isset($_SESSION["usuario"])): ?>
+                        <p>Bienvenido, <?php echo htmlspecialchars($_SESSION["usuario"]); ?>.</p>
 
-                    <?php if ($_SESSION["admin"]): ?>
-                        <p>Eres administrador.</p>
-                        <!-- Opciones de administrador -->
-                        <a href="admin_panel.php">Panel de administración</a>
+                        <?php if ($_SESSION["admin"]): ?>
+                            <p>Eres administrador.</p>
+                            <!-- Opciones de administrador -->
+                            <a href="admin_panel.php">Panel de administración</a>
+                        <?php else: ?>
+                            <p>Eres usuario normal.</p>
+                            <!-- Opciones de usuario -->
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="index.php">Hasiera</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="./PRODUKTUAK/Produktuak.php">Produktuak</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="./KONTAKTUA/Kontaktua.php">Kontaktua</a>
+                                </li>
+                            </ul>
+
+                        <?php endif; ?>
+
+                        <a href="irten.php">Cerrar sesión</a>
+
                     <?php else: ?>
-                        <p>Eres usuario normal.</p>
-                        <!-- Opciones de usuario -->
-                         
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="index.php">Hasiera</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./PRODUKTUAK/Produktuak.php">Produktuak</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./KONTAKTUA/Kontaktua.php">Kontaktua</a>
+                            </li>
+                        </ul>
+                        <button class="btn">
+                            <a href="./SAIOA_HASI/Saioa_Hasi.html">
+                                <img src="./HASIERA/img/imagen inicio sesion copy.png" class="img-fluid">
+                            </a>
+                        </button>
+                        <p>ez duzu saioa hasi</p>
                     <?php endif; ?>
-
-                    <a href="logout.php">Cerrar sesión</a>
-
-                <?php else: ?>
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="index.php">Hasiera</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./PRODUKTUAK/Produktuak.php">Produktuak</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./KONTAKTUA/Kontaktua.php">Kontaktua</a>
-                        </li>
-                    </ul>
-                    <button class="btn">
-                        <a href="./SAIOA_HASI/Saioa_Hasi.html">
-                            <img src="./HASIERA/img/imagen inicio sesion copy.png" class="img-fluid">
-                        </a>
-                    </button>
-                    <p >ez duzu saioa hasi</p>
-                <?php endif; ?>
                 </div>
             </div>
         </nav>
