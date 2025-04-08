@@ -16,12 +16,12 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="Izena Bilatu: " />
-                  <TextField fx:id="txfIzenaBilatu" />
+                  <Label fx:id="lbBilatu" text="" />
+                  <TextField fx:id="txfBilatu" />
                </children>
             </HBox>
             <Button mnemonicParsing="false" onAction="#handleBilatu" prefHeight="24.0" prefWidth="300.0" text="BILATU" />
-            <HBox fx:id="HBIzenaEtaProbintzia" prefHeight="100.0" prefWidth="200.0">
+            <HBox fx:id="HBAldatu" prefHeight="100.0" prefWidth="200.0">
                <!--Se imprime desde java-->
             </HBox>
             <Label fx:id="lbMezua" text="" />

@@ -3,6 +3,7 @@ package devworks.controller;
 import java.io.IOException;
 
 import devworks.App;
+import devworks.model.base.Produktuak;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,19 +17,32 @@ public class Aldatu {
     VBox vBoxHerriarenDatuak;
 
     @FXML
-    HBox HBIzenaEtaProbintzia;
+    HBox HBAldatu;
 
     @FXML
     HBox HBBotoiak;
 
     @FXML
-    TextField txfIzenaBilatu;
+    TextField txfBilatu;
 
     @FXML
     Label lbMezua;
 
     @FXML
+    Label lbBilatu;
+
+    @FXML
     protected void initialize() {
+        if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
+            lbBilatu.setText("Produktuak ID bilatu:");
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
+            lbBilatu.setText("Langileak ID bilatu:");
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
+            lbBilatu.setText("Bezeroak ID bilatu:");
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
+            lbBilatu.setText("Salmentak ID bilatu:");
+        }
+
         Button btnAtzera = new Button("ATZERA");
         btnAtzera.setPrefSize(300, 24);
         btnAtzera.setOnAction(event -> {
@@ -44,84 +58,79 @@ public class Aldatu {
 
     @FXML
     void handleBilatu() throws IOException {
-        // String bilatu = txfIzenaBilatu.getText();
-        // if (App.herriak.herriaBaDago(bilatu)) {
-        // try {
-        // imprimatuAldatu(bilatu);
-        // lbMezua.setText("");
-        // } catch (IOException e) {
-        // e.printStackTrace();
-        // lbMezua.setText("Errorea datuak inprimatzerakoan!");
-        // }
-        // } else {
-        // lbMezua.setText("Herri hau ez da existitzen");
-        // }
+        if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
+            int bilatu = 0;
+            try {
+                bilatu = Integer.parseInt(txfBilatu.getText());
+            } catch (Exception e) {
+                lbMezua.setText("ID zenbaki bat izan behar da");
+                return;
+            }
+            if (App.produktuak.produktuBaDago(bilatu)) {
+                try {
+                    imprimatuAldatu(bilatu);
+                    lbMezua.setText("");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    lbMezua.setText("Errorea datuak inprimatzerakoan!");
+                }
+            } else {
+                lbMezua.setText("Produktu hau ez da existitzen");
+            }
+        }
     }
 
     @FXML
-    void imprimatuAldatu(String bilatu) throws IOException {
-        // Herria herria = App.herriak.searchHerria(bilatu);
-        //
-        // HBIzenaEtaProbintzia.getChildren().clear();
-        // HBBotoiak.getChildren().clear();
-        //
-        //// Izena eta Probintzia aldatu
-        // GridPane grid = new GridPane();
-        // grid.setVgap(10);
-        //
-        // grid.add(new Label("Izena:"), 0, 0);
-        // TextField txfIzenaLocal = new TextField(herria.getHerriIzena());
-        // txfIzenaLocal.setId("txfIzena");
-        // grid.add(txfIzenaLocal, 1, 0);
-        //
-        // grid.add(new Label("Probintzia:"), 0, 1);
-        // TextField txfProbintziaLocal = new TextField(herria.getProbintzia());
-        // txfProbintziaLocal.setId("txfProbintzia");
-        // grid.add(txfProbintziaLocal, 1, 1);
-        //
-        // if (App.hondartzak.hasHondartzak(bilatu)) {
-        // grid.add(new Label("Hondartza:"), 0, 2);
-        // KostakoHerria kostakoHerria =
-        // App.hondartzak.getHondartzakHerriaBatek(bilatu);
-        // String[] hondartzak = kostakoHerria.getHondartzak();
-        //
-        // int row = 3; // Empezamos desde la fila 3
-        // for (String hondartza : hondartzak) {
-        // TextField txfHondartzaLocal = new TextField(hondartza);
-        // txfHondartzaLocal.setId("txfHondartza");
-        // grid.add(txfHondartzaLocal, 1, row);
-        // row++; // Incrementamos la fila para la siguiente hondartza
-        // }
-        // }
-        //
-        // HBIzenaEtaProbintzia.getChildren().add(grid);
-        //
-        //// Botioak atzera eta aldatu
-        // Button btnAldatu = new Button("ALDATU");
-        // btnAldatu.setPrefSize(300, 24);
-        // btnAldatu.setOnAction(event -> {
-        // try {
-        // handleAldatu(txfIzenaLocal, txfProbintziaLocal, bilatu);
-        // } catch (IOException e) {
-        // e.printStackTrace();
-        // }
-        // });
-        //
-        // Button btnAtzera = new Button("ATZERA");
-        // btnAtzera.setPrefSize(300, 24);
-        // btnAtzera.setOnAction(event -> {
-        // try {
-        // handleAtzera();
-        // } catch (IOException e) {
-        // e.printStackTrace();
-        // }
-        // });
-        //
-        // HBBotoiak.getChildren().addAll(btnAldatu, btnAtzera);
+    void imprimatuAldatu(int bilatu) throws IOException {
+        if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
+            Produktuak produktua = App.produktuak.searchProduktuak(bilatu);
+
+            HBAldatu.getChildren().clear();
+            HBBotoiak.getChildren().clear();
+
+            // Izena eta Probintzia aldatu
+            GridPane grid = new GridPane();
+            grid.setVgap(10);
+
+            grid.add(new Label("Izena:"), 0, 0);
+            TextField txfIzenaLocal = new TextField(herria.getHerriIzena());
+            txfIzenaLocal.setId("txfIzena");
+            grid.add(txfIzenaLocal, 1, 0);
+
+            grid.add(new Label("Probintzia:"), 0, 1);
+            TextField txfProbintziaLocal = new TextField(herria.getProbintzia());
+            txfProbintziaLocal.setId("txfProbintzia");
+            grid.add(txfProbintziaLocal, 1, 1);
+
+            HBAldatu.getChildren().add(grid);
+
+            // Botioak atzera eta aldatu
+            Button btnAldatu = new Button("ALDATU");
+            btnAldatu.setPrefSize(300, 24);
+            btnAldatu.setOnAction(event -> {
+                try {
+                    handleAldatu(txfIzenaLocal, txfProbintziaLocal, bilatu);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            Button btnAtzera = new Button("ATZERA");
+            btnAtzera.setPrefSize(300, 24);
+            btnAtzera.setOnAction(event -> {
+                try {
+                    handleAtzera();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            HBBotoiak.getChildren().addAll(btnAldatu, btnAtzera);
+        }
     }
 
     @FXML
-    public void handleAldatu(TextField txfIzenaLocal, TextField txfProbintziaLocal, String bilatu) throws IOException {
+    public void handleAldatu(TextField txfIzenaLocal, TextField txfProbintziaLocal, int bilatu) throws IOException {
         // String izena = txfIzenaLocal.getText();
         // String probintzia = txfProbintziaLocal.getText();
         //

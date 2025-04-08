@@ -6,20 +6,21 @@ public class Produktuak {
     private String deskribapena;
     private int prezioa;
     private int idKategoria;
+    private int idSaltzaile;
     private String egoera;
     private String email;
     
 
-    public Produktuak(int id, String izena, String deskribapena, int prezioa, int idKategoria, String egoera,
+    public Produktuak(int id, String izena, String deskribapena, int prezioa, int idKategoria, int idSaltzaile, String egoera,
             String email) {
         this.id = id;
         this.izena = izena;
         this.deskribapena = deskribapena;
         this.prezioa = prezioa;
         this.idKategoria = idKategoria;
+        this.idSaltzaile = idSaltzaile;
         this.egoera = egoera;
         this.email = email;
-        
     }
 
     public int getId() {
@@ -40,6 +41,10 @@ public class Produktuak {
 
     public int getIdKategoria() {
         return idKategoria;
+    }
+
+    public int getIdSaltzaile() {
+        return idSaltzaile;
     }
 
     public String getEgoera() {
@@ -71,6 +76,10 @@ public class Produktuak {
         this.idKategoria = idKategoria;
     }
 
+    public void setIdSaltzaile(int idSaltzaile) {
+        this.idSaltzaile = idSaltzaile;
+    }
+
     public void setEgoera(String egoera) {
         this.egoera = egoera;
     }
@@ -82,6 +91,8 @@ public class Produktuak {
 
     @Override
     public String toString() {
-        return id +"_ "+izena;
+        return "Produktuak [id=" + id + ", izena=" + izena + ", deskribapena=" + deskribapena + ", prezioa=" + prezioa
+                + ", idKategoria=" + idKategoria + ", idSaltzaile=" + idSaltzaile + ", egoera=" + egoera + ", email="
+                + email + "]";
     }
 }
