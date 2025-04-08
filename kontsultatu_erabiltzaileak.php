@@ -10,7 +10,7 @@
 
 	if(mysqli_num_rows($result) == 0)
 	{
-		header("Location:sessioak_sinplea.php?incorrecto=si");
+		header("Location:login.php?incorrecto=si");
 	}
 	else{
 			session_start();

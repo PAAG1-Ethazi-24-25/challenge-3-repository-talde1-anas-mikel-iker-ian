@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,28 +20,41 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary menua">
-
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="izenburua">
-                <a href="./index.html">
+                <a href="index.php">
                     <img src="./HASIERA/img/ChatGPT Image 1 abr 2025, 12_55_45.png" class="img-fluid">
                 </a>
             </div>
             <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <?php if (isset($_SESSION["usuario"])): ?>
-                        <p>Bienvenido, <?php echo htmlspecialchars($_SESSION["usuario"]); ?>.</p>
+                    <?php
+                    if (isset($_SESSION["usuario"])): ?>
+                        <p>Ongi eotrri !, <?php echo htmlspecialchars($_SESSION["usuario"]); ?>.</p>
 
                         <?php if ($_SESSION["admin"]): ?>
-                            <p>Eres administrador.</p>
+                            <p>Administratzailea zara.</p>
                             <!-- Opciones de administrador -->
-                            <a href="admin_panel.php">Panel de administración</a>
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="index.php">Hasiera</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="./PRODUKTUAK/Produktuak.php">Produktuak</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="./LANGILEAK/Langileak.php">Langileak</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="./SALMENTAK/Salmentak.php">Salmentak</a>
+                                </li>
+                            </ul>
                         <?php else: ?>
-                            <p>Eres usuario normal.</p>
+                            <p>Erabiltzaile arrunta zara.</p>
                             <!-- Opciones de usuario -->
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
@@ -49,11 +66,14 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="./KONTAKTUA/Kontaktua.php">Kontaktua</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="./NIRE_PRODUKTUAK/Nire_Produktuak.php">Nire Produktuak</a>
+                                </li>
                             </ul>
 
                         <?php endif; ?>
 
-                        <a href="irten.php">Cerrar sesión</a>
+                        <a href="irten.php">Itxi Saioa</a>
 
                     <?php else: ?>
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
