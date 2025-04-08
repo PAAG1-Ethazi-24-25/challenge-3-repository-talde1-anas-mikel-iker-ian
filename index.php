@@ -34,10 +34,7 @@ session_start();
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <?php
                     if (isset($_SESSION["usuario"])): ?>
-                        <p>Ongi eotrri !, <?php echo htmlspecialchars($_SESSION["usuario"]); ?>.</p>
-
                         <?php if ($_SESSION["admin"]): ?>
-                            <p>Administratzailea zara.</p>
                             <!-- Opciones de administrador -->
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
@@ -53,8 +50,13 @@ session_start();
                                     <a class="nav-link" href="./SALMENTAK/Salmentak.php">Salmentak</a>
                                 </li>
                             </ul>
+                            <div class="d-flex align-items-center ms-auto gap-3">
+                                <p class="m-0 text-white">
+                                    Ongi etorri, <?php echo htmlspecialchars($_SESSION["usuario"]); ?>.
+                                </p>
+                                <a href="logout.php" class="btn btn-danger">Itxi Saioa</a>
+                            </div>
                         <?php else: ?>
-                            <p>Erabiltzaile arrunta zara.</p>
                             <!-- Opciones de usuario -->
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
@@ -71,9 +73,14 @@ session_start();
                                 </li>
                             </ul>
 
-                        <?php endif; ?>
+                            <div class="d-flex align-items-center ms-auto gap-3">
+                                <p class="m-0 text-white">
+                                    Ongi etorri, <?php echo htmlspecialchars($_SESSION["usuario"]); ?>.
+                                </p>
+                                <a href="logout.php" class="btn btn-danger">Itxi Saioa</a>
+                            </div>
 
-                        <a href="irten.php">Itxi Saioa</a>
+                        <?php endif; ?>
 
                     <?php else: ?>
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -87,14 +94,19 @@ session_start();
                                 <a class="nav-link" href="./KONTAKTUA/Kontaktua.php">Kontaktua</a>
                             </li>
                         </ul>
+                        <div class="d-flex align-items-center ms-auto gap-3"></div>
                         <button class="btn">
                             <a href="./SAIOA_HASI/Saioa_Hasi.html">
                                 <img src="./HASIERA/img/imagen inicio sesion copy.png" class="img-fluid">
                             </a>
                         </button>
-                        <p>ez duzu saioa hasi</p>
-                    <?php endif; ?>
+
+                        <p class="m-0 text-white">
+                        </p>
+                    </div>
                 </div>
+            <?php endif; ?>
+            </div>
             </div>
         </nav>
     </header>
