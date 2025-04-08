@@ -10,9 +10,11 @@ public class Langileak {
     private String postaKodea;
     private String helbidea;
     private String altaData;
+    private String erabiltzailea;
+    private String pasahitza;
 
     public Langileak(int id, String izena, String kargua, String email, int telefonoa, String herria,
-            String postaKodea, String helbidea, String erregistroData) {
+            String postaKodea, String helbidea, String erregistroData, String erabiltzailea, String pasahitza) {
         this.id = id;
         this.izena = izena;
         this.kargua = kargua;
@@ -22,6 +24,8 @@ public class Langileak {
         this.postaKodea = postaKodea;
         this.helbidea = helbidea;
         this.altaData = erregistroData;
+        this.erabiltzailea= erabiltzailea;
+        this.pasahitza = pasahitza;
     }
 
     public int getId() {
@@ -60,6 +64,14 @@ public class Langileak {
         return altaData;
     }
 
+    public String getErabiltzailea() {
+        return erabiltzailea;
+    }
+
+    public String getPasahitza() {
+        return pasahitza;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -94,6 +106,14 @@ public class Langileak {
 
     public void setAltaData(String erregistroData) {
         this.altaData = erregistroData;
+    }
+
+    public void setErabiltzailea(String erabiltzailea) {
+        this.erabiltzailea = erabiltzailea;
+    }
+
+    public void setPasahitza(String pasahitza) {
+        this.pasahitza = pasahitza;
     }
 
     @Override

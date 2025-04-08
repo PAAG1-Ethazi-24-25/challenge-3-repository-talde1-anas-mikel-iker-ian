@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import devworks.model.base.Bezeroak;
-import devworks.model.base.Produktuak;
 
 public class BezeroAtzipena {
     private String server;

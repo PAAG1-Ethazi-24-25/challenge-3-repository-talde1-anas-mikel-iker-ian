@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import devworks.model.base.Erosleak;
-import devworks.model.base.Produktuak;
 import devworks.model.base.Salmentak;
 import devworks.model.base.Saltzaileak;
 

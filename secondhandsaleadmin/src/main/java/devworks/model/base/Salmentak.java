@@ -1,7 +1,5 @@
 package devworks.model.base;
 
-import java.sql.Date;
-
 public class Salmentak {
     private int id;
     private int idProduktu;

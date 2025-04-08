@@ -9,6 +9,7 @@ import javafx.scene.control.CheckBox;
 
 import devworks.App;
 import devworks.model.base.Kategoria;
+import devworks.model.base.Langileak;
 import devworks.model.base.Produktuak;
 import devworks.model.base.Bezeroak;
 import devworks.model.base.Saltzaileak;
@@ -40,6 +41,7 @@ public class Txertatu {
     TextField prezioa = new TextField();
     ChoiceBox<Kategoria> kategoriacbx = new ChoiceBox<>();
     ChoiceBox<String> egoera = new ChoiceBox<>();
+    ChoiceBox<String> kargua = new ChoiceBox<>();
     ChoiceBox<Saltzaileak> saltzaileacbx = new ChoiceBox<>();
     ChoiceBox<Produktuak> produktuakcbx = new ChoiceBox<>();
 
@@ -84,6 +86,7 @@ public class Txertatu {
                                                 new Label("posta kodea:"), pk,
                                                 new Label("erabiltzaile izena:"), erabiltzailea,
                                                 new Label("pasahitza:"), pasahitza );
+
         }else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")){
             
             produktuakcbx.getItems().addAll(listProduktuak);
@@ -93,6 +96,22 @@ public class Txertatu {
                                                 mezua );
 
             vBoxDatuak2.getChildren().addAll( new Label("Salmenta prezioa:"), prezioa );
+
+        }else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
+
+            kargua.getItems().addAll("aministratzailea","saltzailea", "kudeatzailea", "garraiolaria");
+            
+            vBoxDatuak.getChildren().addAll( new Label("Izena:"), izena,
+                                                new Label("Kargua:"), kargua,
+                                                new Label("email:"), email,
+                                                new Label("telefonoa:"), telefonoa,
+                                                new Label("helbidea:"), helbidea,
+                                                mezua );
+
+            vBoxDatuak2.getChildren().addAll( new Label("herria:"), herria,
+                                                new Label("posta kodea:"), pk,
+                                                new Label("erabiltzaile izena:"), erabiltzailea,
+                                                new Label("pasahitza:"), pasahitza );
 
         }
     }
@@ -173,6 +192,25 @@ public class Txertatu {
             }
 
         }else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")){
+
+            if (izena == null || kargua == null || email == null || telefonoa == null || helbidea == null || herria == null || pk == null || erabiltzailea == null || pasahitza == null ) {
+
+                mezua.setText("Balio batzuk sartu gabe dituzu");
+            }else{
+                
+            //     Langileak(int id, String izena, String kargua, String email, int telefonoa, String herria,
+            // String postaKodea, String helbidea, String erregistroData, String erabiltzailea, String pasahitza)
+
+                Langileak langilea = new Langileak(0, izena.getText(), kargua.getValue(), email.getText(), Integer.parseInt(telefonoa.getText()), herria.getText(), pk.getText(), helbidea.getText(), "01/01/01", erabiltzailea.getText(), pasahitza.getText()  );
+
+                App.langileak.langileaTxertatu(langilea);
+                
+                mezua.setText("Erregistroa ondo txertatu da");
+
+                clearFields(vBoxDatuak);
+                clearFields(vBoxDatuak2);
+
+            }
             
         }
     }
