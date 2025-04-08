@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import devworks.model.base.Erosleak;
 import devworks.model.base.Kategoria;
 import devworks.model.base.Produktuak;
 import devworks.model.base.Saltzaileak;
@@ -130,6 +131,42 @@ public class ProduktoAtzipena {
 
         return bezeroak;
     }
+
+    public List<Erosleak> getAllErosleak() {
+    String sql = "SELECT * FROM erosleak"; // Asumimos que la tabla se llama 'erosleak'
+    List<Erosleak> erosleakList = new ArrayList<>();
+    
+    try (Connection conn = konektatu();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        
+        ResultSet rs = pstmt.executeQuery();
+        while (rs.next()) {
+            erosleakList.add(new Erosleak(rs.getInt("id_erosle"), rs.getString("email"), rs.getString("izena")));
+        }
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+    }
+
+    return erosleakList;
+}
+
+public Erosleak getErosleById(int id) {
+    String sql = "SELECT * FROM erosleak WHERE id_erosle = ?";
+    Erosleak erosleak = null;
+    try (Connection conn = konektatu();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        
+        pstmt.setInt(1, id);
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            erosleak = new Erosleak(rs.getInt("id_erosle"), rs.getString("email"), rs.getString("izena"));
+        }
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+    }
+    return erosleak;
+}
+
 
     public boolean produktuBaDago(int id) {
         String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.id_saltzaile, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "

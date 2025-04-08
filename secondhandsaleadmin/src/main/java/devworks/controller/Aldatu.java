@@ -127,24 +127,55 @@ public class Aldatu {
             grid.add(new Label("Kategoria:"), 0, 3);
             kategoriaChoiceBox = new ChoiceBox<>();
             kategoriaChoiceBox.getItems().addAll(App.produktuak.getAllKategoriak());
-            Kategoria selectedKategoria = App.produktuak.getKategoriaById(produktua.getIdKategoria());
-            kategoriaChoiceBox.setValue(selectedKategoria);
+
+            // Obtener el ID de la categoría seleccionada en el producto
+            int kategoriaId = produktua.getIdKategoria();
+
+            // Buscar la categoría correspondiente por su ID
+            Kategoria selectedKategoria = null;
+            for (Kategoria kategoria : kategoriaChoiceBox.getItems()) {
+                if (kategoria.getId() == kategoriaId) {
+                    selectedKategoria = kategoria;
+                    break;
+                }
+            }
+
+            // Establecer el valor preseleccionado en el ChoiceBox
+            if (selectedKategoria != null) {
+                kategoriaChoiceBox.setValue(selectedKategoria);
+            }
+
             grid.add(kategoriaChoiceBox, 1, 3);
 
             // Egoera (ChoiceBox)
             grid.add(new Label("Egoera:"), 0, 4);
             egoeraChoiceBox = new ChoiceBox<>();
             egoeraChoiceBox.getItems().addAll("berria", "erabilia", "hondatua");
-            egoeraChoiceBox.setValue(produktua.getEgoera()); // Set the selected value based on the product's current
-                                                             // state
+            egoeraChoiceBox.setValue(produktua.getEgoera());
             grid.add(egoeraChoiceBox, 1, 4);
 
             // Saltzailea (ChoiceBox)
             grid.add(new Label("Saltzailea:"), 0, 5);
             saltzaileChoiceBox = new ChoiceBox<>();
             saltzaileChoiceBox.getItems().addAll(App.produktuak.getAllSaltzaileak());
-            Saltzaileak selectedSaltzaile = App.produktuak.getSaltzaileById(produktua.getIdSaltzaile());
-            saltzaileChoiceBox.setValue(selectedSaltzaile);
+
+            // Obtener el ID del saltzaile asociado al producto
+            int saltzaileId = produktua.getIdSaltzaile();
+
+            // Buscar el saltzaile correspondiente por su ID
+            Saltzaileak selectedSaltzaile = null;
+            for (Saltzaileak saltzaile : saltzaileChoiceBox.getItems()) {
+                if (saltzaile.getId() == saltzaileId) {
+                    selectedSaltzaile = saltzaile;
+                    break;
+                }
+            }
+
+            // Establecer el valor preseleccionado en el ChoiceBox
+            if (selectedSaltzaile != null) {
+                saltzaileChoiceBox.setValue(selectedSaltzaile);
+            }
+
             grid.add(saltzaileChoiceBox, 1, 5);
 
             // Checkbox salduta
@@ -232,7 +263,7 @@ public class Aldatu {
 
                 // Obtener el producto de la interfaz de usuario
                 Produktuak produktuaActualizado = new Produktuak(produktua.getId(), izena, deskribapena, (int) precio,
-                        kategoria.getId(), saltzaile.getId(), egoera,null);
+                        kategoria.getId(), saltzaile.getId(), egoera, null);
 
                 // Si el producto está marcado como vendido, asignar el ID del comprador
                 if (salduta) {
