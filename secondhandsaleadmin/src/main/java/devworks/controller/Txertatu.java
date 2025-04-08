@@ -6,6 +6,7 @@ import java.util.List;
 import devworks.App;
 import devworks.model.base.Kategoria;
 import devworks.model.base.Produktuak;
+import devworks.model.base.Bezeroak;
 import devworks.model.base.Saltzaileak;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -35,6 +36,7 @@ public class Txertatu {
     ChoiceBox<Kategoria> kategoriacbx = new ChoiceBox<>();
     ChoiceBox<String> egoera = new ChoiceBox();
     ChoiceBox<Saltzaileak> saltzaileacbx = new ChoiceBox<>();
+    ChoiceBox<Produktuak> produktuakcbx = new ChoiceBox<>();
 
     Label mezua = new Label();
 
@@ -52,19 +54,6 @@ public class Txertatu {
             egoera.getItems().addAll("berria","erabilia", "hondatua");
             saltzaileacbx.getItems().addAll(listSaltzaileak);
 
-            vBoxDatuak.getChildren().addAll( new Label("Izena:"), izena,
-                                                new Label("email:"), email,
-                                                new Label("telefonoa:"), telefonoa,
-                                                new Label("helbidea:"), helbidea,
-                                                mezua );
-
-            vBoxDatuak2.getChildren().addAll( new Label("herria:"), herria,
-                                                new Label("egoera:"), egoera,
-                                                new Label("saltzailea:"), saltzaileacbx );
-
-
-
-        }else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
 
             vBoxDatuak.getChildren().addAll( new Label("Izena:"), izena,
                                                 new Label("deskribapena:"), deskribapena,
@@ -74,6 +63,21 @@ public class Txertatu {
             vBoxDatuak2.getChildren().addAll( new Label("kategoria:"), kategoriacbx,
                                                 new Label("egoera:"), egoera,
                                                 new Label("saltzailea:"), saltzaileacbx );
+
+
+
+        }else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
+
+            vBoxDatuak.getChildren().addAll( new Label("Izena:"), izena,
+                                                new Label("email:"), email,
+                                                new Label("telefonoa:"), telefonoa,
+                                                new Label("helbidea:"), helbidea,
+                                                mezua );
+
+            vBoxDatuak2.getChildren().addAll( new Label("herria:"), herria,
+                                                new Label("posta kodea:"), pk,
+                                                new Label("erabiltzaile izena:"), erabiltzailea,
+                                                new Label("pasahitza:"), pasahitza );
         }
     }
 
@@ -95,11 +99,22 @@ public class Txertatu {
                 App.produktuak.produktuaTxertatu(produktua, saltzailea.getId());
 
             }
-
             
-            
-        }else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
 
+            if (izena == null || email == null || telefonoa == null || helbidea == null || herria == null || pk == null || erabiltzailea == null || pasahitza == null ) {
+
+                mezua.setText("Balio batzuk sartu gabe dituzu");
+            }else{
+                
+                // Bezeroak(int id, String izena, String email, int telefonoa, String herria, String postaKodea,
+            // String helbidea, String erregistroData, String erabiltzalea, String pasahitza )
+
+                Bezeroak bezeroa = new Bezeroak(0, izena.getText(), email.getText(), Integer.parseInt(telefonoa.getText()), herria.getText(), pk.getText(), helbidea.getText(), "01/01/01", erabiltzailea.getText(), pasahitza.getText()  );
+
+                App.bezeroak.bezeroaTxertatu(bezeroa);
+
+            }
             
         }
     }

@@ -90,7 +90,7 @@ public class BezeroAtzipena {
 
 
     public boolean bezeroaTxertatu(Bezeroak bezeroa) {
-        String sql = "INSERT INTO " + taula + " (izena, email, telefonoa, helbidea, herria, posta_kodea, erabiltzaile_izena, pasahitza) " +
+        String sql = "INSERT INTO " + taula + " (izena, email, telefonoa, helbidea, herria, posta_kodea, erablitzaile_izena, pasahitza) " +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     
         try (Connection conn = konektatu();
