@@ -2,6 +2,10 @@ package devworks.controller;
 
 import java.io.IOException;
 import java.util.List;
+import javafx.scene.Node;
+import javafx.scene.layout.Pane;
+import javafx.scene.control.TextField;
+import javafx.scene.control.CheckBox;
 
 import devworks.App;
 import devworks.model.base.Kategoria;
@@ -81,12 +85,14 @@ public class Txertatu {
                                                 new Label("erabiltzaile izena:"), erabiltzailea,
                                                 new Label("pasahitza:"), pasahitza );
         }else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")){
+            
             produktuakcbx.getItems().addAll(listProduktuak);
+            saltzaileacbx.getItems().addAll(listSaltzaileak);
 
             vBoxDatuak.getChildren().addAll( new Label("Produktua:"), produktuakcbx, new Label("eroslea:"), saltzaileacbx,
                                                 mezua );
 
-            vBoxDatuak2.getChildren().addAll( new Label("herria:"), prezioa );
+            vBoxDatuak2.getChildren().addAll( new Label("Salmenta prezioa:"), prezioa );
 
         }
     }
@@ -111,6 +117,11 @@ public class Txertatu {
 
                 App.produktuak.produktuaTxertatu(produktua);
 
+                mezua.setText("Erregistroa ondo txertatu da");
+
+                clearFields(vBoxDatuak);
+                clearFields(vBoxDatuak2);
+
             }
             
         } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
@@ -126,6 +137,11 @@ public class Txertatu {
                 Bezeroak bezeroa = new Bezeroak(0, izena.getText(), email.getText(), Integer.parseInt(telefonoa.getText()), herria.getText(), pk.getText(), helbidea.getText(), "01/01/01", erabiltzailea.getText(), pasahitza.getText()  );
 
                 App.bezeroak.bezeroaTxertatu(bezeroa);
+                
+                mezua.setText("Erregistroa ondo txertatu da");
+
+                clearFields(vBoxDatuak);
+                clearFields(vBoxDatuak2);
 
             }
             
@@ -147,10 +163,37 @@ public class Txertatu {
             
             App.salmentak.salmentaTxertatu(salmenta);
             
+            mezua.setText("Erregistroa ondo txertatu da");
+
+            clearFields(vBoxDatuak);
+            clearFields(vBoxDatuak2);
+
 
 
             }
 
+        }else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")){
+            
+        }
+    }
+
+    public void clearFields(Pane pane) {
+        for (Node node : pane.getChildren()) {
+            if (node instanceof TextField) {
+                ((TextField) node).clear();
+            } else if (node instanceof ChoiceBox) {
+                ((ChoiceBox<?>) node).getSelectionModel().clearSelection();
+            } else if (node instanceof Pane) {
+                clearFields((Pane) node); // recursivo para contenedores anidados
+            }
+        }
+
+        for (Node node : pane.getChildren()) {
+            if (node instanceof TextField) {
+                ((TextField) node).clear();
+            } else if (node instanceof Pane) {
+                clearFields((Pane) node);
+            }
         }
     }
 
