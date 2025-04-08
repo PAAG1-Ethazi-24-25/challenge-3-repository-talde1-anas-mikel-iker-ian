@@ -39,7 +39,7 @@ public class App extends Application {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/devworks/img/icon.png")));
         stage.setScene(scene);
         stage.setFullScreen(true);
-        stage.setFullScreenExitHint("Sakatu ESC pantaila osoa moduan ateratzeko");
+        stage.setFullScreenExitHint("Sakatu ESC pantaila osoa modutik ateratzeko");
         stage.show();
     }
 

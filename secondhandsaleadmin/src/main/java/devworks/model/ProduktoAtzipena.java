@@ -10,6 +10,7 @@ import java.util.List;
 
 import devworks.model.base.Kategoria;
 import devworks.model.base.Produktuak;
+import devworks.model.base.Saltzaileak;
 
 public class ProduktoAtzipena {
     private String server;
@@ -107,6 +108,25 @@ public class ProduktoAtzipena {
         return kategoriak;
     }
 
+    public List<Saltzaileak> getAllSaltzaileak() {
+        String sql = "SELECT * FROM bezeroak";
+        List<Saltzaileak> bezeroak = new ArrayList<>();
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                bezeroak.add(
+                        new Saltzaileak(rs.getInt("id_bezero"), rs.getString("email"), rs.getString("izena")));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return bezeroak;
+    }
+
+
     public boolean deleteProduktuak(String izena) {
 
         if (taula == null || taula.isEmpty()) {
@@ -130,6 +150,32 @@ public class ProduktoAtzipena {
             }
         } catch (SQLException e) {
             System.out.println("Errorea: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean produktuaTxertatu(Produktuak produktua, int idSaltzaile) {
+        String sql = "INSERT INTO " + taula + " (izena, deskribapena, prezioa, id_kategoria, egoera, id_saltzaile, salduta) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, 0)";
+    
+        try (Connection conn = konektatu();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            //     Produktuak(int id, String izena, String deskribapena, int prezioa, int idKategoria, String egoera,
+            // String email) {
+    
+            pstmt.setString(1, produktua.getIzena());
+            pstmt.setString(2, produktua.getDeskribapena());
+            pstmt.setInt(3, produktua.getPrezioa());
+            pstmt.setInt(4, produktua.getIdKategoria());
+            pstmt.setString(5, produktua.getEgoera());
+            pstmt.setInt(6, idSaltzaile);
+    
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+    
+        } catch (SQLException e) {
+            System.out.println("Errorea produktua txertatzean: " + e.getMessage());
             return false;
         }
     }

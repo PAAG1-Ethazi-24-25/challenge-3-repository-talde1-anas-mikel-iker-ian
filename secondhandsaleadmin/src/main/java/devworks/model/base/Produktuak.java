@@ -8,6 +8,7 @@ public class Produktuak {
     private int idKategoria;
     private String egoera;
     private String email;
+    
 
     public Produktuak(int id, String izena, String deskribapena, int prezioa, int idKategoria, String egoera,
             String email) {
@@ -18,6 +19,7 @@ public class Produktuak {
         this.idKategoria = idKategoria;
         this.egoera = egoera;
         this.email = email;
+        
     }
 
     public int getId() {
@@ -48,6 +50,7 @@ public class Produktuak {
         return email;
     }
 
+
     public void setId(int id) {
         this.id = id;
     }
@@ -76,16 +79,9 @@ public class Produktuak {
         this.email = email;
     }
 
+
     @Override
     public String toString() {
-        return "Produktuak{" +
-                "id=" + id +
-                ", izena='" + izena + '\'' +
-                ", deskribapena='" + deskribapena + '\'' +
-                ", prezioa=" + prezioa +
-                ", idKategoria=" + idKategoria +
-                ", egoera='" + egoera + '\'' +
-                ", email=" + email +
-                '}';
+        return id +"_ "+izena;
     }
 }

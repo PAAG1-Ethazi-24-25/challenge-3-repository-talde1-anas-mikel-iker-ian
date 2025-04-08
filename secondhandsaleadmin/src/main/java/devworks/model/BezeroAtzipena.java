@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import devworks.model.base.Bezeroak;
+import devworks.model.base.Produktuak;
 
 public class BezeroAtzipena {
     private String server;
@@ -56,7 +57,8 @@ public class BezeroAtzipena {
             while (rs.next()) {
                 bezeroak.add(new Bezeroak(rs.getInt("id_bezero"), rs.getString("izena"), rs.getString("email"),
                         rs.getInt("telefonoa"), rs.getString("herria"),
-                        rs.getString("posta_kodea"), rs.getString("helbidea"), rs.getString("alta_data")));
+                        rs.getString("posta_kodea"), rs.getString("helbidea"), rs.getString("alta_data"), 
+                        rs.getString("erablitzaile_izena"), rs.getString("pasahitza") ));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -75,13 +77,44 @@ public class BezeroAtzipena {
             while (rs.next()) {
                 bezeroak.add(new Bezeroak(rs.getInt("id_bezero"), rs.getString("izena"), rs.getString("email"),
                         rs.getInt("telefonoa"), rs.getString("herria"),
-                        rs.getString("posta_kodea"), rs.getString("helbidea"), rs.getString("alta_data")));
+                        rs.getString("posta_kodea"), rs.getString("helbidea"), rs.getString("alta_data"), 
+                        rs.getString("erablitzaile_izena"), rs.getString("pasahitza")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
         return bezeroak;
+    }
+
+
+
+    public boolean bezeroaTxertatu(Bezeroak bezeroa) {
+        String sql = "INSERT INTO " + taula + " (izena, email, telefonoa, helbidea, herria, posta_kodea, erabiltzaile_izena, pasahitza) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    
+        try (Connection conn = konektatu();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // Bezeroak(int id, String izena, String email, int telefonoa, String herria, String postaKodea,
+            // String helbidea, String erregistroData, String erabiltzalea, String pasahitza )
+    
+            pstmt.setString(1, bezeroa.getIzena());
+            pstmt.setString(2, bezeroa.getEmail());
+            pstmt.setInt(3, bezeroa.getTelefonoa());
+            pstmt.setString(4, bezeroa.getHelbidea());
+            pstmt.setString(5, bezeroa.getHerria());
+            pstmt.setString(6, bezeroa.getPostaKodea());
+            pstmt.setString(7, bezeroa.getErabiltzalea());
+            pstmt.setString(8, bezeroa.getPasahitza());
+    
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+    
+        } catch (SQLException e) {
+            System.out.println("Errorea produktua txertatzean: " + e.getMessage());
+            return false;
+        }
     }
 
     public List<String> getAllHerriak() {

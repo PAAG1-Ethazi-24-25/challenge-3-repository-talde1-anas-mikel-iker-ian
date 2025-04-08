@@ -10,9 +10,11 @@ public class Bezeroak {
     private String postaKodea;
     private String helbidea;
     private String altaData;
+    private String erabiltzalea;
+    private String pasahitza;
 
     public Bezeroak(int id, String izena, String email, int telefonoa, String herria, String postaKodea,
-            String helbidea, String erregistroData) {
+            String helbidea, String erregistroData, String erabiltzalea, String pasahitza ) {
         this.id = id;
         this.izena = izena;
         this.email = email;
@@ -21,10 +23,26 @@ public class Bezeroak {
         this.postaKodea = postaKodea;
         this.helbidea = helbidea;
         this.altaData = erregistroData;
+        this.erabiltzalea= erabiltzalea;
+        this.pasahitza = pasahitza;
     }
 
     public int getId() {
         return id;
+    }
+
+    
+
+    public String getHerria() {
+        return herria;
+    }
+
+    public String getErabiltzalea() {
+        return erabiltzalea;
+    }
+
+    public String getPasahitza() {
+        return pasahitza;
     }
 
     public String getIzena() {
@@ -85,6 +103,17 @@ public class Bezeroak {
 
     public void setAltaData(String erregistroData) {
         this.altaData = erregistroData;
+    }
+    public void setHerria(String herria) {
+        this.herria = herria;
+    }
+
+    public void setErabiltzalea(String erabiltzalea) {
+        this.erabiltzalea = erabiltzalea;
+    }
+
+    public void setPasahitza(String pasahitza) {
+        this.pasahitza = pasahitza;
     }
 
     @Override

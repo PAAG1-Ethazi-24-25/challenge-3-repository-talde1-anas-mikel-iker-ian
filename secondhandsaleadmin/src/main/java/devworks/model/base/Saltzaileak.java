@@ -37,6 +37,6 @@ public class Saltzaileak {
 
     @Override
     public String toString() {
-        return "Saltzaileak {id=" + id + ", email=" + email + ", izena=" + izena + "}";
+        return izena;
     }
 }

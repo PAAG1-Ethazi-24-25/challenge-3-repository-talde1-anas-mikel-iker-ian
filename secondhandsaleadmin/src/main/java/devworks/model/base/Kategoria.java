@@ -41,10 +41,6 @@ public class Kategoria {
 
     @Override
     public String toString() {
-        return "Kategoria{" +
-                "id=" + id +
-                ", izena='" + izena + '\'' +
-                ", deskribapena='" + deskribapena + '\'' +
-                '}';
+        return izena;
     }
 }
