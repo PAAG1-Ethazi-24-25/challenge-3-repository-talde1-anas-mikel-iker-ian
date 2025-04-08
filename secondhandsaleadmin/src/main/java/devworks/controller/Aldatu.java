@@ -208,7 +208,6 @@ public class Aldatu {
     }
 
     public void handleAldatu() {
-        // Acceder a los elementos creados dinámicamente
         String izena = txfIzenaLocal.getText();
         String deskribapena = txfDeskribapena.getText();
         String prezioa = txfPrezioa.getText();
@@ -217,9 +216,10 @@ public class Aldatu {
         Saltzaileak saltzaile = saltzaileChoiceBox.getValue();
         boolean salduta = cbSalduta.isSelected();
         String idErosle = txfIdErosle.getText();
-    
+
         // Asegúrate de realizar las comprobaciones necesarias
-        if (izena != null && !izena.isEmpty() && deskribapena != null && !deskribapena.isEmpty() && egoera != null && kategoria != null && saltzaile != null) {
+        if (izena != null && !izena.isEmpty() && deskribapena != null && !deskribapena.isEmpty() && egoera != null
+                && kategoria != null && saltzaile != null) {
             try {
                 // Verificar que el precio sea un número válido
                 double precio;
@@ -227,27 +227,18 @@ public class Aldatu {
                     precio = Double.parseDouble(prezioa);
                 } catch (NumberFormatException e) {
                     lbMezua.setText("Prezioa zenbaki baliozkoa izan behar da.");
-                    return;  // Detener la ejecución si el precio no es válido
+                    return;
                 }
-    
+
                 // Obtener el producto de la interfaz de usuario
-                Produktuak produktuaActualizado = new Produktuak(
-                    produktua.getId(),  // El ID del producto existente (asumimos que ya está disponible)
-                    izena, 
-                    deskribapena, 
-                    (int) precio,  // Convertir el precio a int para compatibilidad con la base de datos
-                    kategoria.getId(),  // ID de la categoría seleccionada
-                    saltzaile.getId(),  // ID del vendedor seleccionado
-                    egoera,
-                    null // Email aún no usado en este caso, si es necesario se puede añadir.
-                );
-    
+                Produktuak produktuaActualizado = new Produktuak(produktua.getId(), izena, deskribapena, (int) precio,
+                        kategoria.getId(), saltzaile.getId(), egoera,null);
+
                 // Si el producto está marcado como vendido, asignar el ID del comprador
                 if (salduta) {
                     if (idErosle != null && !idErosle.isEmpty()) {
                         try {
                             int erosleId = Integer.parseInt(idErosle);
-                            // Llamamos al método handleAldatu para actualizar el producto y la venta
                             int result = App.produktuak.handleAldatu(produktuaActualizado, 1, erosleId);
                             if (result > 0) {
                                 lbMezua.setText("Produktua eguneratu da.");
@@ -269,7 +260,7 @@ public class Aldatu {
                         lbMezua.setText("Errorea produktua eguneratzerakoan.");
                     }
                 }
-    
+
             } catch (Exception e) {
                 lbMezua.setText("Errorea datuak bidaltzean.");
                 e.printStackTrace();
@@ -278,7 +269,6 @@ public class Aldatu {
             lbMezua.setText("Izena, deskribapena, egoera eta saltzailea bete behar dira.");
         }
     }
-    
 
     @FXML
     void handleAtzera() throws IOException {
