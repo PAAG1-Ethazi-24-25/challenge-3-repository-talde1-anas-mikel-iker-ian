@@ -8,15 +8,14 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insert Sale</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
-    <script href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
+    <title>Langileak</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="Salmentak.css">
-
 </head>
 
 <body>
-    <header>
+<header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary menua">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -36,16 +35,16 @@ session_start();
                             <!-- Opciones de administrador -->
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                    <a class="nav-link" aria-current="page" href="index.php">Hasiera</a>
+                                    <a class="nav-link" aria-current="page" href="../index.php">Hasiera</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="../PRODUKTUAK/Produktuak.php">Produktuak</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="../LANGILEAK/Langileak.php">Langileak</a>
+                                    <a class="nav-link " href="../LANGILEAK/Langileak.php">Langileak</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="../SALMENTAK/Salmentak.php">Salmentak</a>
+                                    <a class="nav-link active" href="../SALMENTAK/Salmentak.php">Salmentak</a>
                                 </li>
                             </ul>
                             <div class="d-flex align-items-center ms-auto gap-3">
@@ -98,6 +97,7 @@ session_start();
                                 <img src="./HASIERA/img/imagen inicio sesion copy.png" class="img-fluid">
                             </a>
                         </button>
+
                         <p class="m-0 text-white">
                         </p>
                     </div>
@@ -149,7 +149,7 @@ session_start();
         // Comprobar si se ha enviado el formulario
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $id_producto = $_POST['id_producto'];  // Obtener el ID del producto
-            $id_bezero = $_POST['id_bezero'];  // Obtener el ID del comprador
+            $id_bezero = $_POST['id_erosle'];  // Obtener el ID del comprador
             $data = $_POST['data'];  // Obtener la fecha de la venta
             $precio = $_POST['precio'];  // Obtener el precio de venta
         
@@ -161,7 +161,7 @@ session_start();
             $precio = mysqli_real_escape_string($link, $precio);
 
             // Preparar la consulta SQL para insertar la venta
-            $sql = "INSERT INTO salmentak (id_produktu, id_bezero, data, salmenta_prezioa) VALUES ('$id_producto', '$id_bezero', '$data', '$precio')";
+            $sql = "INSERT INTO salmentak (id_produktu, id_saltzaile, id_erosle, data, salmenta_prezioa) VALUES ('$id_producto', (SELECT id_saltzaile FROM produktuak where id_produktu='$id_producto') , '$id_bezero', '$data', '$precio')";
 
             // Ejecutar la consulta
             if (mysqli_query($link, $sql)) {
@@ -179,14 +179,14 @@ session_start();
         }
         ?>
 
-        <form action="" method="POST" style="align-items: left;">
+        <form action="" method="POST" style="text-align: left;">
             <div class="form-group">
                 <label for="id_producto">Produktu ID:</label>
                 <input type="number" id="id_producto" name="id_producto" class="form-control" style="width: 50%;" required>
             </div>
             <div class="form-group">
                 <label for="id_bezero">Erosle ID:</label>
-                <input type="number" id="id_bezero" name="id_bezero" class="form-control" style="width: 50%;" required>
+                <input type="number" id="id_bezero" name="id_erosle" class="form-control" style="width: 50%;" required>
             </div>
             <div class="form-group">
                 <label for="data">Saldutako data:</label>
@@ -196,11 +196,12 @@ session_start();
                 <label for="precio">Saldutako Prezioa:</label>
                 <input type="number" id="precio" name="precio" class="form-control" style="width: 50%;" step="0.01" required>
             </div>
+            <br>
             <button type="submit" class="btn btn-primary">Sartu salmenta</button>
         </form>
 
         <br>
-        <a href="../index.php"><button type="button" class="btn btn-secondary">Produktu lista berrikusi</button></a>
+        <a href="Salmentak.php"><button type="button" class="btn btn-secondary">Produktu lista berrikusi</button></a>
     </div>
 </body>
 

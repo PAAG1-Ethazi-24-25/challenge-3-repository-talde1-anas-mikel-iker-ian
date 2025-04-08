@@ -16,7 +16,7 @@ session_start();
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="Produktuak.css">
-    <title>Hasiera</title>
+    <title>Produktuak</title>
 </head>
 
 <body>
@@ -29,7 +29,7 @@ session_start();
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="izenburua">
-                <a href="index.php">
+                <a href="../index.php">
                     <img src="../HASIERA/img/ChatGPT Image 1 abr 2025, 12_55_45.png" class="img-fluid">
                 </a>
             </div>
@@ -41,7 +41,7 @@ session_start();
                             <!-- Opciones de administrador -->
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                    <a class="nav-link" aria-current="page" href="index.php">Hasiera</a>
+                                    <a class="nav-link" aria-current="page" href="../index.php">Hasiera</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link active" href="../PRODUKTUAK/Produktuak.php">Produktuak</a>
@@ -88,10 +88,10 @@ session_start();
                     <?php else: ?>
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="index.php">Hasiera</a>
+                                <a class="nav-link " aria-current="page" href="../index.php">Hasiera</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="../PRODUKTUAK/Produktuak.php">Produktuak</a>
+                                <a class="nav-link active" href="../PRODUKTUAK/Produktuak.php">Produktuak</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="../KONTAKTUA/Kontaktua.php">Kontaktua</a>
@@ -100,7 +100,7 @@ session_start();
                         <div class="d-flex align-items-center ms-auto gap-3"></div>
                         <button class="btn">
                             <a href="./SAIOA_HASI/Saioa_Hasi.html">
-                                <img src="./HASIERA/img/imagen inicio sesion copy.png" class="img-fluid">
+                                <img src="../HASIERA/img/imagen inicio sesion copy.png" class="img-fluid">
                             </a>
                         </button>
 

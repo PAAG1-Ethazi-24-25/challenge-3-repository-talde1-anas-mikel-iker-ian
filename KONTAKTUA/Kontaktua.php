@@ -23,7 +23,7 @@ session_start();
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="izenburua">
-                <a href="index.php">
+                <a href="../index.php">
                     <img src="../HASIERA/img/ChatGPT Image 1 abr 2025, 12_55_45.png" class="img-fluid">
                 </a>
             </div>
@@ -83,7 +83,7 @@ session_start();
                     <?php else: ?>
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="index.php">Hasiera</a>
+                                <a class="nav-link" aria-current="page" href="../index.php">Hasiera</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="../PRODUKTUAK/Produktuak.php">Produktuak</a>
@@ -95,7 +95,7 @@ session_start();
                         <div class="d-flex align-items-center ms-auto gap-3"></div>
                         <button class="btn">
                             <a href="./SAIOA_HASI/Saioa_Hasi.html">
-                                <img src="./HASIERA/img/imagen inicio sesion copy.png" class="img-fluid">
+                                <img src="../HASIERA/img/imagen inicio sesion copy.png" class="img-fluid">
                             </a>
                         </button>
 
