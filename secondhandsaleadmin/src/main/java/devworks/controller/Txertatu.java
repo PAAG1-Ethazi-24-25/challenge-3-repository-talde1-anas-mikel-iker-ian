@@ -51,7 +51,6 @@ public class Txertatu {
     List<Produktuak> listProduktuak = App.produktuak.getProduktoak();
 
 
-    // que asco dan los negros
     @FXML
     protected void initialize() {
         if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
