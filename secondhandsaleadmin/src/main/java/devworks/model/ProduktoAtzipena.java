@@ -201,7 +201,6 @@ public class ProduktoAtzipena {
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sqlUpdateProduktua)) {
 
-            // 1. Update produktua
             pstmt.setString(1, produktua.getIzena());
             pstmt.setString(2, produktua.getDeskribapena());
             pstmt.setInt(3, produktua.getPrezioa());
@@ -216,27 +215,35 @@ public class ProduktoAtzipena {
                 return 0;
             }
 
-            // 2. Si está marcado como vendido, insertar en salmentak
             if (salduta == 1) {
-                String sqlInsertSalmenta = "INSERT INTO salmentak (id_produktu, id_saltzaile, id_erosle, data, salmenta_prezioa) VALUES (?, ?, ?, NOW(), ?)";
+                if (!saldutaBaDago(idErosle)) {
+                    String sqlInsertSalmenta = "INSERT INTO salmentak (id_produktu, id_saltzaile, id_erosle, data, salmenta_prezioa) VALUES (?, ?, ?, NOW(), ?)";
 
-                try (PreparedStatement insertStmt = conn.prepareStatement(sqlInsertSalmenta)) {
-                    insertStmt.setInt(1, produktua.getId());
-                    insertStmt.setInt(2, produktua.getIdSaltzaile());
-                    insertStmt.setInt(3, idErosle);
-                    insertStmt.setInt(4, produktua.getPrezioa()); // Puedes cambiar si usas otro precio
+                    try (PreparedStatement insertStmt = conn.prepareStatement(sqlInsertSalmenta)) {
+                        insertStmt.setInt(1, produktua.getId());
+                        insertStmt.setInt(2, produktua.getIdSaltzaile());
+                        insertStmt.setInt(3, idErosle);
+                        insertStmt.setInt(4, produktua.getPrezioa());
 
-                    int inserted = insertStmt.executeUpdate();
-                    if (inserted > 0) {
+                        int inserted = insertStmt.executeUpdate();
+                        if (inserted > 0) {
+                            return 1;
+                        } else {
+                            return -2; // No se insertó en salmentak
+                        }
+                    }
+                } else {
+                    String sqlUpdateSalmenta = "UPDATE salmentak SET id_erosle = ? WHERE id_produktu = ?";
+                    try (PreparedStatement updateStmt = conn.prepareStatement(sqlUpdateSalmenta)) {
+                        updateStmt.setInt(1, idErosle);
+                        updateStmt.setInt(2, produktua.getId());
+                        updateStmt.executeUpdate();
                         return 1;
-                    } else {
-                        return -2; // No se insertó en salmentak
                     }
                 }
             }
-
+            
             return 1;
-
         } catch (SQLException e) {
             if (e.getErrorCode() == 1062) {
                 return -1062;
