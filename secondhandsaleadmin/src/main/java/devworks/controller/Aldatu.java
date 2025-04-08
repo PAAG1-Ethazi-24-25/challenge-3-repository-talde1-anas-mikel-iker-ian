@@ -6,6 +6,7 @@ import devworks.App;
 import devworks.model.base.Produktuak;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -84,37 +85,88 @@ public class Aldatu {
     void imprimatuAldatu(int bilatu) throws IOException {
         if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
             Produktuak produktua = App.produktuak.searchProduktuak(bilatu);
-
+    
             HBAldatu.getChildren().clear();
             HBBotoiak.getChildren().clear();
-
-            // Izena eta Probintzia aldatu
+    
             GridPane grid = new GridPane();
             grid.setVgap(10);
-
+            grid.setHgap(10);
+    
+            // Izena
             grid.add(new Label("Izena:"), 0, 0);
-            TextField txfIzenaLocal = new TextField(herria.getHerriIzena());
-            txfIzenaLocal.setId("txfIzena");
+            TextField txfIzenaLocal = new TextField(produktua.getIzena());
             grid.add(txfIzenaLocal, 1, 0);
-
-            grid.add(new Label("Probintzia:"), 0, 1);
-            TextField txfProbintziaLocal = new TextField(herria.getProbintzia());
-            txfProbintziaLocal.setId("txfProbintzia");
-            grid.add(txfProbintziaLocal, 1, 1);
-
+    
+            // Deskribapena
+            grid.add(new Label("Deskribapena:"), 0, 1);
+            TextField txfDeskribapena = new TextField(produktua.getDeskribapena());
+            grid.add(txfDeskribapena, 1, 1);
+    
+            // Prezioa
+            grid.add(new Label("Prezioa:"), 0, 2);
+            TextField txfPrezioa = new TextField(String.valueOf(produktua.getPrezioa()));
+            grid.add(txfPrezioa, 1, 2);
+    
+            // Id Kategoria
+            grid.add(new Label("ID Kategoria:"), 0, 3);
+            TextField txfKategoria = new TextField(String.valueOf(produktua.getIdKategoria()));
+            grid.add(txfKategoria, 1, 3);
+    
+            // Egoera
+            grid.add(new Label("Egoera:"), 0, 4);
+            TextField txfEgoera = new TextField(produktua.getEgoera());
+            grid.add(txfEgoera, 1, 4);
+    
+            // Id Saltzaile
+            grid.add(new Label("ID Saltzaile:"), 0, 5);
+            TextField txfSaltzaile = new TextField(String.valueOf(produktua.getIdSaltzaile()));
+            grid.add(txfSaltzaile, 1, 5);
+    
+            // Checkbox salduta
+            CheckBox cbSalduta = new CheckBox("Produktua salduta?");
+            grid.add(cbSalduta, 0, 6);
+    
+            // ID Erosle (oculto por defecto)
+            Label lblIdErosle = new Label("ID Erosle:");
+            TextField txfIdErosle = new TextField();
+            grid.add(lblIdErosle, 0, 7);
+            grid.add(txfIdErosle, 1, 7);
+            lblIdErosle.setVisible(false);
+            txfIdErosle.setVisible(false);
+    
+            cbSalduta.setOnAction(e -> {
+                boolean selected = cbSalduta.isSelected();
+                lblIdErosle.setVisible(selected);
+                txfIdErosle.setVisible(selected);
+            });
+    
             HBAldatu.getChildren().add(grid);
-
-            // Botioak atzera eta aldatu
+    
+            // Botón ALDATU
             Button btnAldatu = new Button("ALDATU");
             btnAldatu.setPrefSize(300, 24);
             btnAldatu.setOnAction(event -> {
                 try {
-                    handleAldatu(txfIzenaLocal, txfProbintziaLocal, bilatu);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    // Crear Produktuak objektua actualizado
+                    produktua.setIzena(txfIzenaLocal.getText());
+                    produktua.setDeskribapena(txfDeskribapena.getText());
+                    produktua.setPrezioa(Integer.parseInt(txfPrezioa.getText()));
+                    produktua.setIdKategoria(Integer.parseInt(txfKategoria.getText()));
+                    produktua.setEgoera(txfEgoera.getText());
+                    produktua.setIdSaltzaile(Integer.parseInt(txfSaltzaile.getText()));
+    
+                    int salduta = cbSalduta.isSelected() ? 1 : 0;
+                    int idErosle = salduta == 1 ? Integer.parseInt(txfIdErosle.getText()) : 0;
+    
+                    handleAldatu(produktua, salduta, idErosle);
+                } catch (Exception ex) {
+                    lbMezua.setText("Errorea datuak bidaltzean.");
+                    ex.printStackTrace();
                 }
             });
-
+    
+            // Botón ATZERA
             Button btnAtzera = new Button("ATZERA");
             btnAtzera.setPrefSize(300, 24);
             btnAtzera.setOnAction(event -> {
@@ -124,43 +176,49 @@ public class Aldatu {
                     e.printStackTrace();
                 }
             });
-
+    
             HBBotoiak.getChildren().addAll(btnAldatu, btnAtzera);
         }
     }
+    
+    
 
     @FXML
-    public void handleAldatu(TextField txfIzenaLocal, TextField txfProbintziaLocal, int bilatu) throws IOException {
-        // String izena = txfIzenaLocal.getText();
-        // String probintzia = txfProbintziaLocal.getText();
-        //
-        // if (izena != null && !izena.isEmpty() && probintzia != null &&
-        // !probintzia.isEmpty()) {
-        // try {
-        // Herria herria = new Herria(izena, probintzia);
-        // int herriaUpdate = App.herriak.update(herria, bilatu);
-        //
-        // if (herriaUpdate == 1) {
-        // // System.out.println("Herria ondo gordeta");
-        // lbMezua.setText("Datuak behar bezala eguneratu dira");
-        //
-        // txfIzenaBilatu.clear();
-        // HBIzenaEtaProbintzia.getChildren().clear();
-        // HBBotoiak.getChildren().clear();
-        // initialize();
-        //
-        // } else if (herriaUpdate == 0) {
-        // lbMezua.setText("Datu hori ez existitzen");
-        // } else {
-        // lbMezua.setText("Barne-errore bat gertatu da programan");
-        // }
-        // } catch (Exception e) {
-        // lbMezua.setText("Errorea gertatu da datuak txertatzean");
-        // }
-        // } else {
-        // lbMezua.setText("Izena eta probintzia beteta behar du");
-        // }
+    public void handleAldatu(Produktuak produktua, int salduta, int idErosle) throws IOException {
+        if (produktua.getIzena() != null && !produktua.getIzena().isEmpty()
+                && produktua.getDeskribapena() != null && !produktua.getDeskribapena().isEmpty()
+                && produktua.getEgoera() != null && !produktua.getEgoera().isEmpty()) {
+    
+            try {
+                int emaitza = App.produktuak.handleAldatu(produktua, salduta, idErosle);
+    
+                if (emaitza == 1) {
+                    lbMezua.setText("Datuak behar bezala eguneratu dira.");
+                    txfBilatu.clear();
+                    HBAldatu.getChildren().clear();
+                    HBBotoiak.getChildren().clear();
+                    initialize();
+    
+                } else if (emaitza == 0) {
+                    lbMezua.setText("Produktua ez da existitzen edo ez da aldatu.");
+                } else if (emaitza == -2) {
+                    lbMezua.setText("Produktua eguneratu da, baina salmenta txertatzea huts egin du.");
+                } else if (emaitza == -1062) {
+                    lbMezua.setText("Produktu berdina jada existitzen da (datu errepikatua).");
+                } else {
+                    lbMezua.setText("Barne-errore bat gertatu da datuak eguneratzean.");
+                }
+    
+            } catch (Exception e) {
+                lbMezua.setText("Errorea gertatu da datuak txertatzean.");
+                e.printStackTrace();
+            }
+    
+        } else {
+            lbMezua.setText("Izena, deskribapena eta egoera bete behar dira.");
+        }
     }
+    
 
     @FXML
     void handleAtzera() throws IOException {

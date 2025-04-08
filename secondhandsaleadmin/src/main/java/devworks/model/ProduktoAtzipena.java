@@ -59,7 +59,8 @@ public class ProduktoAtzipena {
             while (rs.next()) {
                 produktuak.add(new Produktuak(rs.getInt("id_produktu"), rs.getString("izena"),
                         rs.getString("deskribapena"),
-                        rs.getInt("prezioa"), rs.getInt("id_kategoria"), rs.getInt("id_saltzaile"),rs.getString("egoera"),
+                        rs.getInt("prezioa"), rs.getInt("id_kategoria"), rs.getInt("id_saltzaile"),
+                        rs.getString("egoera"),
                         rs.getString("email")));
             }
         } catch (SQLException e) {
@@ -80,7 +81,8 @@ public class ProduktoAtzipena {
             while (rs.next()) {
                 produktuak.add(new Produktuak(rs.getInt("id_produktu"), rs.getString("izena"),
                         rs.getString("deskribapena"),
-                        rs.getInt("prezioa"), rs.getInt("id_kategoria"), rs.getInt("id_saltzaile"),rs.getString("egoera"),
+                        rs.getInt("prezioa"), rs.getInt("id_kategoria"), rs.getInt("id_saltzaile"),
+                        rs.getString("egoera"),
                         rs.getString("email")));
             }
         } catch (SQLException e) {
@@ -127,7 +129,8 @@ public class ProduktoAtzipena {
     }
 
     public boolean produktuBaDago(int id) {
-        String sql = "SELECT * FROM " + taula + " WHERE id_produktu = ?";
+        String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.id_saltzaile, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
+                + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_produktu WHERE id_produktu = ?";
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
@@ -140,7 +143,8 @@ public class ProduktoAtzipena {
     }
 
     public Produktuak searchProduktuak(int id) {
-        String sql = "SELECT * FROM " + taula + " WHERE id_produktu = ?";
+        String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.id_saltzaile, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
+                + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_produktu WHERE id_produktu = ?";
         Produktuak produktua = null;
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -149,7 +153,8 @@ public class ProduktoAtzipena {
             if (rs.next()) {
                 produktua = new Produktuak(rs.getInt("id_produktu"), rs.getString("izena"),
                         rs.getString("deskribapena"),
-                        rs.getInt("prezioa"), rs.getInt("id_kategoria"), rs.getInt("id_saltzaile"),rs.getString("egoera"),
+                        rs.getInt("prezioa"), rs.getInt("id_kategoria"), rs.getInt("id_saltzaile"),
+                        rs.getString("egoera"),
                         rs.getString("email"));
             }
         } catch (SQLException e) {
@@ -160,7 +165,7 @@ public class ProduktoAtzipena {
 
     public int handleAldatu(Produktuak produktua, int salduta, int idErosle) {
         String sqlUpdateProduktua = "UPDATE " + taula
-                + " SET izena = ?, deskribapena = ?, prezioa = ?, id_kategoria = ?, id_saltzaile = ?,egoera = ?, salduta = ? WHERE id_produktu = ?";
+                + " SET izena = ?, deskribapena = ?, prezioa = ?, id_kategoria = ?, id_saltzaile = ?, egoera = ?, salduta = ? WHERE id_produktu = ?";
 
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sqlUpdateProduktua)) {
@@ -170,8 +175,8 @@ public class ProduktoAtzipena {
             pstmt.setString(2, produktua.getDeskribapena());
             pstmt.setInt(3, produktua.getPrezioa());
             pstmt.setInt(4, produktua.getIdKategoria());
-            pstmt.setString(5, produktua.getEgoera());
-            pstmt.setInt(6, produktua.getIdSaltzaile());
+            pstmt.setInt(5, produktua.getIdSaltzaile());
+            pstmt.setString(6, produktua.getEgoera());
             pstmt.setInt(7, salduta);
             pstmt.setInt(8, produktua.getId());
 
