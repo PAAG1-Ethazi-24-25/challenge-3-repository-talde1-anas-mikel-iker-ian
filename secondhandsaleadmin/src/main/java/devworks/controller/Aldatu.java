@@ -164,8 +164,8 @@ public class Aldatu {
             produktua = App.produktuak.searchProduktuak(bilatu);
 
             GridPane grid = new GridPane();
-            grid.setVgap(10);
-            grid.setHgap(10);
+            grid.setVgap(8);
+            grid.setHgap(8);
 
             // Izena
             grid.add(new Label("Izena:"), 0, 0);
@@ -279,31 +279,42 @@ public class Aldatu {
 
             HBAldatu.getChildren().add(grid);
 
-            // Botón ALDATU
-            Button btnAldatu = new Button("ALDATU");
-            btnAldatu.setPrefSize(300, 24);
-            btnAldatu.setOnAction(event -> {
-                try {
-                    handleAldatu(); // Llamamos directamente al método handleAldatu
-                } catch (Exception e) {
-                    lbMezua.setText("Errorea datuak bidaltzean.");
-                    e.printStackTrace();
-                }
-            });
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
 
-            // Botón ATZERA
-            Button btnAtzera = new Button("ATZERA");
-            btnAtzera.setPrefSize(300, 24);
-            btnAtzera.setOnAction(event -> {
-                try {
-                    handleAtzera();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-
-            HBBotoiak.getChildren().addAll(btnAldatu, btnAtzera);
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
+            // Similar a lo anterior, pero para bezeroak
+            // Aquí puedes implementar la lógica para mostrar los datos de un bezeroa y
+            // permitir su modificación
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
+            // Similar a lo anterior, pero para salmentak
+            // Aquí puedes implementar la lógica para mostrar los datos de una salmenta y
+            // permitir su modificación
         }
+
+        // Botón ALDATU
+        Button btnAldatu = new Button("ALDATU");
+        btnAldatu.setPrefSize(300, 24);
+        btnAldatu.setOnAction(event -> {
+            try {
+                handleAldatu(); // Llamamos directamente al método handleAldatu
+            } catch (Exception e) {
+                lbMezua.setText("Errorea datuak bidaltzean.");
+                e.printStackTrace();
+            }
+        });
+
+        // Botón ATZERA
+        Button btnAtzera = new Button("ATZERA");
+        btnAtzera.setPrefSize(300, 24);
+        btnAtzera.setOnAction(event -> {
+            try {
+                handleAtzera();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        HBBotoiak.getChildren().addAll(btnAldatu, btnAtzera);
     }
 
     public void handleAldatu() {
@@ -365,6 +376,15 @@ public class Aldatu {
             } else {
                 lbMezua.setText("Izena, deskribapena, egoera eta saltzailea bete behar dira.");
             }
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
+            // Similar a lo anterior, pero para langileak
+            // Aquí puedes implementar la lógica para actualizar los datos de un langilea
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
+            // Similar a lo anterior, pero para bezeroak
+            // Aquí puedes implementar la lógica para actualizar los datos de un bezeroa
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
+            // Similar a lo anterior, pero para salmentak
+            // Aquí puedes implementar la lógica para actualizar los datos de una salmenta
         }
     }
 
