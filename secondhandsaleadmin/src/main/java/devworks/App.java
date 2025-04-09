@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -35,11 +37,26 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("MenuBotoiak"));
         scene.getStylesheets().add(getClass().getResource("css/ModenaAldatua.css").toExternalForm());
+
+        // Configurar el título y el ícono de la ventana
         stage.setTitle("Second Hand Sale Admin");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/devworks/img/icon.png")));
         stage.setScene(scene);
+
+        // Configurar la ventana para que esté en pantalla completa por defecto
         stage.setFullScreen(true);
-        stage.setFullScreenExitHint("Sakatu ESC pantaila osoa modutik ateratzeko");
+        stage.setFullScreenExitHint("ALT + Enter sakatzen du pantaila osoaren eta leiho moduaren artean tenkatzeko.");
+
+        // Detectar la combinación de teclas Alt + Enter para cambiar el estado de
+        // pantalla completa
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER && event.isAltDown()) {
+                // Alternar entre pantalla completa y modo normal
+                stage.setFullScreen(!stage.isFullScreen());
+            }
+        });
+
+        // Mostrar la ventana
         stage.show();
     }
 
@@ -55,5 +72,4 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
     }
-
 }
