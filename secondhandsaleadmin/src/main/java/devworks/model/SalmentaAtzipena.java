@@ -126,7 +126,7 @@ public class SalmentaAtzipena {
         return erosleak;
     }
 
-    public boolean deletesSalmentak(String produktuIzena) {
+    public boolean deletesSalmentak(int produktuId) {
 
         if (taula == null || taula.isEmpty()) {
             System.out.println("Errorea: taula ez da definitu");
@@ -141,19 +141,19 @@ public class SalmentaAtzipena {
          * 
          * 
          */
-        String sql = "DELETE FROM " + taula + " WHERE produktuIzena = ?";
+        String sql = "DELETE FROM " + taula + " WHERE id_produktu = ?";
 
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, produktuIzena);
+            pstmt.setInt(1, produktuId);
             int affectedRows = pstmt.executeUpdate();
 
             if (affectedRows > 0) {
-                System.out.println(produktuIzena + " ezabatu egin da.");
+                System.out.println(produktuId + " ezabatu egin da.");
                 return true;
             } else {
-                System.out.println(produktuIzena + " ez da exititzen.");
+                System.out.println(produktuId + " ez da exititzen.");
                 return false;
             }
 

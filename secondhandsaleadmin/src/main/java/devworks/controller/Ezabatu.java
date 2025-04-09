@@ -76,7 +76,7 @@ public class Ezabatu {
 
                 cbx.setOnMouseClicked(event -> {
                     if (cbx.isSelected()) {
-                        deleteList.add(salmentak.getId() + " " + salmentak.getIzenaProduktu());
+                        deleteList.add(String.valueOf(salmentak.getId()));
                     }
                 });
             }
@@ -108,8 +108,8 @@ public class Ezabatu {
                 }
                 break;
             case "Salmentak":
-                for (String izena : deleteList) {
-                    App.salmentak.deletesSalmentak(izena);
+                for (String id : deleteList) {
+                    App.salmentak.deletesSalmentak(Integer.parseInt(id));
                 }
                 break;
             case "Produktuak":

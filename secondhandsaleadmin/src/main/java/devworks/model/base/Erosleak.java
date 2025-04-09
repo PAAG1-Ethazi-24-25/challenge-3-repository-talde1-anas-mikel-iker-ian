@@ -37,6 +37,6 @@ public class Erosleak {
 
     @Override
     public String toString() {
-        return "Erosleak {id=" + id + ", email=" + email + ", izena=" + izena + "}";
+        return email;
     }
 }

@@ -1,8 +1,10 @@
 package devworks.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import devworks.App;
+import devworks.model.base.Erosleak;
 import devworks.model.base.Kategoria;
 import devworks.model.base.Produktuak;
 import devworks.model.base.Saltzaileak;
@@ -42,7 +44,7 @@ public class Aldatu {
     private ChoiceBox<String> egoeraChoiceBox;
     private ChoiceBox<Saltzaileak> saltzaileChoiceBox;
     private CheckBox cbSalduta;
-    private TextField txfIdErosle;
+    private ChoiceBox<Erosleak> erosleChoiceBox;
     private Label lblIdErosle;
 
     private Produktuak produktua;
@@ -182,32 +184,41 @@ public class Aldatu {
             cbSalduta = new CheckBox("Produktua salduta?");
             grid.add(cbSalduta, 0, 6);
 
-            // ID Erosle (oculto por defecto)
-            lblIdErosle = new Label("ID Erosle:");
-            txfIdErosle = new TextField();
-            grid.add(lblIdErosle, 0, 7);
-            grid.add(txfIdErosle, 1, 7);
+            // Eroslea (ChoiceBox) - oculto por defecto
+            lblIdErosle = new Label("Eroslea:");
+            erosleChoiceBox = new ChoiceBox<>();
+            erosleChoiceBox.setVisible(false);
             lblIdErosle.setVisible(false);
-            txfIdErosle.setVisible(false);
 
-            // Check if the product is already sold
+            // Cargar erosleak
+            List<Erosleak> erosleakList = App.produktuak.getAllErosleak();
+            erosleChoiceBox.getItems().addAll(erosleakList);
+
+            // Preseleccionar eroslea si ya está vendido
             boolean isSold = App.produktuak.saldutaBaDago(produktua.getId());
-
-            // If the product is sold, set the checkbox and show the buyer's ID
             if (isSold) {
                 cbSalduta.setSelected(true);
                 int idErosle = App.produktuak.searchSalmentaErosle(produktua.getId());
-                txfIdErosle.setText(String.valueOf(idErosle));
+
+                for (Erosleak erosle : erosleakList) {
+                    if (erosle.getId() == idErosle) {
+                        erosleChoiceBox.setValue(erosle);
+                        break;
+                    }
+                }
+
                 lblIdErosle.setVisible(true);
-                txfIdErosle.setVisible(true);
+                erosleChoiceBox.setVisible(true);
             }
 
-            // Show the checkbox for "salduta" status
             cbSalduta.setOnAction(e -> {
                 boolean selected = cbSalduta.isSelected();
                 lblIdErosle.setVisible(selected);
-                txfIdErosle.setVisible(selected);
+                erosleChoiceBox.setVisible(selected);
             });
+
+            grid.add(lblIdErosle, 0, 7);
+            grid.add(erosleChoiceBox, 1, 7);
 
             HBAldatu.getChildren().add(grid);
 
@@ -246,7 +257,8 @@ public class Aldatu {
         Kategoria kategoria = kategoriaChoiceBox.getValue();
         Saltzaileak saltzaile = saltzaileChoiceBox.getValue();
         boolean salduta = cbSalduta.isSelected();
-        String idErosle = txfIdErosle.getText();
+        Erosleak erosle = erosleChoiceBox.getValue();
+        Integer idErosle = (erosle != null) ? erosle.getId() : null;
 
         // Asegúrate de realizar las comprobaciones necesarias
         if (izena != null && !izena.isEmpty() && deskribapena != null && !deskribapena.isEmpty() && egoera != null
@@ -267,20 +279,15 @@ public class Aldatu {
 
                 // Si el producto está marcado como vendido, asignar el ID del comprador
                 if (salduta) {
-                    if (idErosle != null && !idErosle.isEmpty()) {
-                        try {
-                            int erosleId = Integer.parseInt(idErosle);
-                            int result = App.produktuak.handleAldatu(produktuaActualizado, 1, erosleId);
-                            if (result > 0) {
-                                lbMezua.setText("Produktua eguneratu da.");
-                            } else {
-                                lbMezua.setText("Errorea salmenta eguneratzerakoan.");
-                            }
-                        } catch (NumberFormatException e) {
-                            lbMezua.setText("ID Erosle baliozkoa izan behar da.");
+                    if (idErosle != null) {
+                        int result = App.produktuak.handleAldatu(produktuaActualizado, 1, idErosle);
+                        if (result > 0) {
+                            lbMezua.setText("Produktua eguneratu da.");
+                        } else {
+                            lbMezua.setText("Errorea salmenta eguneratzerakoan.");
                         }
                     } else {
-                        lbMezua.setText("Erosle ID beharrezkoa da salduta dagoen produktuarentzat.");
+                        lbMezua.setText("Erosle bat aukeratu behar da saldutako produktuarentzat.");
                     }
                 } else {
                     // Si el producto no está vendido, solo actualizamos el producto

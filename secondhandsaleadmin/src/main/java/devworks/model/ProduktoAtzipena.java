@@ -71,8 +71,9 @@ public class ProduktoAtzipena {
         return produktuak;
     }
 
-    // Produktuak(int id, String izena, String deskribapena, int prezioa, int idKategoria, int idSaltzaile, String egoera,
-    //         String email)
+    // Produktuak(int id, String izena, String deskribapena, int prezioa, int
+    // idKategoria, int idSaltzaile, String egoera,
+    // String email)
 
     public List<Produktuak> getProduktoak() {
         String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.id_saltzaile, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
@@ -133,40 +134,39 @@ public class ProduktoAtzipena {
     }
 
     public List<Erosleak> getAllErosleak() {
-    String sql = "SELECT * FROM erosleak"; // Asumimos que la tabla se llama 'erosleak'
-    List<Erosleak> erosleakList = new ArrayList<>();
-    
-    try (Connection conn = konektatu();
-         PreparedStatement pstmt = conn.prepareStatement(sql)) {
-        
-        ResultSet rs = pstmt.executeQuery();
-        while (rs.next()) {
-            erosleakList.add(new Erosleak(rs.getInt("id_erosle"), rs.getString("email"), rs.getString("izena")));
+        String sql = "SELECT * FROM bezeroak";
+        List<Erosleak> erosleakList = new ArrayList<>();
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                erosleakList.add(new Erosleak(rs.getInt("id_bezero"), rs.getString("email"), rs.getString("izena")));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
-    } catch (SQLException e) {
-        System.out.println(e.getMessage());
+
+        return erosleakList;
     }
 
-    return erosleakList;
-}
+    public Erosleak getErosleById(int id) {
+        String sql = "SELECT * FROM erosleak WHERE id_erosle = ?";
+        Erosleak erosleak = null;
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-public Erosleak getErosleById(int id) {
-    String sql = "SELECT * FROM erosleak WHERE id_erosle = ?";
-    Erosleak erosleak = null;
-    try (Connection conn = konektatu();
-         PreparedStatement pstmt = conn.prepareStatement(sql)) {
-        
-        pstmt.setInt(1, id);
-        ResultSet rs = pstmt.executeQuery();
-        if (rs.next()) {
-            erosleak = new Erosleak(rs.getInt("id_erosle"), rs.getString("email"), rs.getString("izena"));
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                erosleak = new Erosleak(rs.getInt("id_erosle"), rs.getString("email"), rs.getString("izena"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
-    } catch (SQLException e) {
-        System.out.println(e.getMessage());
+        return erosleak;
     }
-    return erosleak;
-}
-
 
     public boolean produktuBaDago(int id) {
         String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.id_saltzaile, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
@@ -289,7 +289,7 @@ public Erosleak getErosleById(int id) {
             }
 
             if (salduta == 1) {
-                if (!saldutaBaDago(idErosle)) {
+                if (!saldutaBaDago(produktua.getId())) {
                     String sqlInsertSalmenta = "INSERT INTO salmentak (id_produktu, id_saltzaile, id_erosle, data, salmenta_prezioa) VALUES (?, ?, ?, NOW(), ?)";
 
                     try (PreparedStatement insertStmt = conn.prepareStatement(sqlInsertSalmenta)) {
@@ -315,7 +315,7 @@ public Erosleak getErosleById(int id) {
                     }
                 }
             }
-            
+
             return 1;
         } catch (SQLException e) {
             if (e.getErrorCode() == 1062) {

@@ -37,6 +37,6 @@ public class Saltzaileak {
 
     @Override
     public String toString() {
-        return izena;
+        return email;
     }
 }
