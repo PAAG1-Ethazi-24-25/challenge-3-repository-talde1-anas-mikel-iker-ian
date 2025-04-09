@@ -99,7 +99,7 @@ session_start();
                         </ul>
                         <div class="d-flex align-items-center ms-auto gap-3"></div>
                         <button class="btn">
-                            <a href="./SAIOA_HASI/Saioa_Hasi.html">
+                            <a href="../SAIOA_HASI/Saioa_Hasi.html">
                                 <img src="../HASIERA/img/imagen inicio sesion copy.png" class="img-fluid">
                             </a>
                         </button>
@@ -124,9 +124,8 @@ session_start();
             $link = KonektatuDatuBasera();
 
             // Obtener todas las ventas de la base de datos
-            $sql = "SELECT produktuak.argazkia AS argazkia, produktuak.izena AS product_name, produktuak.deskribapena AS deskribapena, produktuak.prezioa AS prezioa, kategoriak.izena AS kategoria, produktuak.egoera
-                    FROM PRODUKTUAK
-                    INNER JOIN kategoriak ON produktuak.id_produktu = kategoriak.id_kategoria";
+            $sql = "SELECT produktuak.argazkia AS argazkia, produktuak.izena AS izena, produktuak.deskribapena AS deskribapena, produktuak.prezioa AS prezioa, kategoriak.izena AS kategoria, produktuak.egoera AS egoera 
+                    FROM produktuak INNER JOIN kategoriak ON produktuak.id_kategoria = kategoriak.id_kategoria";
             $result = mysqli_query($link, $sql);
 
             if (mysqli_num_rows($result) > 0) {
@@ -142,8 +141,8 @@ session_start();
                     }
             
                     echo    "<div class='card-body'>
-                                <h5 class='card-title'>" . $row['product_name'] . ": " . $row['prezioa'] . "€</h5>
-                                <p class='descripcion' style='display:none;'>" . $row['deskribapena'] . "</p>
+                                <h5 class='card-title'>" . $row['izena'] . ": " . $row['prezioa'] . "€</h5>
+                                <p class='descripcion' style='display:none;'>" . $row['deskribapena'] . "<br> <strong>egoera:</strong> ". $row['egoera'] ."</p>
                             </div>
                         </div>
                     </div>";

@@ -94,7 +94,7 @@ session_start();
                         </ul>
                         <div class="d-flex align-items-center ms-auto gap-3"></div>
                         <button class="btn">
-                            <a href="./SAIOA_HASI/Saioa_Hasi.html">
+                            <a href="../SAIOA_HASI/Saioa_Hasi.html">
                                 <img src="../HASIERA/img/imagen inicio sesion copy.png" class="img-fluid">
                             </a>
                         </button>
