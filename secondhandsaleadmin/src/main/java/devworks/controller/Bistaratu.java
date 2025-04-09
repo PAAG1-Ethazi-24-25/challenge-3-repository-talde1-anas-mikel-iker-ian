@@ -18,6 +18,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.util.StringConverter;
 import javafx.scene.control.TableColumn;
@@ -31,7 +32,14 @@ public class Bistaratu {
     private TableView<Object> tableView;
 
     @FXML
+    private Button btnAldatu;
+
+    @FXML
     protected void initialize() {
+        if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
+            btnAldatu.setVisible(false);
+        }
+
         textAreaBete(false);
 
         fillChoiceBox();

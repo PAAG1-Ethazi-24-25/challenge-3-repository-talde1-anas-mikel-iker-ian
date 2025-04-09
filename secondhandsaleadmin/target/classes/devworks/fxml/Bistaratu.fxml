@@ -33,7 +33,7 @@
          <children>
             <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleTxertatu"
                prefHeight="24.0" prefWidth="200.0" text="TXERTATU" />
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleAldatu"
+            <Button fx:id="btnAldatu" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleAldatu"
                prefHeight="24.0" prefWidth="200.0" text="ALDATU" />
             <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleEzabatu"
                prefHeight="24.0" prefWidth="200.0" text="EZABATU" />

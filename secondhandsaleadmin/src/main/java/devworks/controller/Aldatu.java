@@ -133,25 +133,6 @@ public class Aldatu {
             } else {
                 lbMezua.setText("Bezero hau ez da existitzen");
             }
-        } else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
-            int bilatu = 0;
-            try {
-                bilatu = Integer.parseInt(txfBilatu.getText());
-            } catch (Exception e) {
-                lbMezua.setText("ID zenbaki bat izan behar da");
-                return;
-            }
-            if (App.salmentak.salmentaBaDago(bilatu)) {
-                try {
-                    imprimatuAldatu(bilatu);
-                    lbMezua.setText("");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    lbMezua.setText("Errorea datuak inprimatzerakoan!");
-                }
-            } else {
-                lbMezua.setText("Salmenta hau ez da existitzen");
-            }
         }
     }
 
@@ -280,14 +261,12 @@ public class Aldatu {
             HBAldatu.getChildren().add(grid);
 
         } else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
-
+            // Similar a lo anterior, pero para langileak
+            // Aquí puedes implementar la lógica para mostrar los datos de un langilea y
+            // permitir su modificación
         } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
             // Similar a lo anterior, pero para bezeroak
             // Aquí puedes implementar la lógica para mostrar los datos de un bezeroa y
-            // permitir su modificación
-        } else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
-            // Similar a lo anterior, pero para salmentak
-            // Aquí puedes implementar la lógica para mostrar los datos de una salmenta y
             // permitir su modificación
         }
 
@@ -382,9 +361,6 @@ public class Aldatu {
         } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
             // Similar a lo anterior, pero para bezeroak
             // Aquí puedes implementar la lógica para actualizar los datos de un bezeroa
-        } else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
-            // Similar a lo anterior, pero para salmentak
-            // Aquí puedes implementar la lógica para actualizar los datos de una salmenta
         }
     }
 
