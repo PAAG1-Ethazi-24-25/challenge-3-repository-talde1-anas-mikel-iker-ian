@@ -250,61 +250,64 @@ public class Aldatu {
     }
 
     public void handleAldatu() {
-        String izena = txfIzenaLocal.getText();
-        String deskribapena = txfDeskribapena.getText();
-        String prezioa = txfPrezioa.getText();
-        String egoera = egoeraChoiceBox.getValue();
-        Kategoria kategoria = kategoriaChoiceBox.getValue();
-        Saltzaileak saltzaile = saltzaileChoiceBox.getValue();
-        boolean salduta = cbSalduta.isSelected();
-        Erosleak erosle = erosleChoiceBox.getValue();
-        Integer idErosle = (erosle != null) ? erosle.getId() : null;
+        if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
+            String izena = txfIzenaLocal.getText();
+            String deskribapena = txfDeskribapena.getText();
+            String prezioa = txfPrezioa.getText();
+            String egoera = egoeraChoiceBox.getValue();
+            Kategoria kategoria = kategoriaChoiceBox.getValue();
+            Saltzaileak saltzaile = saltzaileChoiceBox.getValue();
+            boolean salduta = cbSalduta.isSelected();
+            Erosleak erosle = erosleChoiceBox.getValue();
+            Integer idErosle = (erosle != null) ? erosle.getId() : null;
 
-        // Asegúrate de realizar las comprobaciones necesarias
-        if (izena != null && !izena.isEmpty() && deskribapena != null && !deskribapena.isEmpty() && egoera != null
-                && kategoria != null && saltzaile != null) {
-            try {
-                // Verificar que el precio sea un número válido
-                double precio;
+            // Asegúrate de realizar las comprobaciones necesarias
+            if (izena != null && !izena.isEmpty() && deskribapena != null && !deskribapena.isEmpty() && egoera != null
+                    && kategoria != null && saltzaile != null) {
                 try {
-                    precio = Double.parseDouble(prezioa);
-                } catch (NumberFormatException e) {
-                    lbMezua.setText("Prezioa zenbaki baliozkoa izan behar da.");
-                    return;
-                }
+                    // Verificar que el precio sea un número válido
+                    double precio;
+                    try {
+                        precio = Double.parseDouble(prezioa);
+                    } catch (NumberFormatException e) {
+                        lbMezua.setText("Prezioa zenbaki baliozkoa izan behar da.");
+                        return;
+                    }
 
-                // Obtener el producto de la interfaz de usuario
-                Produktuak produktuaActualizado = new Produktuak(produktua.getId(), izena, deskribapena, (int) precio,
-                        kategoria.getId(), saltzaile.getId(), egoera, null);
+                    // Obtener el producto de la interfaz de usuario
+                    Produktuak produktuaActualizado = new Produktuak(produktua.getId(), izena, deskribapena,
+                            (int) precio,
+                            kategoria.getId(), saltzaile.getId(), egoera, null);
 
-                // Si el producto está marcado como vendido, asignar el ID del comprador
-                if (salduta) {
-                    if (idErosle != null) {
-                        int result = App.produktuak.handleAldatu(produktuaActualizado, 1, idErosle);
+                    // Si el producto está marcado como vendido, asignar el ID del comprador
+                    if (salduta) {
+                        if (idErosle != null) {
+                            int result = App.produktuak.handleAldatu(produktuaActualizado, 1, idErosle);
+                            if (result > 0) {
+                                lbMezua.setText("Produktua eguneratu da.");
+                            } else {
+                                lbMezua.setText("Errorea salmenta eguneratzerakoan.");
+                            }
+                        } else {
+                            lbMezua.setText("Erosle bat aukeratu behar da saldutako produktuarentzat.");
+                        }
+                    } else {
+                        // Si el producto no está vendido, solo actualizamos el producto
+                        int result = App.produktuak.handleAldatu(produktuaActualizado, 0, 0);
                         if (result > 0) {
                             lbMezua.setText("Produktua eguneratu da.");
                         } else {
-                            lbMezua.setText("Errorea salmenta eguneratzerakoan.");
+                            lbMezua.setText("Errorea produktua eguneratzerakoan.");
                         }
-                    } else {
-                        lbMezua.setText("Erosle bat aukeratu behar da saldutako produktuarentzat.");
                     }
-                } else {
-                    // Si el producto no está vendido, solo actualizamos el producto
-                    int result = App.produktuak.handleAldatu(produktuaActualizado, 0, 0);
-                    if (result > 0) {
-                        lbMezua.setText("Produktua eguneratu da.");
-                    } else {
-                        lbMezua.setText("Errorea produktua eguneratzerakoan.");
-                    }
-                }
 
-            } catch (Exception e) {
-                lbMezua.setText("Errorea datuak bidaltzean.");
-                e.printStackTrace();
+                } catch (Exception e) {
+                    lbMezua.setText("Errorea datuak bidaltzean.");
+                    e.printStackTrace();
+                }
+            } else {
+                lbMezua.setText("Izena, deskribapena, egoera eta saltzailea bete behar dira.");
             }
-        } else {
-            lbMezua.setText("Izena, deskribapena, egoera eta saltzailea bete behar dira.");
         }
     }
 
