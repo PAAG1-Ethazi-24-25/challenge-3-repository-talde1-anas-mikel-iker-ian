@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import devworks.model.base.Langileak;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class LangileAtzipena {
     private String server;
@@ -31,15 +33,26 @@ public class LangileAtzipena {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url, user, pass);
-            // System.out.println(server + " zerbidoreko " + db + " datu-basera konektatu
-            // zara.");
+            // Si la conexión es exitosa, puedes imprimir un mensaje en la consola
+            // System.out.println("Conexión exitosa a la base de datos " + db + " en el
+            // servidor " + server);
         } catch (SQLException e) {
-            if (e.getErrorCode() == 1045)
-                System.out.println("Erabiltzaile edo pasahitz okerrak");
-            else if (e.getErrorCode() == 0)
-                System.out.println("Ezin zerbitzariarekin konektatu");
-            else
-                System.out.println(e.getErrorCode() + "-" + e.getMessage());
+            // Crear el Alert para mostrar el error
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error de Conexión");
+            alert.setHeaderText("No se pudo establecer la conexión");
+
+            // Dependiendo del error, puedes dar diferentes detalles
+            if (e.getErrorCode() == 1045) {
+                alert.setContentText("Error: Usuario o contraseña incorrectos.");
+            } else if (e.getErrorCode() == 0) {
+                alert.setContentText("Error: No se pudo conectar con el servidor.");
+            } else {
+                alert.setContentText("Código de error: " + e.getErrorCode() + "\n" + e.getMessage());
+            }
+
+            // Mostrar el Alert
+            alert.showAndWait();
         }
         return conn;
     }
