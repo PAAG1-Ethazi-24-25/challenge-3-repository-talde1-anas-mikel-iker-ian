@@ -132,16 +132,7 @@ public class SalmentaAtzipena {
             System.out.println("Errorea: taula ez da definitu");
             return false;
         }
-        /*
-         * 
-         * 
-         * 
-         * EL NOMBRE DE LA COLUMNA, NOSE SI ESTA BIEN "produktuIzena"
-         * 
-         * 
-         * 
-         */
-        String sql = "DELETE FROM " + taula + " WHERE id_produktu = ?";
+        String sql = "DELETE FROM " + taula + " WHERE id_salmenta = ?";
 
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -164,7 +155,7 @@ public class SalmentaAtzipena {
 
     }
 
-        public boolean salmentaTxertatu(Salmentak salmenta) {
+    public boolean salmentaTxertatu(Salmentak salmenta) {
         String sql = "INSERT INTO " + taula
                 + " (id_produktu, id_saltzaile, id_erosle, data, salmenta_prezioa) " +
                 "VALUES (?, ?, ?, NOW(), ?)";
