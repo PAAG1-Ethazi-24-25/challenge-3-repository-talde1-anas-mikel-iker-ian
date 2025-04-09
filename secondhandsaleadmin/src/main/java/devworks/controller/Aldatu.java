@@ -65,6 +65,9 @@ public class Aldatu {
 
     @FXML
     protected void initialize() {
+        HBAldatu.getChildren().clear();
+        HBBotoiak.getChildren().clear();
+
         if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
             lbBilatu.setText("Produktuak ID bilatu:");
         } else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
@@ -446,6 +449,7 @@ public class Aldatu {
                         if (idErosle != null) {
                             int result = App.produktuak.handleAldatu(produktuaActualizado, 1, idErosle);
                             if (result > 0) {
+                                initialize();
                                 lbMezua.setText("Produktua eguneratu da.");
                             } else {
                                 lbMezua.setText("Errorea salmenta eguneratzerakoan.");
@@ -457,6 +461,7 @@ public class Aldatu {
                         // Si el producto no está vendido, solo actualizamos el producto
                         int result = App.produktuak.handleAldatu(produktuaActualizado, 0, 0);
                         if (result > 0) {
+                            initialize();
                             lbMezua.setText("Produktua eguneratu da.");
                         } else {
                             lbMezua.setText("Errorea produktua eguneratzerakoan.");
@@ -506,6 +511,7 @@ public class Aldatu {
                     // Actualizar el empleado en la base de datos
                     int result = App.langileak.handleAldatu(langileaActualizado);
                     if (result > 0) {
+                        initialize();
                         lbMezua.setText("Langilea eguneratu da.");
                     } else if (result == -1062) {
                         lbMezua.setText("Erabiltzaile izena jada existitzen da.");
@@ -554,6 +560,7 @@ public class Aldatu {
                     // Actualizar el cliente en la base de datos
                     int result = App.bezeroak.handleAldatu(bezeroaActualizado);
                     if (result > 0) {
+                        initialize();
                         lbMezua.setText("Bezeroa eguneratu da.");
                     } else if (result == -1062) {
                         lbMezua.setText("Erabiltzaile izena jada existitzen da.");
