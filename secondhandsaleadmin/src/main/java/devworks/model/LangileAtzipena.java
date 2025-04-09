@@ -44,6 +44,45 @@ public class LangileAtzipena {
         return conn;
     }
 
+    public Langileak bilatuLangilea(int id) {
+        String sql = "SELECT * FROM " + taula + " WHERE id_langile = ?";
+        Langileak langilea = null;
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                langilea = new Langileak(rs.getInt("id_langile"), rs.getString("izena"), rs.getString("kargua"),
+                        rs.getString("email"), rs.getInt("telefonoa"), rs.getString("herria"),
+                        rs.getString("posta_kodea"), rs.getString("helbidea"), rs.getString("alta_data"),
+                        rs.getString("erablitzaile_izena"), rs.getString("pasahitza"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return langilea;
+    }
+
+    public boolean langileaBaDago(int id) {
+        String sql = "SELECT * FROM " + taula + " WHERE id_langile = ?";
+        boolean langileaDago = false;
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                langileaDago = true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return langileaDago;
+    }
+
     public List<Langileak> filterLangileak(String herria) {
         String sql = "SELECT * FROM " + taula + " WHERE herria = ?";
 
@@ -56,7 +95,8 @@ public class LangileAtzipena {
             while (rs.next()) {
                 langileak.add(new Langileak(rs.getInt("id_langile"), rs.getString("izena"), rs.getString("kargua"),
                         rs.getString("email"), rs.getInt("telefonoa"), rs.getString("herria"),
-                        rs.getString("posta_kodea"), rs.getString("helbidea"), rs.getString("alta_data"), rs.getString("erablitzaile_izena"), rs.getString("pasahitza")));
+                        rs.getString("posta_kodea"), rs.getString("helbidea"), rs.getString("alta_data"),
+                        rs.getString("erablitzaile_izena"), rs.getString("pasahitza")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -75,7 +115,8 @@ public class LangileAtzipena {
             while (rs.next()) {
                 langileak.add(new Langileak(rs.getInt("id_langile"), rs.getString("izena"), rs.getString("kargua"),
                         rs.getString("email"), rs.getInt("telefonoa"), rs.getString("herria"),
-                        rs.getString("posta_kodea"), rs.getString("helbidea"), rs.getString("alta_data"), rs.getString("erablitzaile_izena"), rs.getString("pasahitza")));
+                        rs.getString("posta_kodea"), rs.getString("helbidea"), rs.getString("alta_data"),
+                        rs.getString("erablitzaile_izena"), rs.getString("pasahitza")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -130,15 +171,17 @@ public class LangileAtzipena {
     }
 
     public boolean langileaTxertatu(Langileak langilea) {
-        String sql = "INSERT INTO " + taula + " (izena, kargua, telefonoa, email, helbidea, herria, posta_kodea, erablitzaile_izena, pasahitza) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    
-        try (Connection conn = konektatu();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        String sql = "INSERT INTO " + taula
+                + " (izena, kargua, telefonoa, email, helbidea, herria, posta_kodea, erablitzaile_izena, pasahitza) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            // Langileak(int id, String izena, String kargua, String email, int telefonoa, String herria,
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // Langileak(int id, String izena, String kargua, String email, int telefonoa,
+            // String herria,
             // String postaKodea, String helbidea, String erregistroData)
-    
+
             pstmt.setString(1, langilea.getIzena());
             pstmt.setString(2, langilea.getKargua());
             pstmt.setInt(3, langilea.getTelefonoa());
@@ -148,15 +191,14 @@ public class LangileAtzipena {
             pstmt.setString(7, langilea.getPostaKodea());
             pstmt.setString(8, langilea.getErabiltzailea());
             pstmt.setString(9, langilea.getPasahitza());
-    
+
             int affectedRows = pstmt.executeUpdate();
             return affectedRows > 0;
-    
+
         } catch (SQLException e) {
             System.out.println("Errorea produktua txertatzean: " + e.getMessage());
             return false;
         }
     }
 
-    
 }

@@ -95,6 +95,63 @@ public class Aldatu {
             } else {
                 lbMezua.setText("Produktu hau ez da existitzen");
             }
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
+            int bilatu = 0;
+            try {
+                bilatu = Integer.parseInt(txfBilatu.getText());
+            } catch (Exception e) {
+                lbMezua.setText("ID zenbaki bat izan behar da");
+                return;
+            }
+            if (App.langileak.langileaBaDago(bilatu)) {
+                try {
+                    imprimatuAldatu(bilatu);
+                    lbMezua.setText("");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    lbMezua.setText("Errorea datuak inprimatzerakoan!");
+                }
+            } else {
+                lbMezua.setText("Langile hau ez da existitzen");
+            }
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
+            int bilatu = 0;
+            try {
+                bilatu = Integer.parseInt(txfBilatu.getText());
+            } catch (Exception e) {
+                lbMezua.setText("ID zenbaki bat izan behar da");
+                return;
+            }
+            if (App.bezeroak.bezeroBaDago(bilatu)) {
+                try {
+                    imprimatuAldatu(bilatu);
+                    lbMezua.setText("");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    lbMezua.setText("Errorea datuak inprimatzerakoan!");
+                }
+            } else {
+                lbMezua.setText("Bezero hau ez da existitzen");
+            }
+        } else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
+            int bilatu = 0;
+            try {
+                bilatu = Integer.parseInt(txfBilatu.getText());
+            } catch (Exception e) {
+                lbMezua.setText("ID zenbaki bat izan behar da");
+                return;
+            }
+            if (App.salmentak.salmentaBaDago(bilatu)) {
+                try {
+                    imprimatuAldatu(bilatu);
+                    lbMezua.setText("");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    lbMezua.setText("Errorea datuak inprimatzerakoan!");
+                }
+            } else {
+                lbMezua.setText("Salmenta hau ez da existitzen");
+            }
         }
     }
 

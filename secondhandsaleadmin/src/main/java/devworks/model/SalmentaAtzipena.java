@@ -46,6 +46,46 @@ public class SalmentaAtzipena {
         return conn;
     }
 
+    public Salmentak bilatuSalmenta(int id) {
+        String sql = "SELECT salmentak.id_salmenta, salmentak.id_produktu, salmentak.id_saltzaile, salmentak.id_erosle, salmentak.data, salmentak.salmenta_prezioa, produktuak.izena FROM "
+                + taula
+                + " salmentak INNER JOIN produktuak ON salmentak.id_produktu = produktuak.id_produktu WHERE WHERE id_salmenta = ?";
+        Salmentak salmenta = null;
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                salmenta = new Salmentak(rs.getInt("id_salmenta"), rs.getInt("id_produktu"),
+                        rs.getInt("id_saltzaile"), rs.getInt("id_erosle"), rs.getString("data"),
+                        rs.getDouble("salmenta_prezioa"), rs.getString("izena"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return salmenta;
+    }
+
+    public boolean salmentaBaDago(int id) {
+        String sql = "SELECT * FROM " + taula + " WHERE id_salmenta = ?";
+        boolean exists = false;
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                exists = true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return exists;
+    }
+
     public List<Salmentak> filterSalmentak(int idSaltzaile) {
         String sql = "SELECT salmentak.id_salmenta, salmentak.id_produktu, salmentak.id_saltzaile, salmentak.id_erosle, salmentak.data, salmentak.salmenta_prezioa, produktuak.izena FROM "
                 + taula
@@ -127,7 +167,6 @@ public class SalmentaAtzipena {
     }
 
     public boolean deletesSalmentak(int produktuId) {
-
         if (taula == null || taula.isEmpty()) {
             System.out.println("Errorea: taula ez da definitu");
             return false;
@@ -152,7 +191,6 @@ public class SalmentaAtzipena {
             System.out.println("Errorea: " + e.getMessage());
             return false;
         }
-
     }
 
     public boolean salmentaTxertatu(Salmentak salmenta) {
