@@ -83,6 +83,27 @@ public class BezeroAtzipena {
         return exists;
     }
 
+    public Bezeroak searchBezeroak(int id) {
+        String sql = "SELECT * FROM " + taula + " WHERE id_bezero = ?";
+        Bezeroak bezeroa = null;
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                bezeroa = new Bezeroak(rs.getInt("id_bezero"), rs.getString("izena"), rs.getString("email"),
+                        rs.getInt("telefonoa"), rs.getString("herria"),
+                        rs.getString("posta_kodea"), rs.getString("helbidea"), rs.getString("alta_data"),
+                        rs.getString("erablitzaile_izena"), rs.getString("pasahitza"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return bezeroa;
+    }
+
     public List<Bezeroak> filterBezeroak(String herria) {
         String sql = "SELECT * FROM " + taula + " WHERE herria = ?";
 
@@ -125,6 +146,23 @@ public class BezeroAtzipena {
         return bezeroak;
     }
 
+    public List<String> getAllHerriak() {
+        String sql = "SELECT herria FROM " + taula + " GROUP BY herria";
+        List<String> herriak = new ArrayList<>();
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                herriak.add(rs.getString("herria"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return herriak;
+    }
+
     public boolean bezeroaTxertatu(Bezeroak bezeroa) {
         String sql = "INSERT INTO " + taula
                 + " (izena, email, telefonoa, helbidea, herria, posta_kodea, erablitzaile_izena, pasahitza) " +
@@ -156,21 +194,36 @@ public class BezeroAtzipena {
         }
     }
 
-    public List<String> getAllHerriak() {
-        String sql = "SELECT herria FROM " + taula + " GROUP BY herria";
-        List<String> herriak = new ArrayList<>();
+    public int handleAldatu(Bezeroak bezeroa) {
+        String sql = "UPDATE " + taula
+                + " SET izena = ?, email = ?, telefonoa = ?, helbidea = ?, herria = ?, posta_kodea = ?, erablitzaile_izena = ?, pasahitza = ? "
+                + "WHERE id_bezero = ?";
 
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                herriak.add(rs.getString("herria"));
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
 
-        return herriak;
+            pstmt.setString(1, bezeroa.getIzena());
+            pstmt.setString(2, bezeroa.getEmail());
+            pstmt.setInt(3, bezeroa.getTelefonoa());
+            pstmt.setString(4, bezeroa.getHelbidea());
+            pstmt.setString(5, bezeroa.getHerria());
+            pstmt.setString(6, bezeroa.getPostaKodea());
+            pstmt.setString(7, bezeroa.getErabiltzalea());
+            pstmt.setString(8, bezeroa.getPasahitza());
+            pstmt.setInt(9, bezeroa.getId());
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows == 0) {
+                return 0;
+            }
+
+            return 1;
+        } catch (SQLException e) {
+            if (e.getErrorCode() == 1062) {
+                return -1062;
+            }
+            return -1;
+        }
     }
 
     public boolean deleteBezeroa(String izena) {

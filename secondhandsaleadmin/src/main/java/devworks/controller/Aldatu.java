@@ -49,6 +49,15 @@ public class Aldatu {
     private ChoiceBox<Erosleak> erosleChoiceBox;
     private Label lblIdErosle;
 
+    private TextField txfEmail;
+    private TextField txfTelefonoa;
+    private TextField txfHelbidea;
+    private TextField txfHerria;
+    private TextField txfPostaKodea;
+    private TextField txfErabiltzaileIzena;
+    private TextField txfPasahitza;
+    private TextField txfKargua;
+
     private Produktuak produktua;
     private Langileak langilea;
     private Bezeroak bezeroa;
@@ -261,7 +270,6 @@ public class Aldatu {
             grid.add(erosleChoiceBox, 1, 7);
 
             HBAldatu.getChildren().add(grid);
-
         } else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
             langilea = App.langileak.searchLangilea(bilatu);
 
@@ -274,99 +282,95 @@ public class Aldatu {
             txfIzenaLocal = new TextField(langilea.getIzena());
             grid.add(txfIzenaLocal, 1, 0);
 
-            // Email
-            grid.add(new Label("Email:"), 0, 1);
-            txfDeskribapena = new TextField(langilea.getEmail());
-            grid.add(txfDeskribapena, 1, 1);
+            // Kargua
+            grid.add(new Label("Kargua:"), 0, 1);
+            txfKargua = new TextField(langilea.getKargua());
+            grid.add(txfKargua, 1, 1);
 
-            // Prezioa
-            grid.add(new Label("Telefonoa:"), 0, 2);
-            txfPrezioa = new TextField(String.valueOf(langilea.getTelefonoa()));
-            grid.add(txfPrezioa, 1, 2);
+            // Email
+            grid.add(new Label("Email:"), 0, 2);
+            txfEmail = new TextField(langilea.getEmail());
+            grid.add(txfEmail, 1, 2);
+
+            // Telefonoa
+            grid.add(new Label("Telefonoa:"), 0, 3);
+            txfTelefonoa = new TextField(String.valueOf(langilea.getTelefonoa()));
+            grid.add(txfTelefonoa, 1, 3);
 
             // Helbidea
-            grid.add(new Label("Helbidea:"), 0, 3);
-            txfPrezioa = new TextField(String.valueOf(langilea.getHelbidea()));
-            grid.add(txfPrezioa, 1, 3);
-
-            grid.add(kategoriaChoiceBox, 1, 3);
+            grid.add(new Label("Helbidea:"), 0, 4);
+            txfHelbidea = new TextField(String.valueOf(langilea.getHelbidea()));
+            grid.add(txfHelbidea, 1, 4);
 
             // Herria
-            grid.add(new Label("Herria:"), 0, 4);
-            txfPrezioa = new TextField(String.valueOf(langilea.getHelbidea()));
-            grid.add(txfPrezioa, 1, 3);
+            grid.add(new Label("Herria:"), 0, 5);
+            txfHerria = new TextField(String.valueOf(langilea.getHerriIzena()));
+            grid.add(txfHerria, 1, 5);
 
-            grid.add(kategoriaChoiceBox, 1, 3);
+            // Posta kodea
+            grid.add(new Label("Posta kodea:"), 0, 6);
+            txfPostaKodea = new TextField(String.valueOf(langilea.getPostaKodea()));
+            grid.add(txfPostaKodea, 1, 6);
 
-            // Saltzailea (ChoiceBox)
-            grid.add(new Label("Saltzailea:"), 0, 5);
-            saltzaileChoiceBox = new ChoiceBox<>();
-            saltzaileChoiceBox.getItems().addAll(App.produktuak.getAllSaltzaileak());
+            // Erabiltzaile izena
+            grid.add(new Label("Erabiltzaile izena:"), 0, 7);
+            txfErabiltzaileIzena = new TextField(String.valueOf(langilea.getErabiltzailea()));
+            grid.add(txfErabiltzaileIzena, 1, 7);
 
-            // Obtener el ID del saltzaile asociado al producto
-            int saltzaileId = produktua.getIdSaltzaile();
-
-            // Buscar el saltzaile correspondiente por su ID
-            Saltzaileak selectedSaltzaile = null;
-            for (Saltzaileak saltzaile : saltzaileChoiceBox.getItems()) {
-                if (saltzaile.getId() == saltzaileId) {
-                    selectedSaltzaile = saltzaile;
-                    break;
-                }
-            }
-
-            // Establecer el valor preseleccionado en el ChoiceBox
-            if (selectedSaltzaile != null) {
-                saltzaileChoiceBox.setValue(selectedSaltzaile);
-            }
-
-            grid.add(saltzaileChoiceBox, 1, 5);
-
-            // Checkbox salduta
-            cbSalduta = new CheckBox("Produktua salduta?");
-            grid.add(cbSalduta, 0, 6);
-
-            // Eroslea (ChoiceBox) - oculto por defecto
-            lblIdErosle = new Label("Eroslea:");
-            erosleChoiceBox = new ChoiceBox<>();
-            erosleChoiceBox.setVisible(false);
-            lblIdErosle.setVisible(false);
-
-            // Cargar erosleak
-            List<Erosleak> erosleakList = App.produktuak.getAllErosleak();
-            erosleChoiceBox.getItems().addAll(erosleakList);
-
-            // Preseleccionar eroslea si ya está vendido
-            boolean isSold = App.produktuak.saldutaBaDago(produktua.getId());
-            if (isSold) {
-                cbSalduta.setSelected(true);
-                int idErosle = App.produktuak.searchSalmentaErosle(produktua.getId());
-
-                for (Erosleak erosle : erosleakList) {
-                    if (erosle.getId() == idErosle) {
-                        erosleChoiceBox.setValue(erosle);
-                        break;
-                    }
-                }
-
-                lblIdErosle.setVisible(true);
-                erosleChoiceBox.setVisible(true);
-            }
-
-            cbSalduta.setOnAction(e -> {
-                boolean selected = cbSalduta.isSelected();
-                lblIdErosle.setVisible(selected);
-                erosleChoiceBox.setVisible(selected);
-            });
-
-            grid.add(lblIdErosle, 0, 7);
-            grid.add(erosleChoiceBox, 1, 7);
+            // Pasahitza
+            grid.add(new Label("Pasahitza:"), 0, 8);
+            txfPasahitza = new TextField(String.valueOf(langilea.getPasahitza()));
+            grid.add(txfPasahitza, 1, 8);
 
             HBAldatu.getChildren().add(grid);
         } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
-            // Similar a lo anterior, pero para bezeroak
-            // Aquí puedes implementar la lógica para mostrar los datos de un bezeroa y
-            // permitir su modificación
+            bezeroa = App.bezeroak.searchBezeroak(bilatu);
+
+            GridPane grid = new GridPane();
+            grid.setVgap(8);
+            grid.setHgap(8);
+
+            // Izena
+            grid.add(new Label("Izena:"), 0, 0);
+            txfIzenaLocal = new TextField(bezeroa.getIzena());
+            grid.add(txfIzenaLocal, 1, 0);
+
+            // Email
+            grid.add(new Label("Email:"), 0, 1);
+            txfEmail = new TextField(bezeroa.getEmail());
+            grid.add(txfEmail, 1, 1);
+
+            // Telefonoa
+            grid.add(new Label("Telefonoa:"), 0, 2);
+            txfTelefonoa = new TextField(String.valueOf(bezeroa.getTelefonoa()));
+            grid.add(txfTelefonoa, 1, 2);
+
+            // Helbidea
+            grid.add(new Label("Helbidea:"), 0, 3);
+            txfHelbidea = new TextField(String.valueOf(bezeroa.getHelbidea()));
+            grid.add(txfHelbidea, 1, 3);
+
+            // Herria
+            grid.add(new Label("Herria:"), 0, 4);
+            txfHerria = new TextField(String.valueOf(bezeroa.getHelbidea()));
+            grid.add(txfHerria, 1, 4);
+
+            // Posta kodea
+            grid.add(new Label("Posta kodea:"), 0, 5);
+            txfPostaKodea = new TextField(String.valueOf(bezeroa.getPostaKodea()));
+            grid.add(txfPostaKodea, 1, 5);
+
+            // Erabiltzaile izena
+            grid.add(new Label("Erabiltzaile izena:"), 0, 6);
+            txfErabiltzaileIzena = new TextField(String.valueOf(bezeroa.getErabiltzalea()));
+            grid.add(txfErabiltzaileIzena, 1, 6);
+
+            // Pasahitza
+            grid.add(new Label("Pasahitza:"), 0, 7);
+            txfPasahitza = new TextField(String.valueOf(bezeroa.getPasahitza()));
+            grid.add(txfPasahitza, 1, 7);
+
+            HBAldatu.getChildren().add(grid);
         }
 
         // Botón ALDATU
@@ -455,11 +459,101 @@ public class Aldatu {
                 lbMezua.setText("Izena, deskribapena, egoera eta saltzailea bete behar dira.");
             }
         } else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
-            // Similar a lo anterior, pero para langileak
-            // Aquí puedes implementar la lógica para actualizar los datos de un langilea
+            String izena = txfIzenaLocal.getText();
+            String kargua = txfIzenaLocal.getText();
+            String email = txfEmail.getText();
+            String telefonoa = txfTelefonoa.getText();
+            String helbidea = txfHelbidea.getText();
+            String herria = txfHerria.getText();
+            String postaKodea = txfPostaKodea.getText();
+            String erabiltzaileIzena = txfErabiltzaileIzena.getText();
+            String pasahitza = txfPasahitza.getText();
+
+            // Asegúrate de realizar las comprobaciones necesarias
+            if (izena != null && !izena.isEmpty() && email != null && !email.isEmpty() && telefonoa != null
+                    && !telefonoa.isEmpty() && helbidea != null && !helbidea.isEmpty() && herria != null
+                    && !herria.isEmpty() && postaKodea != null && !postaKodea.isEmpty() && erabiltzaileIzena != null
+                    && !erabiltzaileIzena.isEmpty()
+                    && pasahitza != null && !pasahitza.isEmpty()) {
+                try {
+                    // Verificar que el teléfono sea un número válido
+                    int telefono;
+                    try {
+                        telefono = Integer.parseInt(telefonoa);
+                    } catch (NumberFormatException e) {
+                        lbMezua.setText("Telefono zenbaki baliozkoa izan behar da.");
+                        return;
+                    }
+
+                    // Crear el objeto Langileak con los datos actualizados
+                    Langileak langileaActualizado = new Langileak(langilea.getId(), izena, kargua, email, telefono,
+                            herria, postaKodea, helbidea, langilea.getAltaData(), erabiltzaileIzena, pasahitza);
+
+                    // Actualizar el empleado en la base de datos
+                    int result = App.langileak.handleAldatu(langileaActualizado);
+                    if (result > 0) {
+                        lbMezua.setText("Langilea eguneratu da.");
+                    } else if (result == -1062) {
+                        lbMezua.setText("Erabiltzaile izena jada existitzen da.");
+                    } else {
+                        lbMezua.setText("Errorea langilea eguneratzerakoan.");
+                    }
+                } catch (Exception e) {
+                    lbMezua.setText("Errorea datuak bidaltzean.");
+                    e.printStackTrace();
+                }
+            } else {
+                lbMezua.setText(
+                        "Izena, kargua, email, telefonoa, helbidea, herria, posta kodea, alta data, erabiltzaile izena eta pasahitza bete behar dira.");
+            }
         } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
-            // Similar a lo anterior, pero para bezeroak
-            // Aquí puedes implementar la lógica para actualizar los datos de un bezeroa
+            String izena = txfIzenaLocal.getText();
+            String email = txfEmail.getText();
+            String telefonoa = txfTelefonoa.getText();
+            String helbidea = txfHelbidea.getText();
+            String herria = txfHerria.getText();
+            String postaKodea = txfPostaKodea.getText();
+            String erabiltzaileIzena = txfErabiltzaileIzena.getText();
+            String pasahitza = txfPasahitza.getText();
+
+            // Asegúrate de realizar las comprobaciones necesarias
+            if (izena != null && !izena.isEmpty() && email != null && !email.isEmpty() && telefonoa != null
+                    && !telefonoa.isEmpty() && helbidea != null && !helbidea.isEmpty() && herria != null
+                    && !herria.isEmpty() && postaKodea != null && !postaKodea.isEmpty() && erabiltzaileIzena != null
+                    && !erabiltzaileIzena.isEmpty()
+                    && pasahitza != null && !pasahitza.isEmpty()) {
+                try {
+                    // Verificar que el teléfono sea un número válido
+                    int telefono;
+                    try {
+                        telefono = Integer.parseInt(telefonoa);
+                    } catch (NumberFormatException e) {
+                        lbMezua.setText("Telefono zenbaki baliozkoa izan behar da.");
+                        return;
+                    }
+
+                    // Crear el objeto Bezeroak con los datos actualizados
+                    Bezeroak bezeroaActualizado = new Bezeroak(bezeroa.getId(), izena, email, telefono, herria,
+                            postaKodea,
+                            helbidea, bezeroa.getAltaData(), erabiltzaileIzena, pasahitza);
+
+                    // Actualizar el cliente en la base de datos
+                    int result = App.bezeroak.handleAldatu(bezeroaActualizado);
+                    if (result > 0) {
+                        lbMezua.setText("Bezeroa eguneratu da.");
+                    } else if (result == -1062) {
+                        lbMezua.setText("Erabiltzaile izena jada existitzen da.");
+                    } else {
+                        lbMezua.setText("Errorea bezeroa eguneratzerakoan.");
+                    }
+                } catch (Exception e) {
+                    lbMezua.setText("Errorea datuak bidaltzean.");
+                    e.printStackTrace();
+                }
+            } else {
+                lbMezua.setText(
+                        "Izena, email, telefonoa, helbidea, herria, posta kodea, alta data, erabiltzaile izena eta pasahitza bete behar dira.");
+            }
         }
     }
 

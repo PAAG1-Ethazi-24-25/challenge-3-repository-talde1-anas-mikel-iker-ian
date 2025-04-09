@@ -142,6 +142,36 @@ public class LangileAtzipena {
         return herriak;
     }
 
+    public int handleAldatu(Langileak langilea) {
+        String sql = "UPDATE " + taula
+                + " SET izena = ?, kargua = ?, telefonoa = ?, email = ?, helbidea = ?, herria = ?, posta_kodea = ?, erablitzaile_izena = ?, pasahitza = ? WHERE id_langile = ?";
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, langilea.getIzena());
+            pstmt.setString(2, langilea.getKargua());
+            pstmt.setInt(3, langilea.getTelefonoa());
+            pstmt.setString(4, langilea.getEmail());
+            pstmt.setString(5, langilea.getHelbidea());
+            pstmt.setString(6, langilea.getHerriIzena());
+            pstmt.setString(7, langilea.getPostaKodea());
+            pstmt.setString(8, langilea.getErabiltzailea());
+            pstmt.setString(9, langilea.getPasahitza());
+            pstmt.setInt(10, langilea.getId());
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows == 0) {
+                return 0;
+            }
+
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("Errorea produktua eguneratzean: " + e.getMessage());
+            return -1;
+        }
+    }
+
     public boolean deleteLangilea(String izena) {
 
         if (taula == null || taula.isEmpty()) {
