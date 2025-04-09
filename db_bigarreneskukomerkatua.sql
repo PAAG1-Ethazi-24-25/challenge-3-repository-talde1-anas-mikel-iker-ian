@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-04-2025 a las 08:43:05
+-- Tiempo de generación: 09-04-2025 a las 12:22:47
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -45,17 +45,17 @@ CREATE TABLE `bezeroak` (
 --
 
 INSERT INTO `bezeroak` (`id_bezero`, `izena`, `email`, `telefonoa`, `helbidea`, `herria`, `posta_kodea`, `alta_data`, `erablitzaile_izena`, `pasahitza`) VALUES
-(1, 'Jon', 'jon@email.com', '600123456', 'Kale Nagusia 5', 'Bilbo', '48001', '2025-04-03 06:41:14', 'jon123', 'password1'),
-(2, 'Ane', 'ane@email.com', '600654321', 'San Mames 10', 'Bilbo', '48002', '2025-04-03 06:41:14', 'ane321', 'password2'),
+(2, 'Ana', 'ane@email.com', '600654321', 'San Mames 10', 'Bilbo', '48002', '2025-04-09 10:17:30', 'ane321', 'password2'),
 (3, 'Mikel', 'mikel@email.com', '699112233', 'Zabalbide 22', 'Gasteiz', '01001', '2025-04-03 06:41:14', 'mikel789', 'password3'),
-(4, 'Maite', 'maite@email.com', '688334455', 'Donostia Hiribidea 7', 'Donostia', '20003', '2025-04-03 06:41:14', 'maite777', 'password4'),
-(5, 'Iker', 'iker@email.com', '612345678', 'Easo kalea 15', 'Donostia', '20004', '2025-04-03 06:41:14', 'iker001', 'password5'),
-(6, 'Nerea', 'nerea@email.com', '622334455', 'Kale Kantoia 4', 'Gasteiz', '01002', '2025-04-03 06:41:14', 'nerea999', 'password6'),
-(7, 'Unai', 'unai@email.com', '633112233', 'Etxebarri kalea 8', 'Bilbo', '48003', '2025-04-03 06:41:14', 'unai222', 'password7');
+(5, 'Iker', 'iker@email.com', '612345678', 'Easo kalea 15', 'Donostia', '20004', '2025-04-03 06:41:14', 'iker001', 'password5');
 
 --
 -- Disparadores `bezeroak`
 --
+DELIMITER $$
+CREATE TRIGGER `delete erabiltzaileak` AFTER DELETE ON `bezeroak` FOR EACH ROW DELETE FROM erabiltzaileak WHERE izena = OLD.izena
+$$
+DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `set_alta_data_bezeroak` BEFORE INSERT ON `bezeroak` FOR EACH ROW BEGIN
     IF NEW.alta_data IS NULL THEN
@@ -67,6 +67,10 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `trg_InsertBezeroak` AFTER INSERT ON `bezeroak` FOR EACH ROW INSERT INTO Erabiltzaileak (izena, erabiltzailea, pasahitza, administratzailea)
 VALUES (NEW.izena, NEW.erablitzaile_izena, NEW.pasahitza, 'ez')
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `update erabiltzaileak` AFTER UPDATE ON `bezeroak` FOR EACH ROW UPDATE `erabiltzaileak` SET `izena`=NEW.izena ,`erabiltzailea`= NEW.erablitzaile_izena ,`pasahitza`=NEW.pasahitza WHERE izena = OLD.izena
 $$
 DELIMITER ;
 
@@ -89,20 +93,19 @@ CREATE TABLE `erabiltzaileak` (
 --
 
 INSERT INTO `erabiltzaileak` (`id_erabiltzaile`, `izena`, `erabiltzailea`, `pasahitza`, `administratzailea`) VALUES
-(1, 'Jon', 'jon123', 'password1', 'ez'),
-(2, 'Ane', 'ane321', 'password2', 'ez'),
+(2, 'Ana', 'ane321', 'password2', 'ez'),
 (3, 'Mikel', 'mikel789', 'password3', 'ez'),
-(4, 'Maite', 'maite777', 'password4', 'ez'),
 (5, 'Iker', 'iker001', 'password5', 'ez'),
-(6, 'Nerea', 'nerea999', 'password6', 'ez'),
 (7, 'Unai', 'unai222', 'password7', 'ez'),
 (8, 'Xabier', 'xabier_admin', 'adminpass1', 'bai'),
-(9, 'Maitane', 'maitane_salt', 'adminpass2', 'bai'),
+(9, 'Maitan', 'maitane_salt', 'adminpass2', 'bai'),
 (10, 'Ander', 'ander_salt', 'adminpass3', 'bai'),
 (11, 'Leire', 'leire_kud', 'adminpass4', 'bai'),
 (12, 'Julen', 'julen_garr', 'adminpass5', 'bai'),
 (13, 'Miren', 'miren_kud', 'adminpass6', 'bai'),
-(14, 'Ibai', 'ibai_admin', 'adminpass7', 'bai');
+(15, 'luis gonzalez', 'luisgonzalez', 'luis4325', 'ez'),
+(16, 'maribel gonzalez', 'maribelgonz', 'maribel123', 'ez'),
+(17, 'jose', 'jose_saltz', 'josesaltz123', 'bai');
 
 -- --------------------------------------------------------
 
@@ -138,7 +141,7 @@ INSERT INTO `kategoriak` (`id_kategoria`, `izena`, `deskribapena`) VALUES
 CREATE TABLE `langileak` (
   `id_langile` int(11) NOT NULL,
   `izena` varchar(255) NOT NULL,
-  `kargua` varchar(255) NOT NULL,
+  `kargua` enum('administratzailea','saltzailea','kudeatzailea','garraiolaria') NOT NULL,
   `telefonoa` varchar(20) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
   `alta_data` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -154,17 +157,20 @@ CREATE TABLE `langileak` (
 --
 
 INSERT INTO `langileak` (`id_langile`, `izena`, `kargua`, `telefonoa`, `email`, `alta_data`, `helbidea`, `herria`, `posta_kodea`, `erablitzaile_izena`, `pasahitza`) VALUES
-(1, 'Xabier', 'Administratzailea', '645223344', 'xabier@email.com', '2025-04-03 06:41:28', 'Langile kalea 1', 'Bilbo', '48004', 'xabier_admin', 'adminpass1'),
-(2, 'Maitane', 'Saltzailea', '655667788', 'maitane@email.com', '2025-04-03 06:41:28', 'Langile kalea 2', 'Gasteiz', '01003', 'maitane_salt', 'adminpass2'),
-(3, 'Ander', 'Saltzailea', '611223344', 'ander@email.com', '2025-04-03 06:41:28', 'Langile kalea 3', 'Donostia', '20005', 'ander_salt', 'adminpass3'),
-(4, 'Leire', 'Kudeatzailea', '688998877', 'leire@email.com', '2025-04-03 06:41:28', 'Langile kalea 4', 'Bilbo', '48005', 'leire_kud', 'adminpass4'),
-(5, 'Julen', 'Garraiolaria', '677445566', 'julen@email.com', '2025-04-03 06:41:28', 'Langile kalea 5', 'Donostia', '20006', 'julen_garr', 'adminpass5'),
-(6, 'Miren', 'Kudeatzailea', '699887766', 'miren@email.com', '2025-04-03 06:41:28', 'Langile kalea 6', 'Gasteiz', '01004', 'miren_kud', 'adminpass6'),
-(7, 'Ibai', 'Administratzailea', '666777888', 'ibai@email.com', '2025-04-03 06:41:28', 'Langile kalea 7', 'Bilbo', '48006', 'ibai_admin', 'adminpass7');
+(1, 'Xabier', 'administratzailea', '645223344', 'xabier@email.com', '2025-04-03 06:41:28', 'Langile kalea 1', 'Bilbo', '48004', 'xabier_admin', 'adminpass1'),
+(2, 'Maitan', 'saltzailea', '655667788', 'maitane@email.com', '2025-04-09 10:22:26', 'Langile kalea 2', 'Gasteiz', '01003', 'maitane_salt', 'adminpass2'),
+(3, 'Ander', 'saltzailea', '611223344', 'ander@email.com', '2025-04-03 06:41:28', 'Langile kalea 3', 'Donostia', '20005', 'ander_salt', 'adminpass3'),
+(5, 'Julen', 'garraiolaria', '677445566', 'julen@email.com', '2025-04-03 06:41:28', 'Langile kalea 5', 'Donostia', '20006', 'julen_garr', 'adminpass5'),
+(6, 'Miren', 'kudeatzailea', '699887766', 'miren@email.com', '2025-04-03 06:41:28', 'Langile kalea 6', 'Gasteiz', '01004', 'miren_kud', 'adminpass6'),
+(8, 'jose', 'saltzailea', '346725046', 'josa@gmail.com', '2025-04-08 16:50:55', 'zumalakarregi kalea', 'donostia', '4356', 'jose_saltz', 'josesaltz123');
 
 --
 -- Disparadores `langileak`
 --
+DELIMITER $$
+CREATE TRIGGER `deletete_erabiltzaileak` BEFORE DELETE ON `langileak` FOR EACH ROW DELETE FROM erabiltzaileak WHERE izena = OLD.izena
+$$
+DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `set_alta_data_langileak` BEFORE INSERT ON `langileak` FOR EACH ROW BEGIN
     IF NEW.alta_data IS NULL THEN
@@ -176,6 +182,10 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `trg_InsertLangileak` AFTER INSERT ON `langileak` FOR EACH ROW INSERT INTO Erabiltzaileak (izena, erabiltzailea, pasahitza, administratzailea)
 VALUES (NEW.izena, NEW.erablitzaile_izena, NEW.pasahitza, 'bai')
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `update_erabiltzaileak` BEFORE UPDATE ON `langileak` FOR EACH ROW UPDATE `erabiltzaileak` SET `izena`=NEW.izena ,`erabiltzailea`= NEW.erablitzaile_izena ,`pasahitza`=NEW.pasahitza WHERE izena = OLD.izena
 $$
 DELIMITER ;
 
@@ -193,21 +203,21 @@ CREATE TABLE `produktuak` (
   `id_kategoria` int(11) DEFAULT NULL,
   `egoera` enum('berria','erabilia','hondatua') NOT NULL,
   `id_saltzaile` int(11) NOT NULL,
-  `salduta` tinyint(1) DEFAULT NULL
+  `salduta` tinyint(1) DEFAULT NULL,
+  `argazkia` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `produktuak`
 --
 
-INSERT INTO `produktuak` (`id_produktu`, `izena`, `deskribapena`, `prezioa`, `id_kategoria`, `egoera`, `id_saltzaile`, `salduta`) VALUES
-(1, 'Ordenagailu eramangarria', 'Intel i7, 16GB RAM, 512GB SSD', 850.00, 1, 'berria', 1, 1),
-(2, 'Sofa hirukoitza', 'Kolore grisa, material erosoa', 300.00, 2, 'erabilia', 2, 0),
-(3, 'Bizikleta', 'Mendiko bizikleta 26 hazbete', 500.00, 3, 'erabilia', 3, 1),
-(4, 'Playmobil bilduma', 'Hainbat figuratxo eta eszenatoki', 100.00, 4, 'berria', 4, 0),
-(5, 'Kotxea - BMW X5', 'Diesel, 2015eko modeloa', 25000.00, 5, 'erabilia', 5, 1),
-(6, 'Zientzia fikziozko liburua', 'Saga ospetsuko 1. zatia', 20.00, 6, 'berria', 6, 0),
-(7, 'Gitara elektrikoa', 'Fender Stratocaster, beltza', 900.00, 7, 'erabilia', 7, 0);
+INSERT INTO `produktuak` (`id_produktu`, `izena`, `deskribapena`, `prezioa`, `id_kategoria`, `egoera`, `id_saltzaile`, `salduta`, `argazkia`) VALUES
+(2, 'Sofa hirukoitza', 'Kolore grisa, material erosoa', 300.00, 2, 'erabilia', 2, 0, NULL),
+(3, 'Bizikleta', 'Mendiko bizikleta 26 hazbete', 500.00, 3, 'erabilia', 3, 1, NULL),
+(5, 'Kotxea - BMW X5', 'Diesel, 2015eko modeloa', 25000.00, 5, 'erabilia', 5, 1, NULL),
+(8, 'playstation 4', 'playstation 4 berria 3 mandoekin', 120.00, NULL, 'berria', 3, 1, NULL),
+(9, 'ordenagailua', 'ordengailu erabilia', 110.00, 1, 'erabilia', 2, 0, NULL),
+(10, 'ordenagailua', 'ordengailu erabilia', 110.00, 1, 'erabilia', 2, 0, NULL);
 
 --
 -- Disparadores `produktuak`
@@ -244,7 +254,6 @@ CREATE TABLE `salmentak` (
 --
 
 INSERT INTO `salmentak` (`id_salmenta`, `id_produktu`, `id_saltzaile`, `id_erosle`, `data`, `salmenta_prezioa`) VALUES
-(1, 1, 1, NULL, '2025-04-03 08:41:52', 850.00),
 (2, 3, 3, NULL, '2025-04-03 08:41:52', 500.00),
 (3, 5, 5, NULL, '2025-04-03 08:41:52', 25000.00);
 
@@ -304,13 +313,13 @@ ALTER TABLE `salmentak`
 -- AUTO_INCREMENT de la tabla `bezeroak`
 --
 ALTER TABLE `bezeroak`
-  MODIFY `id_bezero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_bezero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `erabiltzaileak`
 --
 ALTER TABLE `erabiltzaileak`
-  MODIFY `id_erabiltzaile` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_erabiltzaile` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `kategoriak`
@@ -322,19 +331,19 @@ ALTER TABLE `kategoriak`
 -- AUTO_INCREMENT de la tabla `langileak`
 --
 ALTER TABLE `langileak`
-  MODIFY `id_langile` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_langile` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `produktuak`
 --
 ALTER TABLE `produktuak`
-  MODIFY `id_produktu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_produktu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `salmentak`
 --
 ALTER TABLE `salmentak`
-  MODIFY `id_salmenta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_salmenta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Restricciones para tablas volcadas
