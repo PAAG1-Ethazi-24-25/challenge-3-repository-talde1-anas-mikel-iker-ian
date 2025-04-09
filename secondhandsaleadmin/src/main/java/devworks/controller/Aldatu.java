@@ -10,6 +10,7 @@ import devworks.model.base.Kategoria;
 import devworks.model.base.Langileak;
 import devworks.model.base.Produktuak;
 import devworks.model.base.Saltzaileak;
+import devworks.model.base.enumeradoreak.KarguakEnum;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -56,7 +57,7 @@ public class Aldatu {
     private TextField txfPostaKodea;
     private TextField txfErabiltzaileIzena;
     private TextField txfPasahitza;
-    private TextField txfKargua;
+    private ChoiceBox<KarguakEnum> cbKargua;
 
     private Produktuak produktua;
     private Langileak langilea;
@@ -282,11 +283,22 @@ public class Aldatu {
             txfIzenaLocal = new TextField(langilea.getIzena());
             grid.add(txfIzenaLocal, 1, 0);
 
-            // Kargua
+            // Kargua (choicebox)
             grid.add(new Label("Kargua:"), 0, 1);
-            txfKargua = new TextField(langilea.getKargua());
-            grid.add(txfKargua, 1, 1);
 
+            // Crear el ChoiceBox con valores del enum
+            cbKargua = new ChoiceBox<>();
+            cbKargua.getItems().addAll(KarguakEnum.values());
+
+            // Obtener el valor actual desde el langilea
+            KarguakEnum karguaEnum = KarguakEnum.fromIzena(langilea.getKargua());
+            if (karguaEnum != null) {
+                cbKargua.setValue(karguaEnum);
+            } else {
+                cbKargua.setValue(KarguakEnum.SALTZAILEA); // valor por defecto
+            }
+
+            grid.add(cbKargua, 1, 1);
             // Email
             grid.add(new Label("Email:"), 0, 2);
             txfEmail = new TextField(langilea.getEmail());
@@ -460,7 +472,7 @@ public class Aldatu {
             }
         } else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
             String izena = txfIzenaLocal.getText();
-            String kargua = txfIzenaLocal.getText();
+            String kargua = cbKargua.getValue().getIzena();
             String email = txfEmail.getText();
             String telefonoa = txfTelefonoa.getText();
             String helbidea = txfHelbidea.getText();
@@ -488,6 +500,8 @@ public class Aldatu {
                     // Crear el objeto Langileak con los datos actualizados
                     Langileak langileaActualizado = new Langileak(langilea.getId(), izena, kargua, email, telefono,
                             herria, postaKodea, helbidea, langilea.getAltaData(), erabiltzaileIzena, pasahitza);
+
+                    System.out.println(langileaActualizado.toString());
 
                     // Actualizar el empleado en la base de datos
                     int result = App.langileak.handleAldatu(langileaActualizado);
