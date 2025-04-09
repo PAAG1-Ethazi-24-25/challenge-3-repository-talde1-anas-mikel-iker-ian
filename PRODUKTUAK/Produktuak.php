@@ -116,167 +116,44 @@ session_start();
     <section class="container mt-5">
         <h2>PRODUKTUAK</h2>
         <br>
-
-        <h4>Zapatilak:</h4>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="producto card">
-                    <img src="./img/nike-lunarglide-8-segunda-mano-zapatillas-de-running-mujer-rosado-405.webp" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">Kirol zapatilak</h5>
-                        <p class="descripcion" style="display:none;">
-                            Zapatila arinak eta transpiragarriak, korrika egiteko edo entrenatzeko aproposak.
-                            </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="producto card">
-                    <img src="./img/la-sportiva-nepal-evo-gtx-segunda-mano-botas-de-alpinismo-hombre-amarillo-41.webp" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">Mendi botak</h5>
-                        <p class="descripcion" style="display:none;"></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="producto card">
-                    <img src="./img/new-balance-ct302-segunda-mano-zapatillas-mujer-violeta-445.webp" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">Kaleko zapatilak</h5>
-                        <p class="descripcion" style="display:none;"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
         
+        <?php
+            include("../test_connect_db.php");
 
-        <h4>Arropa:</h4>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="producto card">
-                    <img src="" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="descripcion" style="display:none;"></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="producto card">
-                    <img src="" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="descripcion" style="display:none;"></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="producto card">
-                    <img src="" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="descripcion" style="display:none;"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
+            // Conectar a la base de datos
+            $link = KonektatuDatuBasera();
 
-        <h4>Elektronika</h4>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="producto card">
-                    <img src="" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="descripcion" style="display:none;"></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="producto card">
-                    <img src="" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="descripcion" style="display:none;"></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="producto card">
-                    <img src="" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="descripcion" style="display:none;"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
+            // Obtener todas las ventas de la base de datos
+            $sql = "SELECT produktuak.argazkia AS argazkia, produktuak.izena AS product_name, produktuak.deskribapena AS deskribapena, produktuak.prezioa AS prezioa, kategoriak.izena AS kategoria, produktuak.egoera
+                    FROM PRODUKTUAK
+                    INNER JOIN kategoriak ON produktuak.id_produktu = kategoriak.id_kategoria";
+            $result = mysqli_query($link, $sql);
 
-        <h4>Liburuak:</h4>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="producto card">
-                    <img src="" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="descripcion" style="display:none;"></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="producto card">
-                    <img src="" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="descripcion" style="display:none;"></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="producto card">
-                    <img src="" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="descripcion" style="display:none;"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-
-        <h4>Instrumentuak:</h4>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="producto card">
-                    <img src="" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="descripcion" style="display:none;"></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="producto card">
-                    <img src="" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="descripcion" style="display:none;"></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="producto card">
-                    <img src="" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="descripcion" style="display:none;"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
+            if (mysqli_num_rows($result) > 0) {
+                echo "<div class='row'>";
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<div class='col-md-4' style='margin-bottom: 10px'>
+                            <div class='producto card'>";
+                    
+                    if ($row['argazkia'] == null) {
+                        echo "<img src='./img/no_available.jpg' class='card-img-top'>";
+                    } else {
+                        echo "<img src='./img/" . $row['argazkia'] . "' class='card-img-top'>";
+                    }
+            
+                    echo    "<div class='card-body'>
+                                <h5 class='card-title'>" . $row['product_name'] . ": " . $row['prezioa'] . "€</h5>
+                                <p class='descripcion' style='display:none;'>" . $row['deskribapena'] . "</p>
+                            </div>
+                        </div>
+                    </div>";
+                }
+                echo "</div>";
+            } else {
+                echo "<h3>Ez dira aurkitu salmentik datu basean.</h3>";
+            }
+            
+        ?>  
         
     </section>
 
