@@ -86,7 +86,11 @@
       </StackPane>
       <VBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#handleIrten" text="Irten" textAlignment="CENTER">
+            <Button mnemonicParsing="false" onAction="#handleIrten" text="Irten"
+               textAlignment="CENTER"
+               style="-fx-background-color: #D32F2F; -fx-text-fill: white; -fx-font-size: 24px; 
+           -fx-border-color: black; -fx-border-width: 2px; -fx-background-radius: 10px; 
+           -fx-border-radius: 10px;">
                <font>
                   <Font size="24.0" />
                </font>

@@ -257,9 +257,15 @@ public class Bistaratu {
                 return new SimpleStringProperty(b.getAltaData());
             });
 
+            TableColumn<Object, String> erabiltzaileIzena = new TableColumn<>("erabiltzailea");
+            erabiltzaileIzena.setCellValueFactory(cellData -> {
+                Bezeroak b = (Bezeroak) cellData.getValue();
+                return new SimpleStringProperty(b.getErabiltzalea());
+            });
+
             tableView.getColumns().addAll(
                     columnId, columnIzena, columnEmail, columnTelefonoa,
-                    columnHerria, columnPostaKodea, columnHelbidea, columnAltaData);
+                    columnHerria, columnPostaKodea, columnHelbidea, columnAltaData, erabiltzaileIzena);
 
             if (!bilatu) {
                 List<Bezeroak> bezeroak = App.bezeroak.getBezeroak();
@@ -279,13 +285,14 @@ public class Bistaratu {
                 double totalWidth = newVal.doubleValue();
 
                 columnId.setPrefWidth(totalWidth * 0.05);
-                columnIzena.setPrefWidth(totalWidth * 0.15);
-                columnAltaData.setPrefWidth(totalWidth * 0.15);
+                columnIzena.setPrefWidth(totalWidth * 0.1);
+                columnAltaData.setPrefWidth(totalWidth * 0.1);
                 columnEmail.setPrefWidth(totalWidth * 0.15);
                 columnHelbidea.setPrefWidth(totalWidth * 0.2);
                 columnHerria.setPrefWidth(totalWidth * 0.1);
                 columnPostaKodea.setPrefWidth(totalWidth * 0.1);
                 columnTelefonoa.setPrefWidth(totalWidth * 0.1);
+                erabiltzaileIzena.setPrefWidth(totalWidth * 0.1);
 
             });
         } else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
