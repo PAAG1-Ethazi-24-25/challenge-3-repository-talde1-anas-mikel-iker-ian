@@ -142,7 +142,7 @@ public class Txertatu {
             
         } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
 
-            if (izena == null || email == null || telefonoa == null || helbidea == null || herria == null || pk == null || erabiltzailea == null || pasahitza == null ) {
+            if (izena == null || email == null || telefonoa.getText().isEmpty() || helbidea == null || herria == null || pk == null || erabiltzailea == null || pasahitza == null ) {
 
                 mezua.setText("Balio batzuk sartu gabe dituzu");
             }else{
@@ -190,7 +190,7 @@ public class Txertatu {
 
         }else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")){
 
-            if (izena == null || kargua == null || email == null || telefonoa == null || helbidea == null || herria == null || pk == null || erabiltzailea == null || pasahitza == null ) {
+            if (izena == null || kargua == null || email == null || telefonoa.getText().isEmpty()|| helbidea == null || herria == null || pk == null || erabiltzailea == null || pasahitza == null ) {
 
                 mezua.setText("Balio batzuk sartu gabe dituzu");
             }else{
