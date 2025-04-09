@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.List;
 
 import devworks.App;
+import devworks.model.base.Bezeroak;
 import devworks.model.base.Erosleak;
 import devworks.model.base.Kategoria;
+import devworks.model.base.Langileak;
 import devworks.model.base.Produktuak;
 import devworks.model.base.Saltzaileak;
 import javafx.fxml.FXML;
@@ -48,6 +50,8 @@ public class Aldatu {
     private Label lblIdErosle;
 
     private Produktuak produktua;
+    private Langileak langilea;
+    private Bezeroak bezeroa;
 
     @FXML
     protected void initialize() {
@@ -57,8 +61,6 @@ public class Aldatu {
             lbBilatu.setText("Langileak ID bilatu:");
         } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
             lbBilatu.setText("Bezeroak ID bilatu:");
-        } else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
-            lbBilatu.setText("Salmentak ID bilatu:");
         }
 
         Button btnAtzera = new Button("ATZERA");
@@ -261,9 +263,106 @@ public class Aldatu {
             HBAldatu.getChildren().add(grid);
 
         } else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
-            // Similar a lo anterior, pero para langileak
-            // Aquí puedes implementar la lógica para mostrar los datos de un langilea y
-            // permitir su modificación
+            langilea = App.langileak.searchLangilea(bilatu);
+
+            GridPane grid = new GridPane();
+            grid.setVgap(9);
+            grid.setHgap(9);
+
+            // Izena
+            grid.add(new Label("Izena:"), 0, 0);
+            txfIzenaLocal = new TextField(langilea.getIzena());
+            grid.add(txfIzenaLocal, 1, 0);
+
+            // Email
+            grid.add(new Label("Email:"), 0, 1);
+            txfDeskribapena = new TextField(langilea.getEmail());
+            grid.add(txfDeskribapena, 1, 1);
+
+            // Prezioa
+            grid.add(new Label("Telefonoa:"), 0, 2);
+            txfPrezioa = new TextField(String.valueOf(langilea.getTelefonoa()));
+            grid.add(txfPrezioa, 1, 2);
+
+            // Helbidea
+            grid.add(new Label("Helbidea:"), 0, 3);
+            txfPrezioa = new TextField(String.valueOf(langilea.getHelbidea()));
+            grid.add(txfPrezioa, 1, 3);
+
+            grid.add(kategoriaChoiceBox, 1, 3);
+
+            // Herria
+            grid.add(new Label("Herria:"), 0, 4);
+            txfPrezioa = new TextField(String.valueOf(langilea.getHelbidea()));
+            grid.add(txfPrezioa, 1, 3);
+
+            grid.add(kategoriaChoiceBox, 1, 3);
+
+            // Saltzailea (ChoiceBox)
+            grid.add(new Label("Saltzailea:"), 0, 5);
+            saltzaileChoiceBox = new ChoiceBox<>();
+            saltzaileChoiceBox.getItems().addAll(App.produktuak.getAllSaltzaileak());
+
+            // Obtener el ID del saltzaile asociado al producto
+            int saltzaileId = produktua.getIdSaltzaile();
+
+            // Buscar el saltzaile correspondiente por su ID
+            Saltzaileak selectedSaltzaile = null;
+            for (Saltzaileak saltzaile : saltzaileChoiceBox.getItems()) {
+                if (saltzaile.getId() == saltzaileId) {
+                    selectedSaltzaile = saltzaile;
+                    break;
+                }
+            }
+
+            // Establecer el valor preseleccionado en el ChoiceBox
+            if (selectedSaltzaile != null) {
+                saltzaileChoiceBox.setValue(selectedSaltzaile);
+            }
+
+            grid.add(saltzaileChoiceBox, 1, 5);
+
+            // Checkbox salduta
+            cbSalduta = new CheckBox("Produktua salduta?");
+            grid.add(cbSalduta, 0, 6);
+
+            // Eroslea (ChoiceBox) - oculto por defecto
+            lblIdErosle = new Label("Eroslea:");
+            erosleChoiceBox = new ChoiceBox<>();
+            erosleChoiceBox.setVisible(false);
+            lblIdErosle.setVisible(false);
+
+            // Cargar erosleak
+            List<Erosleak> erosleakList = App.produktuak.getAllErosleak();
+            erosleChoiceBox.getItems().addAll(erosleakList);
+
+            // Preseleccionar eroslea si ya está vendido
+            boolean isSold = App.produktuak.saldutaBaDago(produktua.getId());
+            if (isSold) {
+                cbSalduta.setSelected(true);
+                int idErosle = App.produktuak.searchSalmentaErosle(produktua.getId());
+
+                for (Erosleak erosle : erosleakList) {
+                    if (erosle.getId() == idErosle) {
+                        erosleChoiceBox.setValue(erosle);
+                        break;
+                    }
+                }
+
+                lblIdErosle.setVisible(true);
+                erosleChoiceBox.setVisible(true);
+            }
+
+            cbSalduta.setOnAction(e -> {
+                boolean selected = cbSalduta.isSelected();
+                lblIdErosle.setVisible(selected);
+                erosleChoiceBox.setVisible(selected);
+            });
+
+            grid.add(lblIdErosle, 0, 7);
+            grid.add(erosleChoiceBox, 1, 7);
+
+            HBAldatu.getChildren().add(grid);
         } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
             // Similar a lo anterior, pero para bezeroak
             // Aquí puedes implementar la lógica para mostrar los datos de un bezeroa y

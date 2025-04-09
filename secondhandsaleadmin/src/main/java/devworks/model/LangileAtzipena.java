@@ -44,7 +44,7 @@ public class LangileAtzipena {
         return conn;
     }
 
-    public Langileak bilatuLangilea(int id) {
+    public Langileak searchLangilea(int id) {
         String sql = "SELECT * FROM " + taula + " WHERE id_langile = ?";
         Langileak langilea = null;
 

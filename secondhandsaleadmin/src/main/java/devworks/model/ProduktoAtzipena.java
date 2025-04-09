@@ -77,7 +77,7 @@ public class ProduktoAtzipena {
 
     public List<Produktuak> getProduktoak() {
         String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.id_saltzaile, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
-                + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_produktu";
+                + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_saltzaile";
         List<Produktuak> produktuak = new ArrayList<>();
 
         try (Connection conn = konektatu();
