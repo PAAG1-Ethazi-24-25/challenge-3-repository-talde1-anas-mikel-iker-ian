@@ -344,7 +344,8 @@ public class Bistaratu {
 
             tableView.getColumns().addAll(
                     columnId, columnIzena, columnKargua, columnEmail,
-                    columnTelefonoa, columnHerria, columnPostaKodea, columnHelbidea, columnAltaData, columnerabiltzailea);
+                    columnTelefonoa, columnHerria, columnPostaKodea, columnHelbidea, columnAltaData,
+                    columnerabiltzailea);
 
             if (!bilatu) {
                 List<Langileak> langileak = App.langileak.getLangileak();
@@ -360,18 +361,17 @@ public class Bistaratu {
             }
             // COLUMNEN ZABALERA ----> GUZTIRA = 1
             tableView.widthProperty().addListener((obs, oldVal, newVal) -> {
-               double totalWidth = newVal.doubleValue();
-               columnId.setPrefWidth(totalWidth * 0.03);
-               columnIzena.setPrefWidth(totalWidth * 0.08);
-               columnKargua.setPrefWidth(totalWidth * 0.1);
-               columnAltaData.setPrefWidth(totalWidth * 0.15);
-               columnEmail.setPrefWidth(totalWidth * 0.13);
-               columnHelbidea.setPrefWidth(totalWidth * 0.15);
-               columnHerria.setPrefWidth(totalWidth * 0.06);
-               columnPostaKodea.setPrefWidth(totalWidth * 0.08);
-               columnTelefonoa.setPrefWidth(totalWidth * 0.08);
-               columnerabiltzailea.setPrefWidth(totalWidth * 0.15);
-
+                double totalWidth = newVal.doubleValue();
+                columnId.setPrefWidth(totalWidth * 0.03);
+                columnIzena.setPrefWidth(totalWidth * 0.08);
+                columnKargua.setPrefWidth(totalWidth * 0.1);
+                columnAltaData.setPrefWidth(totalWidth * 0.15);
+                columnEmail.setPrefWidth(totalWidth * 0.13);
+                columnHelbidea.setPrefWidth(totalWidth * 0.15);
+                columnHerria.setPrefWidth(totalWidth * 0.06);
+                columnPostaKodea.setPrefWidth(totalWidth * 0.08);
+                columnTelefonoa.setPrefWidth(totalWidth * 0.08);
+                columnerabiltzailea.setPrefWidth(totalWidth * 0.15);
             });
         } else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
             TableColumn<Object, Integer> columnId = new TableColumn<>("ID");
