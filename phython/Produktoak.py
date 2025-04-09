@@ -9,6 +9,9 @@ class Produktoak():
         self.IDBEZEROA = idbezeroa
         self.SALDUTA = salduta
 
+    def getIda(self):
+        return self.IDAK
+
     def setAtributte(self):
         self.IDAK = input("Id sartu: ")
         self.IZENAK = input("Izena sartu: ")

@@ -6,6 +6,9 @@ class Salmentak():
         self.DATA = data
         self.SALTZAILEA = saltzailea
 
+    def getIda(self):
+        return self.IDSALMENTAK
+
 
     def setAtributte(self):
         self.IDSALMENTAK = input("Salmentaren Ida sartu: ")
