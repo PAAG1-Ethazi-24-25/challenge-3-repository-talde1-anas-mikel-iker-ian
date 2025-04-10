@@ -32,13 +32,13 @@
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
             <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleTxertatu"
-               prefHeight="24.0" prefWidth="200.0" text="TXERTATU" />
+               prefHeight="24.0" prefWidth="462.0" text="TXERTATU" />
             <Button fx:id="btnAldatu" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleAldatu"
-               prefHeight="24.0" prefWidth="200.0" text="ALDATU" />
+               prefHeight="24.0" prefWidth="462.0" text="ALDATU" />
             <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleEzabatu"
-               prefHeight="24.0" prefWidth="200.0" text="EZABATU" />
+               prefHeight="24.0" prefWidth="462.0" text="EZABATU" />
             <Button mnemonicParsing="false" onAction="#handleIrten" prefHeight="24.0"
-               prefWidth="200.0" text="ATZERA" />
+               prefWidth="462.0" text="ATZERA" />
          </children>
       </HBox>
    </children>

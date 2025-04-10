@@ -380,7 +380,7 @@ public class Bistaratu {
                 columnId.setPrefWidth(totalWidth * 0.03);
                 columnIzena.setPrefWidth(totalWidth * 0.08);
                 columnKargua.setPrefWidth(totalWidth * 0.1);
-                columnAltaData.setPrefWidth(totalWidth * 0.15);
+                columnAltaData.setPrefWidth(totalWidth * 0.14);
                 columnEmail.setPrefWidth(totalWidth * 0.13);
                 columnHelbidea.setPrefWidth(totalWidth * 0.15);
                 columnHerria.setPrefWidth(totalWidth * 0.06);
