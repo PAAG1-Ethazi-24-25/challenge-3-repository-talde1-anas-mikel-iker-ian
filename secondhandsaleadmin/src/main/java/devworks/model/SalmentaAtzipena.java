@@ -56,7 +56,7 @@ public class SalmentaAtzipena {
         return conn;
     }
 
-    public Salmentak bilatuSalmenta(int id) {
+    public Salmentak bilatuSalmenta(int id) { // Bilatu salmenta IDaren arabera
         String sql = "SELECT salmentak.id_salmenta, salmentak.id_produktu, salmentak.id_saltzaile, salmentak.id_erosle, salmentak.data, salmentak.salmenta_prezioa, produktuak.izena FROM "
                 + taula
                 + " salmentak INNER JOIN produktuak ON salmentak.id_produktu = produktuak.id_produktu WHERE WHERE id_salmenta = ?";
@@ -78,7 +78,7 @@ public class SalmentaAtzipena {
         return salmenta;
     }
 
-    public boolean salmentaBaDago(int id) {
+    public boolean salmentaBaDago(int id) { // Dagoen salmenta IDaren arabera
         String sql = "SELECT * FROM " + taula + " WHERE id_salmenta = ?";
         boolean exists = false;
 
@@ -96,7 +96,7 @@ public class SalmentaAtzipena {
         return exists;
     }
 
-    public List<Salmentak> filterSalmentak(int idSaltzaile) {
+    public List<Salmentak> filterSalmentak(int idSaltzaile) { // Saltzailearen arabera iragazi salmentak
         String sql = "SELECT salmentak.id_salmenta, salmentak.id_produktu, salmentak.id_saltzaile, salmentak.id_erosle, salmentak.data, salmentak.salmenta_prezioa, produktuak.izena FROM "
                 + taula
                 + " salmentak INNER JOIN produktuak ON salmentak.id_produktu = produktuak.id_produktu WHERE salmentak.id_saltzaile = ?";
@@ -119,7 +119,7 @@ public class SalmentaAtzipena {
         return salmentak;
     }
 
-    public List<Salmentak> getSalmentak() {
+    public List<Salmentak> getSalmentak() { // Salmentak guztiak lortu
         String sql = "SELECT salmentak.id_salmenta, salmentak.id_produktu, salmentak.id_saltzaile, salmentak.id_erosle, salmentak.data, salmentak.salmenta_prezioa, produktuak.izena FROM "
                 + taula + " INNER JOIN produktuak ON salmentak.id_produktu = produktuak.id_produktu";
         List<Salmentak> salmentak = new ArrayList<>();
@@ -139,7 +139,7 @@ public class SalmentaAtzipena {
         return salmentak;
     }
 
-    public List<Saltzaileak> getAllSaltzaileak() {
+    public List<Saltzaileak> getAllSaltzaileak() { // Saltzaile guztiak lortu
         String sql = "SELECT salmentak.id_saltzaile, bezeroak.email, bezeroak.izena FROM " + taula
                 + " INNER JOIN bezeroak ON salmentak.id_saltzaile = bezeroak.id_bezero GROUP BY id_saltzaile";
         List<Saltzaileak> saltzaileak = new ArrayList<>();
@@ -158,7 +158,7 @@ public class SalmentaAtzipena {
         return saltzaileak;
     }
 
-    public List<Erosleak> getAllErosleak() {
+    public List<Erosleak> getAllErosleak() { // Erosle guztiak lortu
         String sql = "SELECT salmentak.id_erosle, bezeroak.email, bezeroak.izena FROM " + taula
                 + " INNER JOIN bezeroak ON salmentak.id_erosle = bezeroak.id_bezero GROUP BY id_erosle";
         List<Erosleak> erosleak = new ArrayList<>();
@@ -176,7 +176,37 @@ public class SalmentaAtzipena {
         return erosleak;
     }
 
-    public boolean deletesSalmentak(int produktuId) {
+    public int salmentaTxertatu(Salmentak salmenta) { // Salmenta txertatu
+        String sql = "INSERT INTO " + taula
+                + " (id_produktu, id_saltzaile, id_erosle, data, salmenta_prezioa) " +
+                "VALUES (?, ?, ?, NOW(), ?)";
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, salmenta.getIdProduktu());
+            pstmt.setInt(2, salmenta.getIdSaltzaile());
+            pstmt.setInt(3, salmenta.getIdErosle());
+            pstmt.setDouble(4, salmenta.getSalmentaPrezioa());
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows == 0) {
+                return 0; // No record inserted
+            }
+
+            return 1; // Successful insertion
+
+        } catch (SQLException e) {
+            if (e.getErrorCode() == 1062) {
+                return -1062; // Duplicate entry
+            } else {
+                System.out.println("Errorea salmenta txertatzean: " + e.getMessage());
+                return -1; // Generic error
+            }
+        }
+    }
+
+    public boolean deletesSalmentak(int produktuId) { // Salmenta ezabatu IDaren arabera
         if (taula == null || taula.isEmpty()) {
             System.out.println("Errorea: taula ez da definitu");
             return false;
@@ -199,32 +229,6 @@ public class SalmentaAtzipena {
 
         } catch (SQLException e) {
             System.out.println("Errorea: " + e.getMessage());
-            return false;
-        }
-    }
-
-    public boolean salmentaTxertatu(Salmentak salmenta) {
-        String sql = "INSERT INTO " + taula
-                + " (id_produktu, id_saltzaile, id_erosle, data, salmenta_prezioa) " +
-                "VALUES (?, ?, ?, NOW(), ?)";
-
-        try (Connection conn = konektatu();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            // Produktuak(int id, String izena, String deskribapena, int prezioa, int
-            // idKategoria, String egoera,
-            // String email) {
-
-            pstmt.setInt(1, salmenta.getIdProduktu());
-            pstmt.setInt(2, salmenta.getIdSaltzaile());
-            pstmt.setInt(3, salmenta.getIdErosle());
-            pstmt.setDouble(4, salmenta.getSalmentaPrezioa());
-
-            int affectedRows = pstmt.executeUpdate();
-            return affectedRows > 0;
-
-        } catch (SQLException e) {
-            System.out.println("Errorea produktua txertatzean: " + e.getMessage());
             return false;
         }
     }

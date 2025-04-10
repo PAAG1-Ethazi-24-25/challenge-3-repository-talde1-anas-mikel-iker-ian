@@ -211,11 +211,6 @@ public class BezeroAtzipena {
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            // Bezeroak(int id, String izena, String email, int telefonoa, String herria,
-            // String postaKodea,
-            // String helbidea, String erregistroData, String erabiltzalea, String
-            // pasahitza)
-
             pstmt.setString(1, bezeroa.getIzena());
             pstmt.setString(2, bezeroa.getEmail());
             pstmt.setInt(3, bezeroa.getTelefonoa());
