@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-04-2025 a las 12:22:47
+-- Tiempo de generación: 10-04-2025 a las 15:56:17
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -47,7 +47,8 @@ CREATE TABLE `bezeroak` (
 INSERT INTO `bezeroak` (`id_bezero`, `izena`, `email`, `telefonoa`, `helbidea`, `herria`, `posta_kodea`, `alta_data`, `erablitzaile_izena`, `pasahitza`) VALUES
 (2, 'Ana', 'ane@email.com', '600654321', 'San Mames 10', 'Bilbo', '48002', '2025-04-09 10:17:30', 'ane321', 'password2'),
 (3, 'Mikel', 'mikel@email.com', '699112233', 'Zabalbide 22', 'Gasteiz', '01001', '2025-04-03 06:41:14', 'mikel789', 'password3'),
-(5, 'Iker', 'iker@email.com', '612345678', 'Easo kalea 15', 'Donostia', '20004', '2025-04-03 06:41:14', 'iker001', 'password5');
+(5, 'Iker', 'iker@email.com', '612345678', 'Easo kalea 15', 'Donostia', '20004', '2025-04-03 06:41:14', 'iker001', 'password5'),
+(24, 'sg', 'brahim.anas@uni.eus', '45345325424', 'hkiu', 'eda', '5265', '2025-04-10 10:51:44', 'mikelito', 'sas');
 
 --
 -- Disparadores `bezeroak`
@@ -96,16 +97,14 @@ INSERT INTO `erabiltzaileak` (`id_erabiltzaile`, `izena`, `erabiltzailea`, `pasa
 (2, 'Ana', 'ane321', 'password2', 'ez'),
 (3, 'Mikel', 'mikel789', 'password3', 'ez'),
 (5, 'Iker', 'iker001', 'password5', 'ez'),
-(7, 'Unai', 'unai222', 'password7', 'ez'),
 (8, 'Xabier', 'xabier_admin', 'adminpass1', 'bai'),
 (9, 'Maitan', 'maitane_salt', 'adminpass2', 'bai'),
 (10, 'Ander', 'ander_salt', 'adminpass3', 'bai'),
 (11, 'Leire', 'leire_kud', 'adminpass4', 'bai'),
 (12, 'Julen', 'julen_garr', 'adminpass5', 'bai'),
 (13, 'Miren', 'miren_kud', 'adminpass6', 'bai'),
-(15, 'luis gonzalez', 'luisgonzalez', 'luis4325', 'ez'),
-(16, 'maribel gonzalez', 'maribelgonz', 'maribel123', 'ez'),
-(17, 'jose', 'jose_saltz', 'josesaltz123', 'bai');
+(17, 'jose', 'jose_saltz', 'josesaltz123', 'bai'),
+(37, 'sg', 'mikelito', 'sas', 'ez');
 
 -- --------------------------------------------------------
 
@@ -149,20 +148,21 @@ CREATE TABLE `langileak` (
   `herria` varchar(100) DEFAULT NULL,
   `posta_kodea` varchar(10) DEFAULT NULL,
   `erablitzaile_izena` varchar(255) DEFAULT NULL,
-  `pasahitza` varchar(255) DEFAULT NULL
+  `pasahitza` varchar(255) DEFAULT NULL,
+  `argazkia` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `langileak`
 --
 
-INSERT INTO `langileak` (`id_langile`, `izena`, `kargua`, `telefonoa`, `email`, `alta_data`, `helbidea`, `herria`, `posta_kodea`, `erablitzaile_izena`, `pasahitza`) VALUES
-(1, 'Xabier', 'administratzailea', '645223344', 'xabier@email.com', '2025-04-03 06:41:28', 'Langile kalea 1', 'Bilbo', '48004', 'xabier_admin', 'adminpass1'),
-(2, 'Maitan', 'saltzailea', '655667788', 'maitane@email.com', '2025-04-09 10:22:26', 'Langile kalea 2', 'Gasteiz', '01003', 'maitane_salt', 'adminpass2'),
-(3, 'Ander', 'saltzailea', '611223344', 'ander@email.com', '2025-04-03 06:41:28', 'Langile kalea 3', 'Donostia', '20005', 'ander_salt', 'adminpass3'),
-(5, 'Julen', 'garraiolaria', '677445566', 'julen@email.com', '2025-04-03 06:41:28', 'Langile kalea 5', 'Donostia', '20006', 'julen_garr', 'adminpass5'),
-(6, 'Miren', 'kudeatzailea', '699887766', 'miren@email.com', '2025-04-03 06:41:28', 'Langile kalea 6', 'Gasteiz', '01004', 'miren_kud', 'adminpass6'),
-(8, 'jose', 'saltzailea', '346725046', 'josa@gmail.com', '2025-04-08 16:50:55', 'zumalakarregi kalea', 'donostia', '4356', 'jose_saltz', 'josesaltz123');
+INSERT INTO `langileak` (`id_langile`, `izena`, `kargua`, `telefonoa`, `email`, `alta_data`, `helbidea`, `herria`, `posta_kodea`, `erablitzaile_izena`, `pasahitza`, `argazkia`) VALUES
+(1, 'Xabier', 'administratzailea', '645223344', 'xabier@email.com', '2025-04-10 07:08:14', 'Langile kalea 1', 'Bilbo', '48004', 'xabier_admin', 'adminpass1', '01.jpg'),
+(2, 'Maitan', 'saltzailea', '655667788', 'maitane@email.com', '2025-04-10 07:08:52', 'Langile kalea 2', 'Gasteiz', '01003', 'maitane_salt', 'adminpass2', '22.jpg'),
+(3, 'Ander', 'saltzailea', '611223344', 'ander@email.com', '2025-04-10 07:08:28', 'Langile kalea 3', 'Donostia', '20005', 'ander_salt', 'adminpass3', '1.jpg'),
+(5, 'Julen', 'garraiolaria', '677445566', 'julen@email.com', '2025-04-10 07:10:23', 'Langile kalea 5', 'Donostia', '20006', 'julen_garr', 'adminpass5', '3.jpg'),
+(6, 'Miren', 'kudeatzailea', '699887766', 'miren@email.com', '2025-04-10 07:11:16', 'Langile kalea 6', 'Gasteiz', '01004', 'miren_kud', 'adminpass6', '4.jpg'),
+(8, 'jose', 'saltzailea', '346725046', 'josa@gmail.com', '2025-04-08 16:50:55', 'zumalakarregi kalea', 'donostia', '4356', 'jose_saltz', 'josesaltz123', NULL);
 
 --
 -- Disparadores `langileak`
@@ -212,12 +212,12 @@ CREATE TABLE `produktuak` (
 --
 
 INSERT INTO `produktuak` (`id_produktu`, `izena`, `deskribapena`, `prezioa`, `id_kategoria`, `egoera`, `id_saltzaile`, `salduta`, `argazkia`) VALUES
-(2, 'Sofa hirukoitza', 'Kolore grisa, material erosoa', 300.00, 2, 'erabilia', 2, 0, NULL),
-(3, 'Bizikleta', 'Mendiko bizikleta 26 hazbete', 500.00, 3, 'erabilia', 3, 1, NULL),
-(5, 'Kotxea - BMW X5', 'Diesel, 2015eko modeloa', 25000.00, 5, 'erabilia', 5, 1, NULL),
-(8, 'playstation 4', 'playstation 4 berria 3 mandoekin', 120.00, NULL, 'berria', 3, 1, NULL),
-(9, 'ordenagailua', 'ordengailu erabilia', 110.00, 1, 'erabilia', 2, 0, NULL),
-(10, 'ordenagailua', 'ordengailu erabilia', 110.00, 1, 'erabilia', 2, 0, NULL);
+(2, 'Sofa bikoitza', 'Kolore grisa, material erosoa', 300.00, 2, 'erabilia', 2, 1, 'sofa.webp'),
+(3, 'Bizikleta', 'Mendiko bizikleta 26 hazbete', 500.00, 3, 'erabilia', 3, 1, 'descarga.jpg'),
+(5, 'Kotxea - BMW X5', 'Diesel, 2015eko modeloa', 25000.00, 5, 'erabilia', 5, 1, 'bmw.jpg'),
+(8, 'playstation 4', 'playstation 4 berria 3 mandoekin', 120.00, 1, 'berria', 3, 1, 'play.jpg'),
+(9, 'ordenagailu portatila', 'Ordengailu erabilia', 110.00, 1, 'erabilia', 2, 0, 'portatil.jpg'),
+(10, 'ordenagailu dorrea', 'Ordengailu erabilia', 50.00, 1, 'erabilia', 2, 1, NULL);
 
 --
 -- Disparadores `produktuak`
@@ -254,8 +254,23 @@ CREATE TABLE `salmentak` (
 --
 
 INSERT INTO `salmentak` (`id_salmenta`, `id_produktu`, `id_saltzaile`, `id_erosle`, `data`, `salmenta_prezioa`) VALUES
-(2, 3, 3, NULL, '2025-04-03 08:41:52', 500.00),
-(3, 5, 5, NULL, '2025-04-03 08:41:52', 25000.00);
+(2, 3, 3, 5, '2025-04-03 08:41:52', 500.00),
+(3, 5, 5, 2, '2025-04-03 08:41:52', 25000.00),
+(15, 10, 2, 3, '2025-04-10 09:27:01', 50.00);
+
+--
+-- Disparadores `salmentak`
+--
+DELIMITER $$
+CREATE TRIGGER `set_default_prezioa_salmentan` BEFORE INSERT ON `salmentak` FOR EACH ROW BEGIN
+    IF NEW.salmenta_prezioa IS NULL OR NEW.salmenta_prezioa = '' THEN
+        SET NEW.salmenta_prezioa = (
+            SELECT prezioa FROM produktuak WHERE id_produktu = NEW.id_produktu
+        );
+    END IF;
+END
+$$
+DELIMITER ;
 
 --
 -- Índices para tablas volcadas
@@ -266,7 +281,8 @@ INSERT INTO `salmentak` (`id_salmenta`, `id_produktu`, `id_saltzaile`, `id_erosl
 --
 ALTER TABLE `bezeroak`
   ADD PRIMARY KEY (`id_bezero`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `erbiltzaile_unikoa` (`erablitzaile_izena`);
 
 --
 -- Indices de la tabla `erabiltzaileak`
@@ -301,7 +317,7 @@ ALTER TABLE `produktuak`
 --
 ALTER TABLE `salmentak`
   ADD PRIMARY KEY (`id_salmenta`),
-  ADD KEY `id_produktu` (`id_produktu`),
+  ADD UNIQUE KEY `unico_producto` (`id_produktu`),
   ADD KEY `id_saltzaile` (`id_saltzaile`),
   ADD KEY `id_erosle` (`id_erosle`);
 
@@ -313,13 +329,13 @@ ALTER TABLE `salmentak`
 -- AUTO_INCREMENT de la tabla `bezeroak`
 --
 ALTER TABLE `bezeroak`
-  MODIFY `id_bezero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_bezero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `erabiltzaileak`
 --
 ALTER TABLE `erabiltzaileak`
-  MODIFY `id_erabiltzaile` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id_erabiltzaile` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `kategoriak`
@@ -343,7 +359,7 @@ ALTER TABLE `produktuak`
 -- AUTO_INCREMENT de la tabla `salmentak`
 --
 ALTER TABLE `salmentak`
-  MODIFY `id_salmenta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_salmenta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Restricciones para tablas volcadas
