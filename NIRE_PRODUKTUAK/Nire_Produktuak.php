@@ -136,7 +136,7 @@ session_start();
                             <div class='producto card'>";
                     
                     if ($row['argazkia'] == null) {
-                        echo "<img src='../img/no_available.jpg' class='card-img-top'>";
+                        echo "<img src='../PRODUKTUAK/img/no_available.jpg' class='card-img-top'>";
                     } else {
                         echo "<img src='../PRODUKTUAK/img/" . $row['argazkia'] . "' class='card-img-top'>";
                     }
