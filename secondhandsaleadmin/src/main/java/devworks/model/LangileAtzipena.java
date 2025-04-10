@@ -198,10 +198,6 @@ public class LangileAtzipena {
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            // Langileak(int id, String izena, String kargua, String email, int telefonoa,
-            // String herria,
-            // String postaKodea, String helbidea, String erregistroData)
-
             pstmt.setString(1, langilea.getIzena());
             pstmt.setString(2, langilea.getKargua());
             pstmt.setInt(3, langilea.getTelefonoa());
