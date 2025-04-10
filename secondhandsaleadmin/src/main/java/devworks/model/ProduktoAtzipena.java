@@ -57,7 +57,7 @@ public class ProduktoAtzipena {
         return conn;
     }
 
-    public List<Produktuak> filterProduktoa(int idKategoria) {
+    public List<Produktuak> filterProduktoa(int idKategoria) {// Kategoria iragaztea
         String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.id_saltzaile, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
                 + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = id_saltzaile WHERE id_kategoria = ?";
 
@@ -81,11 +81,7 @@ public class ProduktoAtzipena {
         return produktuak;
     }
 
-    // Produktuak(int id, String izena, String deskribapena, int prezioa, int
-    // idKategoria, int idSaltzaile, String egoera,
-    // String email)
-
-    public List<Produktuak> getProduktoak() {
+    public List<Produktuak> getProduktoak() { // Taulako produktuak lortzeko
         String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.id_saltzaile, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
                 + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_saltzaile";
         List<Produktuak> produktuak = new ArrayList<>();
@@ -107,7 +103,7 @@ public class ProduktoAtzipena {
         return produktuak;
     }
 
-    public List<Kategoria> getAllKategoriak() {
+    public List<Kategoria> getAllKategoriak() { // Kategoria guztiak lortzeko
         String sql = "SELECT * FROM kategoriak";
         List<Kategoria> kategoriak = new ArrayList<>();
 
@@ -125,7 +121,7 @@ public class ProduktoAtzipena {
         return kategoriak;
     }
 
-    public List<Saltzaileak> getAllSaltzaileak() {
+    public List<Saltzaileak> getAllSaltzaileak() { // Saltzaile guztiak lortzeko
         String sql = "SELECT * FROM bezeroak";
         List<Saltzaileak> bezeroak = new ArrayList<>();
 
@@ -143,7 +139,7 @@ public class ProduktoAtzipena {
         return bezeroak;
     }
 
-    public List<Erosleak> getAllErosleak() {
+    public List<Erosleak> getAllErosleak() { // Erosle guztiak lortzeko
         String sql = "SELECT * FROM bezeroak";
         List<Erosleak> erosleakList = new ArrayList<>();
 
@@ -161,7 +157,7 @@ public class ProduktoAtzipena {
         return erosleakList;
     }
 
-    public Erosleak getErosleById(int id) {
+    public Erosleak getErosleById(int id) { // Eroslea ID bidez lortzeko
         String sql = "SELECT * FROM erosleak WHERE id_erosle = ?";
         Erosleak erosleak = null;
         try (Connection conn = konektatu();
@@ -178,7 +174,7 @@ public class ProduktoAtzipena {
         return erosleak;
     }
 
-    public boolean produktuBaDago(int id) {
+    public boolean produktuBaDago(int id) { // Produktuaren IDa egiaztatzeko
         String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.id_saltzaile, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
                 + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_saltzaile WHERE id_produktu = ?";
         try (Connection conn = konektatu();
@@ -192,7 +188,7 @@ public class ProduktoAtzipena {
         }
     }
 
-    public boolean saldutaBaDago(int id) {
+    public boolean saldutaBaDago(int id) { // Salduta dagoen egiaztatzeko
         String sql = "SELECT salduta FROM " + taula + " WHERE id_produktu = ?";
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -207,7 +203,7 @@ public class ProduktoAtzipena {
         return false;
     }
 
-    public Kategoria getKategoriaById(int id) {
+    public Kategoria getKategoriaById(int id) { // Kategoria ID bidez lortzeko
         String sql = "SELECT * FROM kategoriak WHERE id_kategoria = ?";
         Kategoria kategoria = null;
         try (Connection conn = konektatu();
@@ -224,7 +220,7 @@ public class ProduktoAtzipena {
         return kategoria;
     }
 
-    public Saltzaileak getSaltzaileById(int id) {
+    public Saltzaileak getSaltzaileById(int id) { // Saltzaile ID bidez lortzeko
         String sql = "SELECT * FROM bezeroak WHERE id_bezero = ?";
         Saltzaileak saltzailea = null;
         try (Connection conn = konektatu();
@@ -240,7 +236,7 @@ public class ProduktoAtzipena {
         return saltzailea;
     }
 
-    public Produktuak searchProduktuak(int id) {
+    public Produktuak searchProduktuak(int id) { // Produktu ID bidez lortzeko
         String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.id_saltzaile, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
                 + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_saltzaile WHERE id_produktu = ?";
         Produktuak produktua = null;
@@ -261,7 +257,7 @@ public class ProduktoAtzipena {
         return produktua;
     }
 
-    public int searchSalmentaErosle(int id) {
+    public int searchSalmentaErosle(int id) { // Salmenta ID bidez eroslea lortzeko
         String sql = "SELECT id_erosle FROM salmentak WHERE id_produktu = ?";
         int idErosle = -1;
         try (Connection conn = konektatu();
@@ -277,7 +273,7 @@ public class ProduktoAtzipena {
         return idErosle;
     }
 
-    public int handleAldatu(Produktuak produktua, int salduta, int idErosle) {
+    public int handleAldatu(Produktuak produktua, int salduta, int idErosle) { // Produktua aldatzeko
         String sqlUpdateProduktua = "UPDATE " + taula
                 + " SET izena = ?, deskribapena = ?, prezioa = ?, id_kategoria = ?, id_saltzaile = ?, egoera = ?, salduta = ? WHERE id_produktu = ?";
 
@@ -295,11 +291,11 @@ public class ProduktoAtzipena {
 
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
-                return 0;
+                return 0; // Ez da aldatu
             }
 
-            if (salduta == 1) {
-                if (!saldutaBaDago(produktua.getId())) {
+            if (salduta == 1) { // The product is sold.
+                if (!saldutaBaDago(produktua.getId())) { // If it wasn't already sold
                     String sqlInsertSalmenta = "INSERT INTO salmentak (id_produktu, id_saltzaile, id_erosle, data, salmenta_prezioa) VALUES (?, ?, ?, NOW(), ?)";
 
                     try (PreparedStatement insertStmt = conn.prepareStatement(sqlInsertSalmenta)) {
@@ -310,33 +306,32 @@ public class ProduktoAtzipena {
 
                         int inserted = insertStmt.executeUpdate();
                         if (inserted > 0) {
-                            return 1;
+                            return 1; // Inserted successfully
                         } else {
-                            return -2; // No se insertó en salmentak
+                            return -2; // Not inserted in salmentak
                         }
                     }
-                } else {
+                } else { // If it was already sold, just update the eroslea
                     String sqlUpdateSalmenta = "UPDATE salmentak SET id_erosle = ? WHERE id_produktu = ?";
                     try (PreparedStatement updateStmt = conn.prepareStatement(sqlUpdateSalmenta)) {
                         updateStmt.setInt(1, idErosle);
                         updateStmt.setInt(2, produktua.getId());
                         updateStmt.executeUpdate();
-                        return 1;
+                        return 1; // Inserted successfully
                     }
                 }
             }
 
-            return 1;
+            return 1; // Inserted successfully
         } catch (SQLException e) {
             if (e.getErrorCode() == 1062) {
                 return -1062;
             }
-            return -1;
+            return -1; // Error updating the product
         }
     }
 
-    public boolean deleteProduktuak(String izena) {
-
+    public boolean deleteProduktuak(String izena) { // Produktuak ezabatzeko
         if (taula == null || taula.isEmpty()) {
             System.out.println("Errorea: taula ez da definitu");
             return false;
@@ -362,17 +357,13 @@ public class ProduktoAtzipena {
         }
     }
 
-    public boolean produktuaTxertatu(Produktuak produktua) {
+    public boolean produktuaTxertatu(Produktuak produktua) { // Produktua txertatzeko
         String sql = "INSERT INTO " + taula
                 + " (izena, deskribapena, prezioa, id_kategoria, egoera, id_saltzaile, salduta) " +
                 "VALUES (?, ?, ?, ?, ?, ?, 0)";
 
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            // Produktuak(int id, String izena, String deskribapena, int prezioa, int
-            // idKategoria, String egoera,
-            // String email) {
 
             pstmt.setString(1, produktua.getIzena());
             pstmt.setString(2, produktua.getDeskribapena());
