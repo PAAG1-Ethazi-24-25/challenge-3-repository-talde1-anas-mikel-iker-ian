@@ -33,19 +33,6 @@ def view_date_time():
     now = datetime.datetime.now()
     print("\nData eta ordua:", now.strftime("%Y-%m-%d %H:%M:%S"))
 
-
-def id_filtratu(my_list):
-    ida_bilatu = input("Sartu bilatu nahi duzun IDa: ")
-    filtratuak = [langilea for langilea in my_list if langilea.getIda() == ida_bilatu]
-
-    if filtratuak:
-        print(f"\nID '{ida_bilatu}'-rekin bat datozen langileak:")
-        for langilea in filtratuak:
-            langilea.print()
-            print()
-    else:
-        print(f"\nEz da langilerik aurkitu '{ida_bilatu}' IDarekin.")
-
 def menu_cliente():
     my_list = load_data()
     while True:
@@ -53,22 +40,19 @@ def menu_cliente():
         view_date_time()
         print("1. Datuak gehitu")
         print("2. Datuak ikusi")
-        print("3. Datuak billatu")
-        print("4. Bueltatu Hasierara.")
+        print("3. Bueltatu Hasierara.")
         print("\n  ======= LANGILEAK ====== ")
-        choice = input("\nZenbaki bat aukeratu (1-4): ")
+        choice = input("\nZenbaki bat aukeratu (1-3): ")
 
         if choice == '1':
             add_item(my_list)
         elif choice == '2':
             view_list(my_list)
         elif choice == '3':
-            id_filtratu(my_list)
-        elif choice == '4':
             os.system("python Hasiera.py")
             break
         else:
-            print("\nMezedez, sartu 1-4 era zenbaki bat.")
+            print("\nMezedez, sartu 1-3 era zenbaki bat.")
 
 if __name__ == "__main__":
     menu_cliente()
