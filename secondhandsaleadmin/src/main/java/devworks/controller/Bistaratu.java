@@ -12,6 +12,7 @@ import devworks.model.base.Langileak;
 import devworks.model.base.Produktuak;
 import devworks.model.base.Salmentak;
 import devworks.model.base.Saltzaileak;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -34,6 +35,31 @@ public class Bistaratu {
     @FXML
     private Button btnAldatu;
 
+    private TableColumn<Object, Integer> columnId;
+    private TableColumn<Object, Integer> columnIdProduktu;
+    private TableColumn<Object, String> columnIzenaProduktu;
+    private TableColumn<Object, Integer> columnIdSaltzaile;
+    private TableColumn<Object, String> columnEmailSaltzaile;
+    private TableColumn<Object, Integer> columnIdErosle;
+    private TableColumn<Object, String> columnEmailErosleak;
+    private TableColumn<Object, String> columnData;
+    private TableColumn<Object, Double> columnSalmentakPrezioa;
+    private TableColumn<Object, String> columnIzena;
+    private TableColumn<Object, String> columnDeskribapena;
+    private TableColumn<Object, Integer> columnPrezioa;
+    private TableColumn<Object, String> columnKategoria;
+    private TableColumn<Object, String> columnEgoera;
+    private TableColumn<Object, String> columnSaltzaile;
+    private TableColumn<Object, String> columnHerria;
+    private TableColumn<Object, String> columnPostaKodea;
+    private TableColumn<Object, String> columnHelbidea;
+    private TableColumn<Object, String> columnAltaData;
+    private TableColumn<Object, String> columnKargua;
+    private TableColumn<Object, Integer> columnTelefonoa;
+    private TableColumn<Object, String> erabiltzaileIzena;
+    private TableColumn<Object, String> columnerabiltzailea;
+    private TableColumn<Object, String> columnEmail;
+
     @FXML
     protected void initialize() {
         if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
@@ -43,6 +69,56 @@ public class Bistaratu {
         textAreaBete(false);
 
         fillChoiceBox();
+    }
+
+    private void initializeColumnWidthListener() {
+        // COLUMNEN ZABALERA ----> GUZTIRA = 1
+        tableView.widthProperty().addListener((obs, oldVal, newVal) -> {
+            Platform.runLater(() -> {
+                double totalWidth = newVal.doubleValue();
+
+                if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
+                    columnId.setPrefWidth(totalWidth * 0.05);
+                    columnIzena.setPrefWidth(totalWidth * 0.2);
+                    columnDeskribapena.setPrefWidth(totalWidth * 0.2);
+                    columnPrezioa.setPrefWidth(totalWidth * 0.1);
+                    columnKategoria.setPrefWidth(totalWidth * 0.15);
+                    columnEgoera.setPrefWidth(totalWidth * 0.15);
+                    columnSaltzaile.setPrefWidth(totalWidth * 0.15);
+                } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
+                    columnId.setPrefWidth(totalWidth * 0.05);
+                    columnIzena.setPrefWidth(totalWidth * 0.1);
+                    columnAltaData.setPrefWidth(totalWidth * 0.1);
+                    columnEmail.setPrefWidth(totalWidth * 0.15);
+                    columnHelbidea.setPrefWidth(totalWidth * 0.2);
+                    columnHerria.setPrefWidth(totalWidth * 0.1);
+                    columnPostaKodea.setPrefWidth(totalWidth * 0.1);
+                    columnTelefonoa.setPrefWidth(totalWidth * 0.1);
+                    erabiltzaileIzena.setPrefWidth(totalWidth * 0.1);
+                } else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
+                    columnId.setPrefWidth(totalWidth * 0.03);
+                    columnIzena.setPrefWidth(totalWidth * 0.08);
+                    columnKargua.setPrefWidth(totalWidth * 0.1);
+                    columnAltaData.setPrefWidth(totalWidth * 0.14);
+                    columnEmail.setPrefWidth(totalWidth * 0.13);
+                    columnHelbidea.setPrefWidth(totalWidth * 0.15);
+                    columnHerria.setPrefWidth(totalWidth * 0.06);
+                    columnPostaKodea.setPrefWidth(totalWidth * 0.08);
+                    columnTelefonoa.setPrefWidth(totalWidth * 0.08);
+                    columnerabiltzailea.setPrefWidth(totalWidth * 0.15);
+                } else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
+                    columnId.setPrefWidth(totalWidth * 0.06);
+                    columnIdProduktu.setPrefWidth(totalWidth * 0.1);
+                    columnIzenaProduktu.setPrefWidth(totalWidth * 0.16);
+                    columnIdSaltzaile.setPrefWidth(totalWidth * 0.1);
+                    columnEmailSaltzaile.setPrefWidth(totalWidth * 0.15);
+                    columnIdErosle.setPrefWidth(totalWidth * 0.1);
+                    columnEmailErosleak.setPrefWidth(totalWidth * 0.1);
+                    columnData.setPrefWidth(totalWidth * 0.1);
+                    columnSalmentakPrezioa.setPrefWidth(totalWidth * 0.13);
+                }
+            });
+        });
     }
 
     @FXML
@@ -127,32 +203,31 @@ public class Bistaratu {
         tableView.getColumns().clear(); // Limpia las columnas antes de cargar nuevas
 
         if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
-
-            TableColumn<Object, Integer> columnId = new TableColumn<>("ID");
+            columnId = new TableColumn<>("ID");
             columnId.setCellValueFactory(cellData -> {
                 Produktuak p = (Produktuak) cellData.getValue();
                 return new SimpleIntegerProperty(p.getId()).asObject();
             });
 
-            TableColumn<Object, String> columnIzena = new TableColumn<>("Izena");
+            columnIzena = new TableColumn<>("Izena");
             columnIzena.setCellValueFactory(cellData -> {
                 Produktuak p = (Produktuak) cellData.getValue();
                 return new SimpleStringProperty(p.getIzena());
             });
 
-            TableColumn<Object, String> columnDeskribapena = new TableColumn<>("Deskribapena");
+            columnDeskribapena = new TableColumn<>("Deskribapena");
             columnDeskribapena.setCellValueFactory(cellData -> {
                 Produktuak p = (Produktuak) cellData.getValue();
                 return new SimpleStringProperty(p.getDeskribapena());
             });
 
-            TableColumn<Object, Integer> columnPrezioa = new TableColumn<>("Prezioa");
+            columnPrezioa = new TableColumn<>("Prezioa");
             columnPrezioa.setCellValueFactory(cellData -> {
                 Produktuak p = (Produktuak) cellData.getValue();
                 return new SimpleIntegerProperty(p.getPrezioa()).asObject();
             });
 
-            TableColumn<Object, String> columnKategoria = new TableColumn<>("Kategoria");
+            columnKategoria = new TableColumn<>("Kategoria");
             columnKategoria.setCellValueFactory(cellData -> {
                 Produktuak p = (Produktuak) cellData.getValue();
                 int idKategoria = p.getIdKategoria();
@@ -164,13 +239,13 @@ public class Bistaratu {
                 return new SimpleStringProperty(izena);
             });
 
-            TableColumn<Object, String> columnEgoera = new TableColumn<>("Egoera");
+            columnEgoera = new TableColumn<>("Egoera");
             columnEgoera.setCellValueFactory(cellData -> {
                 Produktuak p = (Produktuak) cellData.getValue();
                 return new SimpleStringProperty(p.getEgoera());
             });
 
-            TableColumn<Object, String> columnSaltzaile = new TableColumn<>("Saltzaile");
+            columnSaltzaile = new TableColumn<>("Saltzaile");
             columnSaltzaile.setCellValueFactory(cellData -> {
                 Produktuak p = (Produktuak) cellData.getValue();
                 return new SimpleStringProperty(p.getEmail());
@@ -194,70 +269,57 @@ public class Bistaratu {
                 }
             }
 
-            // COLUMNEN ZABALERA ----> GUZTIRA = 1
-            tableView.widthProperty().addListener((obs, oldVal, newVal) -> {
-                double totalWidth = newVal.doubleValue();
-
-                columnId.setPrefWidth(totalWidth * 0.05);
-                columnIzena.setPrefWidth(totalWidth * 0.2);
-                columnDeskribapena.setPrefWidth(totalWidth * 0.2);
-                columnPrezioa.setPrefWidth(totalWidth * 0.1);
-                columnKategoria.setPrefWidth(totalWidth * 0.15);
-                columnEgoera.setPrefWidth(totalWidth * 0.15);
-                columnSaltzaile.setPrefWidth(totalWidth * 0.15);
-            });
-
+            initializeColumnWidthListener();
         } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
-
-            TableColumn<Object, Integer> columnId = new TableColumn<>("ID");
+            columnId = new TableColumn<>("ID");
             columnId.setCellValueFactory(cellData -> {
                 Bezeroak b = (Bezeroak) cellData.getValue();
                 return new SimpleIntegerProperty(b.getId()).asObject();
             });
 
-            TableColumn<Object, String> columnIzena = new TableColumn<>("Izena");
+            columnIzena = new TableColumn<>("Izena");
             columnIzena.setCellValueFactory(cellData -> {
                 Bezeroak b = (Bezeroak) cellData.getValue();
                 return new SimpleStringProperty(b.getIzena());
             });
 
-            TableColumn<Object, String> columnEmail = new TableColumn<>("Email");
+            columnEmail = new TableColumn<>("Email");
             columnEmail.setCellValueFactory(cellData -> {
                 Bezeroak b = (Bezeroak) cellData.getValue();
                 return new SimpleStringProperty(b.getEmail());
             });
 
-            TableColumn<Object, Integer> columnTelefonoa = new TableColumn<>("Telefonoa");
+            columnTelefonoa = new TableColumn<>("Telefonoa");
             columnTelefonoa.setCellValueFactory(cellData -> {
                 Bezeroak b = (Bezeroak) cellData.getValue();
                 return new SimpleIntegerProperty(b.getTelefonoa()).asObject();
             });
 
-            TableColumn<Object, String> columnHerria = new TableColumn<>("Herria");
+            columnHerria = new TableColumn<>("Herria");
             columnHerria.setCellValueFactory(cellData -> {
                 Bezeroak b = (Bezeroak) cellData.getValue();
                 return new SimpleStringProperty(b.getHerriIzena());
             });
 
-            TableColumn<Object, String> columnPostaKodea = new TableColumn<>("PostaKodea");
+            columnPostaKodea = new TableColumn<>("PostaKodea");
             columnPostaKodea.setCellValueFactory(cellData -> {
                 Bezeroak b = (Bezeroak) cellData.getValue();
                 return new SimpleStringProperty(b.getPostaKodea());
             });
 
-            TableColumn<Object, String> columnHelbidea = new TableColumn<>("Helbidea");
+            columnHelbidea = new TableColumn<>("Helbidea");
             columnHelbidea.setCellValueFactory(cellData -> {
                 Bezeroak b = (Bezeroak) cellData.getValue();
                 return new SimpleStringProperty(b.getHelbidea());
             });
 
-            TableColumn<Object, String> columnAltaData = new TableColumn<>("AltaData");
+            columnAltaData = new TableColumn<>("AltaData");
             columnAltaData.setCellValueFactory(cellData -> {
                 Bezeroak b = (Bezeroak) cellData.getValue();
                 return new SimpleStringProperty(b.getAltaData());
             });
 
-            TableColumn<Object, String> erabiltzaileIzena = new TableColumn<>("erabiltzailea");
+            erabiltzaileIzena = new TableColumn<>("erabiltzailea");
             erabiltzaileIzena.setCellValueFactory(cellData -> {
                 Bezeroak b = (Bezeroak) cellData.getValue();
                 return new SimpleStringProperty(b.getErabiltzalea());
@@ -280,78 +342,63 @@ public class Bistaratu {
                 }
             }
 
-            // COLUMNEN ZABALERA ----> GUZTIRA = 1
-            tableView.widthProperty().addListener((obs, oldVal, newVal) -> {
-                double totalWidth = newVal.doubleValue();
-
-                columnId.setPrefWidth(totalWidth * 0.05);
-                columnIzena.setPrefWidth(totalWidth * 0.1);
-                columnAltaData.setPrefWidth(totalWidth * 0.1);
-                columnEmail.setPrefWidth(totalWidth * 0.15);
-                columnHelbidea.setPrefWidth(totalWidth * 0.2);
-                columnHerria.setPrefWidth(totalWidth * 0.1);
-                columnPostaKodea.setPrefWidth(totalWidth * 0.1);
-                columnTelefonoa.setPrefWidth(totalWidth * 0.1);
-                erabiltzaileIzena.setPrefWidth(totalWidth * 0.1);
-
-            });
+            initializeColumnWidthListener();
         } else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
-
-            TableColumn<Object, Integer> columnId = new TableColumn<>("ID");
+            columnId = new TableColumn<>("ID");
             columnId.setCellValueFactory(cellData -> {
                 Langileak l = (Langileak) cellData.getValue();
                 return new SimpleIntegerProperty(l.getId()).asObject();
             });
 
-            TableColumn<Object, String> columnIzena = new TableColumn<>("Izena");
+            columnIzena = new TableColumn<>("Izena");
             columnIzena.setCellValueFactory(cellData -> {
                 Langileak l = (Langileak) cellData.getValue();
                 return new SimpleStringProperty(l.getIzena());
             });
 
-            TableColumn<Object, String> columnKargua = new TableColumn<>("Kargua");
+            columnKargua = new TableColumn<>("Kargua");
             columnKargua.setCellValueFactory(cellData -> {
                 Langileak l = (Langileak) cellData.getValue();
                 return new SimpleStringProperty(l.getKargua());
             });
 
-            TableColumn<Object, String> columnEmail = new TableColumn<>("Email");
+            columnEmail = new TableColumn<>("Email");
             columnEmail.setCellValueFactory(cellData -> {
                 Langileak l = (Langileak) cellData.getValue();
                 return new SimpleStringProperty(l.getEmail());
             });
 
-            TableColumn<Object, Integer> columnTelefonoa = new TableColumn<>("Telefonoa");
+            columnTelefonoa = new TableColumn<>("Telefonoa");
             columnTelefonoa.setCellValueFactory(cellData -> {
                 Langileak l = (Langileak) cellData.getValue();
                 return new SimpleIntegerProperty(l.getTelefonoa()).asObject();
             });
 
-            TableColumn<Object, String> columnHerria = new TableColumn<>("Herria");
+            columnHerria = new TableColumn<>("Herria");
             columnHerria.setCellValueFactory(cellData -> {
                 Langileak l = (Langileak) cellData.getValue();
                 return new SimpleStringProperty(l.getHerriIzena());
             });
 
-            TableColumn<Object, String> columnPostaKodea = new TableColumn<>("PostaKodea");
+            columnPostaKodea = new TableColumn<>("PostaKodea");
             columnPostaKodea.setCellValueFactory(cellData -> {
                 Langileak l = (Langileak) cellData.getValue();
                 return new SimpleStringProperty(l.getPostaKodea());
             });
 
-            TableColumn<Object, String> columnHelbidea = new TableColumn<>("Helbidea");
+            columnHelbidea = new TableColumn<>("Helbidea");
             columnHelbidea.setCellValueFactory(cellData -> {
                 Langileak l = (Langileak) cellData.getValue();
                 return new SimpleStringProperty(l.getHelbidea());
             });
 
-            TableColumn<Object, String> columnAltaData = new TableColumn<>("AltaData");
+            columnAltaData = new TableColumn<>("AltaData");
             columnAltaData.setCellValueFactory(cellData -> {
                 Langileak l = (Langileak) cellData.getValue();
                 return new SimpleStringProperty(l.getAltaData());
             });
 
-            TableColumn<Object, String> columnerabiltzailea = new TableColumn<>("erabiltzailea");
+            columnerabiltzailea = new TableColumn<>("erabiltzailea");
             columnerabiltzailea.setCellValueFactory(cellData -> {
                 Langileak l = (Langileak) cellData.getValue();
                 return new SimpleStringProperty(l.getErabiltzailea());
@@ -374,46 +421,34 @@ public class Bistaratu {
                     tableView.setItems(observableList);
                 }
             }
-            // COLUMNEN ZABALERA ----> GUZTIRA = 1
-            tableView.widthProperty().addListener((obs, oldVal, newVal) -> {
-                double totalWidth = newVal.doubleValue();
-                columnId.setPrefWidth(totalWidth * 0.03);
-                columnIzena.setPrefWidth(totalWidth * 0.08);
-                columnKargua.setPrefWidth(totalWidth * 0.1);
-                columnAltaData.setPrefWidth(totalWidth * 0.14);
-                columnEmail.setPrefWidth(totalWidth * 0.13);
-                columnHelbidea.setPrefWidth(totalWidth * 0.15);
-                columnHerria.setPrefWidth(totalWidth * 0.06);
-                columnPostaKodea.setPrefWidth(totalWidth * 0.08);
-                columnTelefonoa.setPrefWidth(totalWidth * 0.08);
-                columnerabiltzailea.setPrefWidth(totalWidth * 0.15);
-            });
+
+            initializeColumnWidthListener();
         } else if (App.conectionIdentifier.equalsIgnoreCase("Salmentak")) {
-            TableColumn<Object, Integer> columnId = new TableColumn<>("ID");
+            columnId = new TableColumn<>("ID");
             columnId.setCellValueFactory(cellData -> {
                 Salmentak s = (Salmentak) cellData.getValue();
                 return new SimpleIntegerProperty(s.getId()).asObject();
             });
 
-            TableColumn<Object, Integer> columnIdProduktu = new TableColumn<>("ID Produktu");
+            columnIdProduktu = new TableColumn<>("ID Produktu");
             columnIdProduktu.setCellValueFactory(cellData -> {
                 Salmentak s = (Salmentak) cellData.getValue();
                 return new SimpleIntegerProperty(s.getIdProduktu()).asObject();
             });
 
-            TableColumn<Object, String> columnIzenaProduktu = new TableColumn<>("Izena Produktu");
+            columnIzenaProduktu = new TableColumn<>("Izena Produktu");
             columnIzenaProduktu.setCellValueFactory(cellData -> {
                 Salmentak s = (Salmentak) cellData.getValue();
                 return new SimpleStringProperty(s.getIzenaProduktu());
             });
 
-            TableColumn<Object, Integer> columnIdSaltzaile = new TableColumn<>("ID Saltzaile");
+            columnIdSaltzaile = new TableColumn<>("ID Saltzaile");
             columnIdSaltzaile.setCellValueFactory(cellData -> {
                 Salmentak s = (Salmentak) cellData.getValue();
                 return new SimpleIntegerProperty(s.getIdSaltzaile()).asObject();
             });
 
-            TableColumn<Object, String> columnEmailSaltzaile = new TableColumn<>("Email Saltzaile");
+            columnEmailSaltzaile = new TableColumn<>("Email Saltzaile");
             columnEmailSaltzaile.setCellValueFactory(cellData -> {
                 Salmentak s = (Salmentak) cellData.getValue();
                 int idSaltzaile = s.getIdSaltzaile();
@@ -425,13 +460,13 @@ public class Bistaratu {
                 return new SimpleStringProperty(email);
             });
 
-            TableColumn<Object, Integer> columnIdErosle = new TableColumn<>("ID Erosle");
+            columnIdErosle = new TableColumn<>("ID Erosle");
             columnIdErosle.setCellValueFactory(cellData -> {
                 Salmentak s = (Salmentak) cellData.getValue();
                 return new SimpleIntegerProperty(s.getIdErosle()).asObject();
             });
 
-            TableColumn<Object, String> columnEmailErosleak = new TableColumn<>("Email Erosle");
+            columnEmailErosleak = new TableColumn<>("Email Erosle");
             columnEmailErosleak.setCellValueFactory(cellData -> {
                 Salmentak s = (Salmentak) cellData.getValue();
                 int idErosle = s.getIdErosle();
@@ -445,13 +480,13 @@ public class Bistaratu {
                 return new SimpleStringProperty(email);
             });
 
-            TableColumn<Object, String> columnData = new TableColumn<>("Data");
+            columnData = new TableColumn<>("Data");
             columnData.setCellValueFactory(cellData -> {
                 Salmentak s = (Salmentak) cellData.getValue();
                 return new SimpleStringProperty(s.getData().toString());
             });
 
-            TableColumn<Object, Double> columnSalmentakPrezioa = new TableColumn<>("Salmenta Prezioa");
+            columnSalmentakPrezioa = new TableColumn<>("Salmenta Prezioa");
             columnSalmentakPrezioa.setCellValueFactory(cellData -> {
                 Salmentak s = (Salmentak) cellData.getValue();
                 return new SimpleDoubleProperty(s.getSalmentaPrezioa()).asObject();
@@ -475,21 +510,7 @@ public class Bistaratu {
                 }
             }
 
-            // COLUMNEN ZABALERA ----> GUZTIRA = 1
-            tableView.widthProperty().addListener((obs, oldVal, newVal) -> {
-                double totalWidth = newVal.doubleValue();
-
-                columnId.setPrefWidth(totalWidth * 0.06);
-                columnIdProduktu.setPrefWidth(totalWidth * 0.1);
-                columnIzenaProduktu.setPrefWidth(totalWidth * 0.16);
-                columnIdSaltzaile.setPrefWidth(totalWidth * 0.1);
-                columnEmailSaltzaile.setPrefWidth(totalWidth * 0.15);
-                columnIdErosle.setPrefWidth(totalWidth * 0.1);
-                columnEmailErosleak.setPrefWidth(totalWidth * 0.1);
-                columnData.setPrefWidth(totalWidth * 0.1);
-                columnSalmentakPrezioa.setPrefWidth(totalWidth * 0.13);
-
-            });
+            initializeColumnWidthListener();
         }
     }
 
@@ -520,7 +541,6 @@ public class Bistaratu {
                 textAreaBete(false);
             }
         }
-
     }
 
     @FXML
