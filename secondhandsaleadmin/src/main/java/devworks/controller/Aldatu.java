@@ -160,8 +160,8 @@ public class Aldatu {
             produktua = App.produktuak.searchProduktuak(bilatu);
 
             GridPane grid = new GridPane();
-            grid.setVgap(8);
-            grid.setHgap(8);
+            grid.setVgap(2);
+            grid.setHgap(2);
 
             // Izena
             grid.add(new Label("Izena:"), 0, 0);
@@ -278,8 +278,8 @@ public class Aldatu {
             langilea = App.langileak.searchLangilea(bilatu);
 
             GridPane grid = new GridPane();
-            grid.setVgap(9);
-            grid.setHgap(9);
+            grid.setVgap(2);
+            grid.setHgap(2);
 
             // Izena
             grid.add(new Label("Izena:"), 0, 0);
@@ -342,8 +342,8 @@ public class Aldatu {
             bezeroa = App.bezeroak.searchBezeroak(bilatu);
 
             GridPane grid = new GridPane();
-            grid.setVgap(8);
-            grid.setHgap(8);
+            grid.setVgap(2);
+            grid.setHgap(2);
 
             // Izena
             grid.add(new Label("Izena:"), 0, 0);
