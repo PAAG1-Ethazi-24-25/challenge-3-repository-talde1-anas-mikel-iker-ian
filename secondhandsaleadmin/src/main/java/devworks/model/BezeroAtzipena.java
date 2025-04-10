@@ -176,18 +176,48 @@ public class BezeroAtzipena {
         return herriak;
     }
 
-    public boolean bezeroaTxertatu(Bezeroak bezeroa) {
+    public boolean isEmailDuplicate(String email) {
+        String sql = "SELECT COUNT(*) FROM bezeroak WHERE email = ?";
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, email);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true; // Email duplicado
+            }
+        } catch (SQLException e) {
+            System.out.println("Errorea email-a egiaztatzean: " + e.getMessage());
+        }
+        return false; // No duplicado
+    }
+
+    public boolean isUsernameDuplicate(String username) {
+        String sql = "SELECT COUNT(*) FROM bezeroak WHERE erablitzaile_izena = ?";
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true; // Nombre de usuario duplicado
+            }
+        } catch (SQLException e) {
+            System.out.println("Errorea erabiltzailea egiaztatzean: " + e.getMessage());
+        }
+        return false; // No duplicado
+    }
+
+    public int bezeroaTxertatu(Bezeroak bezeroa) {
         String sql = "INSERT INTO " + taula
-                + " (izena, email, telefonoa, helbidea, herria, posta_kodea, erablitzaile_izena, pasahitza) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                + " (izena, email, telefonoa, helbidea, herria, posta_kodea, erablitzaile_izena, pasahitza) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             // Bezeroak(int id, String izena, String email, int telefonoa, String herria,
             // String postaKodea,
-            // String helbidea, String erregistroData, String erabiltzalea, String pasahitza
-            // )
+            // String helbidea, String erregistroData, String erabiltzalea, String
+            // pasahitza)
 
             pstmt.setString(1, bezeroa.getIzena());
             pstmt.setString(2, bezeroa.getEmail());
@@ -199,11 +229,19 @@ public class BezeroAtzipena {
             pstmt.setString(8, bezeroa.getPasahitza());
 
             int affectedRows = pstmt.executeUpdate();
-            return affectedRows > 0;
+            if (affectedRows == 0) {
+                return 0; // No se insertó ningún registro
+            }
+
+            return 1; // Inserción exitosa
 
         } catch (SQLException e) {
-            System.out.println("Errorea produktua txertatzean: " + e.getMessage());
-            return false;
+            if (e.getErrorCode() == 1062) {
+                return -1062; // Código de error para clave duplicada
+            } else {
+                System.out.println("Errorea bezeroa txertatzean: " + e.getMessage());
+                return -1; // Error genérico
+            }
         }
     }
 

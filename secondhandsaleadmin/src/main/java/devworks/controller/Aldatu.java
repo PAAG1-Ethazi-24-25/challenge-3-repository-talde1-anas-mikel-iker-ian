@@ -429,6 +429,39 @@ public class Aldatu {
             // Asegúrate de realizar las comprobaciones necesarias
             if (izena != null && !izena.isEmpty() && deskribapena != null && !deskribapena.isEmpty() && egoera != null
                     && kategoria != null && saltzaile != null) {
+
+                // Verificar si alguno de los campos contiene posibles inyecciones de código
+                String[] inputs = {
+                        izena,
+                        deskribapena,
+                        prezioa,
+                        egoera,
+                        kategoria.getIzena(),
+                        saltzaile.getIzena()
+                };
+
+                boolean containsInjection = false;
+                String[] patterns = { "<script>", "</script>", "javascript:", "onerror", "onload", "eval(", "alert(" };
+
+                for (String input : inputs) {
+                    if (input != null) {
+                        // Verificar si el campo contiene alguno de los patrones sospechosos
+                        for (String pattern : patterns) {
+                            if (input.toLowerCase().contains(pattern)) {
+                                containsInjection = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (containsInjection)
+                        break;
+                }
+
+                if (containsInjection) {
+                    lbMezua.setText("Ez dira onartzen etiketak edo script-ak");
+                    return;
+                }
+
                 try {
                     // Verificar que el precio sea un número válido
                     double precio;
@@ -490,8 +523,42 @@ public class Aldatu {
             if (izena != null && !izena.isEmpty() && email != null && !email.isEmpty() && telefonoa != null
                     && !telefonoa.isEmpty() && helbidea != null && !helbidea.isEmpty() && herria != null
                     && !herria.isEmpty() && postaKodea != null && !postaKodea.isEmpty() && erabiltzaileIzena != null
-                    && !erabiltzaileIzena.isEmpty()
-                    && pasahitza != null && !pasahitza.isEmpty()) {
+                    && !erabiltzaileIzena.isEmpty() && pasahitza != null && !pasahitza.isEmpty()) {
+
+                // Verificar si alguno de los campos contiene posibles inyecciones de código
+                String[] inputs = {
+                        izena,
+                        email,
+                        telefonoa,
+                        helbidea,
+                        herria,
+                        postaKodea,
+                        erabiltzaileIzena,
+                        pasahitza
+                };
+
+                boolean containsInjection = false;
+                String[] patterns = { "<script>", "</script>", "javascript:", "onerror", "onload", "eval(", "alert(" };
+
+                for (String input : inputs) {
+                    if (input != null) {
+                        // Verificar si el campo contiene alguno de los patrones sospechosos
+                        for (String pattern : patterns) {
+                            if (input.toLowerCase().contains(pattern)) {
+                                containsInjection = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (containsInjection)
+                        break;
+                }
+
+                if (containsInjection) {
+                    lbMezua.setText("Ez dira onartzen etiketak edo script-ak");
+                    return;
+                }
+
                 try {
                     // Verificar que el teléfono sea un número válido
                     int telefono;
@@ -540,8 +607,42 @@ public class Aldatu {
             if (izena != null && !izena.isEmpty() && email != null && !email.isEmpty() && telefonoa != null
                     && !telefonoa.isEmpty() && helbidea != null && !helbidea.isEmpty() && herria != null
                     && !herria.isEmpty() && postaKodea != null && !postaKodea.isEmpty() && erabiltzaileIzena != null
-                    && !erabiltzaileIzena.isEmpty()
-                    && pasahitza != null && !pasahitza.isEmpty()) {
+                    && !erabiltzaileIzena.isEmpty() && pasahitza != null && !pasahitza.isEmpty()) {
+
+                // Verificar si alguno de los campos contiene posibles inyecciones de código
+                String[] inputs = {
+                        izena,
+                        email,
+                        telefonoa,
+                        helbidea,
+                        herria,
+                        postaKodea,
+                        erabiltzaileIzena,
+                        pasahitza
+                };
+
+                boolean containsInjection = false;
+                String[] patterns = { "<script>", "</script>", "javascript:", "onerror", "onload", "eval(", "alert(" };
+
+                for (String input : inputs) {
+                    if (input != null) {
+                        // Verificar si el campo contiene alguno de los patrones sospechosos
+                        for (String pattern : patterns) {
+                            if (input.toLowerCase().contains(pattern)) {
+                                containsInjection = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (containsInjection)
+                        break;
+                }
+
+                if (containsInjection) {
+                    lbMezua.setText("Ez dira onartzen etiketak edo script-ak");
+                    return;
+                }
+
                 try {
                     // Verificar que el teléfono sea un número válido
                     int telefono;
@@ -554,8 +655,7 @@ public class Aldatu {
 
                     // Crear el objeto Bezeroak con los datos actualizados
                     Bezeroak bezeroaActualizado = new Bezeroak(bezeroa.getId(), izena, email, telefono, herria,
-                            postaKodea,
-                            helbidea, bezeroa.getAltaData(), erabiltzaileIzena, pasahitza);
+                            postaKodea, helbidea, bezeroa.getAltaData(), erabiltzaileIzena, pasahitza);
 
                     // Actualizar el cliente en la base de datos
                     int result = App.bezeroak.handleAldatu(bezeroaActualizado);

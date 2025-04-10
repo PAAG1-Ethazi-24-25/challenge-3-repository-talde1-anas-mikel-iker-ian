@@ -62,7 +62,7 @@ public class ProduktoAtzipena {
 
     public List<Produktuak> filterProduktoa(int idKategoria) {
         String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.id_saltzaile, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
-                + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_produktu WHERE id_kategoria = ?";
+                + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = id_saltzaile WHERE id_kategoria = ?";
 
         List<Produktuak> produktuak = new ArrayList<>();
 
@@ -183,7 +183,7 @@ public class ProduktoAtzipena {
 
     public boolean produktuBaDago(int id) {
         String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.id_saltzaile, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
-                + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_produktu WHERE id_produktu = ?";
+                + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_saltzaile WHERE id_produktu = ?";
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
@@ -245,7 +245,7 @@ public class ProduktoAtzipena {
 
     public Produktuak searchProduktuak(int id) {
         String sql = "SELECT produktuak.id_produktu, produktuak.izena, produktuak.deskribapena, produktuak.prezioa, produktuak.id_kategoria, produktuak.id_saltzaile, produktuak.egoera, bezeroak.email, produktuak.salduta FROM "
-                + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_produktu WHERE id_produktu = ?";
+                + taula + " INNER JOIN bezeroak ON bezeroak.id_bezero = produktuak.id_saltzaile WHERE id_produktu = ?";
         Produktuak produktua = null;
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {

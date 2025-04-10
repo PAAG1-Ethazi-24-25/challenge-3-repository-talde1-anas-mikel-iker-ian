@@ -155,6 +155,84 @@ public class LangileAtzipena {
         return herriak;
     }
 
+    public boolean isEmailDuplicate(String email) {
+        String sql = "SELECT COUNT(*) FROM langileak WHERE email = ?";
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, email);
+            ResultSet rs = pstmt.executeQuery();
+
+            // Si el resultado es mayor que 0, significa que ya existe un registro con ese
+            // email
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true; // El email está duplicado
+            }
+        } catch (SQLException e) {
+            System.out.println("Errorea email-a egiaztatzean: " + e.getMessage());
+        }
+        return false; // No está duplicado
+    }
+
+    public boolean isUsernameDuplicate(String username) {
+        String sql = "SELECT COUNT(*) FROM langileak WHERE erablitzaile_izena = ?";
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+
+            // Si el resultado es mayor que 0, significa que ya existe un registro con ese
+            // nombre de usuario
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true; // El nombre de usuario está duplicado
+            }
+        } catch (SQLException e) {
+            System.out.println("Errorea erabiltzailea egiaztatzean: " + e.getMessage());
+        }
+        return false; // No está duplicado
+    }
+
+    public int langileaTxertatu(Langileak langilea) {
+        String sql = "INSERT INTO " + taula
+                + " (izena, kargua, telefonoa, email, helbidea, herria, posta_kodea, erablitzaile_izena, pasahitza) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // Langileak(int id, String izena, String kargua, String email, int telefonoa,
+            // String herria,
+            // String postaKodea, String helbidea, String erregistroData)
+
+            pstmt.setString(1, langilea.getIzena());
+            pstmt.setString(2, langilea.getKargua());
+            pstmt.setInt(3, langilea.getTelefonoa());
+            pstmt.setString(4, langilea.getEmail());
+            pstmt.setString(5, langilea.getHelbidea());
+            pstmt.setString(6, langilea.getHerriIzena());
+            pstmt.setString(7, langilea.getPostaKodea());
+            pstmt.setString(8, langilea.getErabiltzailea());
+            pstmt.setString(9, langilea.getPasahitza());
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows == 0) {
+                return 0; // No se insertó ningún registro
+            }
+
+            return 1; // Inserción exitosa
+
+        } catch (SQLException e) {
+            // Manejo de errores con códigos específicos
+            if (e.getErrorCode() == 1062) {
+                return -1062; // Código de error para clave duplicada
+            } else {
+                System.out.println("Errorea langilea txertatzean: " + e.getMessage());
+                return -1; // Error genérico
+            }
+        }
+    }
+
     public int handleAldatu(Langileak langilea) {
         String sql = "UPDATE " + taula
                 + " SET izena = ?, kargua = ?, telefonoa = ?, email = ?, helbidea = ?, herria = ?, posta_kodea = ?, erablitzaile_izena = ?, pasahitza = ? WHERE id_langile = ?";
@@ -212,36 +290,4 @@ public class LangileAtzipena {
             return false;
         }
     }
-
-    public boolean langileaTxertatu(Langileak langilea) {
-        String sql = "INSERT INTO " + taula
-                + " (izena, kargua, telefonoa, email, helbidea, herria, posta_kodea, erablitzaile_izena, pasahitza) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        try (Connection conn = konektatu();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            // Langileak(int id, String izena, String kargua, String email, int telefonoa,
-            // String herria,
-            // String postaKodea, String helbidea, String erregistroData)
-
-            pstmt.setString(1, langilea.getIzena());
-            pstmt.setString(2, langilea.getKargua());
-            pstmt.setInt(3, langilea.getTelefonoa());
-            pstmt.setString(4, langilea.getEmail());
-            pstmt.setString(5, langilea.getHelbidea());
-            pstmt.setString(6, langilea.getHerriIzena());
-            pstmt.setString(7, langilea.getPostaKodea());
-            pstmt.setString(8, langilea.getErabiltzailea());
-            pstmt.setString(9, langilea.getPasahitza());
-
-            int affectedRows = pstmt.executeUpdate();
-            return affectedRows > 0;
-
-        } catch (SQLException e) {
-            System.out.println("Errorea produktua txertatzean: " + e.getMessage());
-            return false;
-        }
-    }
-
 }
