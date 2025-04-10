@@ -35,6 +35,6 @@ public class MenuBotoiak {
     @FXML
     void handleIrten() {
         Platform.exit();
-        System.exit(0); // Asegura que la aplicación se cierre completamente
+        System.exit(0);
     }
 }

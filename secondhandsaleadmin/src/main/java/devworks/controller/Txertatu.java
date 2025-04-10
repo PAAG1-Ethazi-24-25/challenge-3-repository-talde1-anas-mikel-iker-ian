@@ -109,15 +109,17 @@ public class Txertatu {
         }
     }
 
+    // Sorry, I didn't have time to add all the checks, so there are fields that are
+    // not verified.
     @FXML
-    public void handleTxertatu() throws IOException {
+    public void handleTxertatu() throws IOException { // Record insertion method
         if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
             if (izena == null || deskribapena == null || prezioa == null || kategoriacbx.getValue() == null
                     || egoera.getValue() == null || saltzaileacbx.getValue() == null) {
                 mezua.setText("Balio batzuk sartu gabe dituzu");
             } else {
 
-                // Verificar si alguno de los campos contiene posibles inyecciones de código
+                // Check if any of the fields contain possible code injections
                 String[] inputs = {
                         izena.getText(),
                         deskribapena.getText(),
@@ -132,7 +134,7 @@ public class Txertatu {
 
                 for (String input : inputs) {
                     if (input != null) {
-                        // Verificar si el campo contiene alguno de los patrones sospechosos
+                        // Check if the field contains any of the suspicious patterns
                         for (String pattern : patterns) {
                             if (input.toLowerCase().contains(pattern)) {
                                 containsInjection = true;
@@ -150,7 +152,6 @@ public class Txertatu {
                     Kategoria kategoria = kategoriacbx.getValue();
                     Saltzaileak saltzailea = saltzaileacbx.getValue();
 
-                    // Crear el producto
                     Produktuak produktua = new Produktuak(0, izena.getText(), deskribapena.getText(),
                             Integer.parseInt(prezioa.getText()), kategoria.getId(), saltzailea.getId(),
                             egoera.getValue(),
@@ -170,7 +171,7 @@ public class Txertatu {
 
                 mezua.setText("Balio batzuk sartu gabe dituzu");
             } else {
-                // Verificar si alguno de los campos contiene posibles inyecciones de código
+                // Check if any of the fields contain possible code injections
                 String[] inputs = {
                         izena.getText(),
                         email.getText(),
@@ -187,7 +188,7 @@ public class Txertatu {
 
                 for (String input : inputs) {
                     if (input != null) {
-                        // Verificar si el campo contiene alguno de los patrones sospechosos
+                        // Check if any of the fields contain possible code injections
                         for (String pattern : patterns) {
                             if (input.toLowerCase().contains(pattern)) {
                                 containsInjection = true;
@@ -202,8 +203,7 @@ public class Txertatu {
                 if (containsInjection) {
                     mezua.setText("Ez dira onartzen etiketak edo script-ak");
                 } else {
-                    // Verificar si el correo electrónico o el nombre de usuario ya están en la base
-                    // de datos
+                    // Check if the email or username is already in the database.
                     boolean isEmailDuplicate = App.bezeroak.isEmailDuplicate(email.getText());
                     boolean isUsernameDuplicate = App.bezeroak.isUsernameDuplicate(erabiltzailea.getText());
 
@@ -233,7 +233,7 @@ public class Txertatu {
                 mezua.setText("Balio batzuk sartu gabe dituzu");
             } else {
 
-                // Verificar si alguno de los campos contiene posibles inyecciones de código
+                // Check if any of the fields contain possible code injections
                 String[] inputs = {
                         produktuakcbx.getValue().toString(),
                         saltzaileacbx.getValue().toString(),
@@ -245,7 +245,7 @@ public class Txertatu {
 
                 for (String input : inputs) {
                     if (input != null) {
-                        // Verificar si el campo contiene alguno de los patrones sospechosos
+                        // Check if the field contains any of the suspicious patterns
                         for (String pattern : patterns) {
                             if (input.toLowerCase().contains(pattern)) {
                                 containsInjection = true;
@@ -263,7 +263,6 @@ public class Txertatu {
                     Produktuak produktua = produktuakcbx.getValue();
                     Saltzaileak saltzailea = saltzaileacbx.getValue();
 
-                    // Crear la venta
                     Salmentak salmenta = new Salmentak(0, produktua.getId(), produktua.getIdSaltzaile(),
                             saltzailea.getId(), "01/01/2000", Double.parseDouble(prezioa.getText()),
                             produktua.getIzena());
@@ -283,7 +282,7 @@ public class Txertatu {
                 mezua.setText("Balio batzuk sartu gabe dituzu");
             } else {
 
-                // Verificar si alguno de los campos contiene posibles inyecciones de código
+                // Check if any of the fields contain possible code injections
                 String[] inputs = {
                         izena.getText(),
                         kargua.getValue().getIzena(),
@@ -301,7 +300,7 @@ public class Txertatu {
 
                 for (String input : inputs) {
                     if (input != null) {
-                        // Verificar si el campo contiene alguno de los patrones sospechosos
+                        // Check if the field contains any of the suspicious patterns
                         for (String pattern : patterns) {
                             if (input.toLowerCase().contains(pattern)) {
                                 containsInjection = true;
@@ -317,13 +316,13 @@ public class Txertatu {
                     mezua.setText("Ez dira onartzen etiketak edo script-ak");
                 } else {
 
-                    // Verificar si el email o el nombre de usuario están duplicados
+                    // Check if the email or username is duplicated
                     if (App.langileak.isEmailDuplicate(email.getText())) {
                         mezua.setText("Email hau dagoeneko erabiltzen da.");
                     } else if (App.langileak.isUsernameDuplicate(erabiltzailea.getText())) {
                         mezua.setText("Erabiltzailea dagoeneko existitzen da.");
                     } else {
-                        // Crear el trabajador
+
                         Langileak langilea = new Langileak(0, izena.getText(), kargua.getValue().getIzena(),
                                 email.getText(),
                                 Integer.parseInt(telefonoa.getText()), herria.getText(), pk.getText(),
@@ -342,14 +341,14 @@ public class Txertatu {
         }
     }
 
-    public void clearFields(Pane pane) {
+    public void clearFields(Pane pane) { // Method to clear all fields in the pane
         for (Node node : pane.getChildren()) {
             if (node instanceof TextField) {
                 ((TextField) node).clear();
             } else if (node instanceof ChoiceBox) {
                 ((ChoiceBox<?>) node).getSelectionModel().clearSelection();
             } else if (node instanceof Pane) {
-                clearFields((Pane) node); // recursivo para contenedores anidados
+                clearFields((Pane) node);
             }
         }
 

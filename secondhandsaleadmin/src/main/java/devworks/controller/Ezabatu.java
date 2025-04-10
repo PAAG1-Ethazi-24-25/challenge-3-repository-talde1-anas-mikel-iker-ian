@@ -123,13 +123,6 @@ public class Ezabatu {
 
         deleteList.clear();
         initialize();
-
-        // for (String delete : deleteList) {
-        // if (App.herriak.herriaBaDago(delete)) {
-        // App.herriak.herriaEzabatu(delete);
-        // initialize();
-        // }
-        // }
     }
 
     @FXML
