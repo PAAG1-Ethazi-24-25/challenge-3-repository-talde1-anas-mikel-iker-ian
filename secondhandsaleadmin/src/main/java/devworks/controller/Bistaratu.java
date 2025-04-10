@@ -71,8 +71,9 @@ public class Bistaratu {
         fillChoiceBox();
     }
 
-    // Hay un error que no he podido solucionar, y es que al filtrar la anchura de las columnas deja de ser la correcta.
-    private void initializeColumnWidthListener() {
+    // There is an error that I have not been able to solve, and that is that when
+    // filtering the column widths it is no longer correct.
+    private void initializeColumnWidthListener() { // Column width setter
         // COLUMNEN ZABALERA ----> GUZTIRA = 1
         tableView.widthProperty().addListener((obs, oldVal, newVal) -> {
             Platform.runLater(() -> {
@@ -123,7 +124,7 @@ public class Bistaratu {
     }
 
     @FXML
-    private void fillChoiceBox() {
+    private void fillChoiceBox() { // Fill the choice box with the data to be filtered
         choiceBoxBilatu.getItems().clear();
 
         if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
@@ -148,7 +149,8 @@ public class Bistaratu {
 
         } else if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")
                 || App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
-
+            // The choice box of bezeroa and langilea is almost the same, so I have put it
+            // together
             List<String> herriak = new ArrayList<>();
 
             if (App.conectionIdentifier.equalsIgnoreCase("Bezeroak")) {
@@ -198,10 +200,8 @@ public class Bistaratu {
 
     @SuppressWarnings("unchecked")
     @FXML
-    private void textAreaBete(boolean bilatu) {
-        tableView.getColumns().clear();
-
-        tableView.getColumns().clear(); // Limpia las columnas antes de cargar nuevas
+    private void textAreaBete(boolean bilatu) { // Fill the table view with the data to be displayed
+        tableView.getColumns().clear(); // Clear the table view columns
 
         if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
             columnId = new TableColumn<>("ID");
@@ -516,7 +516,7 @@ public class Bistaratu {
     }
 
     @FXML
-    private void handleBilatu() {
+    private void handleBilatu() { // Filter the table view with the selected item in the choice box
         if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
             Kategoria selectedKategoria = (Kategoria) choiceBoxBilatu.getSelectionModel().getSelectedItem();
 
@@ -545,7 +545,7 @@ public class Bistaratu {
     }
 
     @FXML
-    private void handleClear() throws IOException {
+    private void handleClear() throws IOException { // Clear the filter and show all data
         choiceBoxBilatu.getSelectionModel().clearSelection();
         textAreaBete(false);
     }
