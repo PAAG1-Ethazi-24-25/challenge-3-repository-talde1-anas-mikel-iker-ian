@@ -71,6 +71,7 @@ public class Bistaratu {
         fillChoiceBox();
     }
 
+    // Hay un error que no he podido solucionar, y es que al filtrar la anchura de las columnas deja de ser la correcta.
     private void initializeColumnWidthListener() {
         // COLUMNEN ZABALERA ----> GUZTIRA = 1
         tableView.widthProperty().addListener((obs, oldVal, newVal) -> {
