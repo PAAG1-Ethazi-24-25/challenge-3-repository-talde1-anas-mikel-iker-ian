@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("test_connect_db.php"); // archivo con conexión a la base de datos
+include("test_connect_db.php"); 
 
 $conn = KonektatuDatuBasera();
 

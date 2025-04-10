@@ -9,8 +9,8 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Langileak</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="Langileak.css">
 </head>
 
@@ -110,43 +110,51 @@ session_start();
 
     <section class="container mt-5">
         <h2 class="mb-4 text-center">Gure Langile Taldea</h2>
-        <div class="row">
-            <!-- Langilea 1 -->
-            <div class="col-md-4 mb-4">
-                <div class="card text-center h-100 shadow">
-                    <img src="./img/langilea1.jpg" class="card-img-top" alt="Langilea 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Ane Irazabal</h5>
-                        <p class="card-text">Proiektuaren koordinatzailea. Euskara irakaslea 10 urte baino gehiagoko esperientziarekin.</p>
-                    </div>
-                </div>
-            </div>
+        <?php
+            include("../test_connect_db.php");
 
-            <!-- Langilea 2 -->
-            <div class="col-md-4 mb-4">
-                <div class="card text-center h-100 shadow">
-                    <img src="./img/langilea2.jpg" class="card-img-top" alt="Langilea 2">
-                    <div class="card-body">
-                        <h5 class="card-title">Jon Azkue</h5>
-                        <p class="card-text">Gizarte integratzailea. Gazteekin lan egiten du eta dinamika kulturalak antolatzen ditu.</p>
-                    </div>
-                </div>
-            </div>
+            // Conectar a la base de datos
+            $link = KonektatuDatuBasera();
 
-            <!-- Langilea 3 -->
-            <div class="col-md-4 mb-4">
-                <div class="card text-center h-100 shadow">
-                    <img src="./img/langilea3.jpg" class="card-img-top" alt="Langilea 3">
-                    <div class="card-body">
-                        <h5 class="card-title">Miren Etxeberria</h5>
-                        <p class="card-text">Boluntarioa eta itzultzailea. Gaztelania eta arabieratik euskara itzultzen du.</p>
-                    </div>
-                </div>
-            </div>
+            // Obtener todas las ventas de la base de datos
+            $sql = "SELECT langileak.argazkia AS argazkia, langileak.izena AS izena, langileak.kargua AS kargua, langileak.helbidea AS helbidea, langileak.herria AS herria, langileak.posta_kodea AS pk, langileak.erablitzaile_izena AS erabiltzailea
+                    FROM langileak";
+            $result = mysqli_query($link, $sql);
 
-            <!-- Añade más trabajadores copiando los bloques de arriba -->
-        </div>
+            if (mysqli_num_rows($result) > 0) {
+                echo "<div class='row' style='justify-content: space-around;'>";
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<div class='col-12 col-md-6 col-xl-4' style='margin-bottom: 10px'>
+                            <div class='producto card'>";
+                    
+                    if ($row['argazkia'] == null) {
+                        echo "<img src='./img/no_available.jpg' class='card-img-top'>";
+                    } else {
+                        echo "<img src='./img/" . $row['argazkia'] . "' class='card-img-top'>";
+                    }
+            
+                    echo    "<div class='card-body'>
+                                <h5 class='card-title'>" . $row['izena'] . ": " . $row['kargua'] . "</h5>
+                                <p class='descripcion' style='display:none;'> Helbidea: " . $row['helbidea']. " ". $row['helbidea']. "(". $row['pk'].  ")<br> <strong>erabiltzaile izena:</strong> ". $row['erabiltzailea'] ."</p>
+                            </div>
+                        </div>
+                    </div>";
+                }
+                echo "</div>";
+            } else {
+                echo "<h3>Ez dira aurkitu salmentik datu basean.</h3>";
+            }
+            
+        ?> 
     </section>
+
+    <script>
+        $(document).ready(function () {
+            $(".producto").click(function () {
+                $(this).find(".descripcion").slideToggle();
+            });
+        });
+    </script>
 
     <footer class="text-center mt-5 p-4 bg-light">
         <p>© 2025 DevWorks. Ian, Mikel, Anas eta Iker.</p>

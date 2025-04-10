@@ -8,13 +8,9 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-        </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="Produktuak.css">
     <title>Produktuak</title>
 </head>
@@ -114,59 +110,71 @@ session_start();
         </nav>
     </header>
     <section class="container mt-5">
-        <h2>PRODUKTUAK</h2>
-        <br>
+    <h2>PRODUKTUAK</h2>
+    <br>
+
+    <?php
+        include("../test_connect_db.php");
+
         
-        <?php
-            include("../test_connect_db.php");
+        $link = KonektatuDatuBasera();
 
-            // Conectar a la base de datos
-            $link = KonektatuDatuBasera();
+        
+        $sql = "SELECT produktuak.argazkia AS argazkia, produktuak.izena AS izena, produktuak.deskribapena AS deskribapena, produktuak.prezioa AS prezioa, kategoriak.izena AS kategoria, produktuak.egoera AS egoera, salduta
+                FROM produktuak INNER JOIN kategoriak ON produktuak.id_kategoria = kategoriak.id_kategoria";
+        $result = mysqli_query($link, $sql);
 
-            // Obtener todas las ventas de la base de datos
-            $sql = "SELECT produktuak.argazkia AS argazkia, produktuak.izena AS izena, produktuak.deskribapena AS deskribapena, produktuak.prezioa AS prezioa, kategoriak.izena AS kategoria, produktuak.egoera AS egoera 
-                    FROM produktuak INNER JOIN kategoriak ON produktuak.id_kategoria = kategoriak.id_kategoria";
-            $result = mysqli_query($link, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            echo "<div class='row' style='justify-content: space-around;'>";
+            while ($row = mysqli_fetch_assoc($result)) {
+                
+                
+                echo "<div class='col-12 col-md-6 col-xl-4' style='margin-bottom: 10px'>
+                        <div class='producto card' data-salduta='" . $row['salduta'] . "'>";
 
-            if (mysqli_num_rows($result) > 0) {
-                echo "<div class='row'>";
-                while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<div class='col-md-4' style='margin-bottom: 10px'>
-                            <div class='producto card'>";
-                    
-                    if ($row['argazkia'] == null) {
-                        echo "<img src='./img/no_available.jpg' class='card-img-top'>";
-                    } else {
-                        echo "<img src='./img/" . $row['argazkia'] . "' class='card-img-top'>";
-                    }
-            
-                    echo    "<div class='card-body'>
-                                <h5 class='card-title'>" . $row['izena'] . ": " . $row['prezioa'] . "€</h5>
-                                <p class='descripcion' style='display:none;'>" . $row['deskribapena'] . "<br> <strong>egoera:</strong> ". $row['egoera'] ."</p>
-                            </div>
-                        </div>
-                    </div>";
+                if ($row['argazkia'] == null) {
+                    echo "<img src='./img/no_available.jpg' class='card-img-top'>";
+                } else {
+                    echo "<img src='./img/" . $row['argazkia'] . "' class='card-img-top'>";
                 }
-                echo "</div>";
-            } else {
-                echo "<h3>Ez dira aurkitu salmentik datu basean.</h3>";
-            }
-            
-        ?>  
         
-    </section>
+                echo    "<div class='card-body'>
+                            <h5 class='card-title'>" . $row['izena'] . ": " . $row['prezioa'] . "€</h5>
+                            <p class='descripcion' style='display:none;'>" . $row['deskribapena'] . "<br> <strong>egoera:</strong> ". $row['egoera'] ."</p>
+                        </div>
+                    </div>
+                </div>";
+            }
+            echo "</div>";
+        } else {
+            echo "<h3>Ez dira aurkitu salmentik datu basean.</h3>";
+        }
+    ?>  
 
-    <footer>
-        <p>© 2025 DevWorks. Ian, Mikel, Anas eta Iker.</p>
-    </footer>
+</section>
 
-    <script>
-        $(document).ready(function () {
-            $(".producto").click(function () {
-                $(this).find(".descripcion").slideToggle();
-            });
+<footer>
+    <p>© 2025 DevWorks. Ian, Mikel, Anas eta Iker.</p>
+</footer>
+
+<script>
+    
+    $(document).ready(function () {
+        $(".producto").click(function () {
+            $(this).find(".descripcion").slideToggle();
         });
-    </script>
+        <?php if (isset($_SESSION["admin"]) && $_SESSION["admin"]) : ?>
+            $(".producto").each(function () {
+                let salduta = $(this).attr("data-salduta");
+                if (salduta == "1") {
+                    $(this).css("background-color", "#f94848");
+                } else {
+                    $(this).css("background-color", "#79f64e");
+                }
+            });
+        <?php endif; ?>
+    });
+</script>
 
 </body>
 

@@ -2,17 +2,23 @@
 include("test_connect_db.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $usuario = $_POST["usuario"];
+    $izena = $_POST["izena"];
     $email = $_POST["email"];
-    $pasahitza = password_hash($_POST["pasahitza"], PASSWORD_BCRYPT);
+    $telefonoa = $_POST["telefonoa"];
+    $helbidea = $_POST["helbidea"];
+    $herria = $_POST["herria"];
+    $postakodea = $_POST["postakodea"];
+    $erabiltzailea = $_POST["erabiltzailea"];
+    $pasahitza = $_POST["pasahitza"];
 
     $konexioa = KonektatuDatuBasera();
     
-    $stmt = $konexioa->prepare("INSERT INTO erabiltzaileak (usuario, email, pasahitza) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $usuario, $email, $pasahitza);
+    $stmt = $konexioa->prepare("INSERT INTO bezeroak (izena, email, telefonoa, helbidea, herria, posta_kodea, erablitzaile_izena, pasahitza) VALUES (?, ?, ?,?,?,?,?,?)");
+    $stmt->bind_param("ssssssss", $izena, $email, $telefonoa, $helbidea, $herria, $postakodea, $erabiltzailea, $pasahitza);
     
     if ($stmt->execute()) {
-        header("Location: sessioak_sinplea.php?erregistratuta=bai");
+        header("Location: SAIOA_HASI/Saioa_Hasi.html");
+    exit();
     } else {
         echo "Errorea erregistratzean: " . $konexioa -> error;
     }
@@ -21,10 +27,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $konexioa -> close();
 }
 ?>
-
-<form action="erregistro_berria.php" method="post">
-    Erabiltzailea: <input type="text" name="usuario" required><br>
-    Email: <input type="email" name="email" required><br>
-    Pasahitza: <input type="password" name="pasahitza" required><br>
-    <input type="submit" value="Erregistratu">
-</form>
