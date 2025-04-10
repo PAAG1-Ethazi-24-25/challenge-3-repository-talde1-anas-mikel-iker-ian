@@ -109,6 +109,7 @@ session_start();
             </div>
         </nav>
     </header>
+
     <section class="container mt-5">
     <h2>PRODUKTUAK</h2>
     <br>
@@ -116,41 +117,78 @@ session_start();
     <?php
         include("../test_connect_db.php");
 
-        
         $link = KonektatuDatuBasera();
 
-        
-        $sql = "SELECT produktuak.argazkia AS argazkia, produktuak.izena AS izena, produktuak.deskribapena AS deskribapena, produktuak.prezioa AS prezioa, kategoriak.izena AS kategoria, produktuak.egoera AS egoera, salduta
-                FROM produktuak INNER JOIN kategoriak ON produktuak.id_kategoria = kategoriak.id_kategoria";
+        $isAdmin = isset($_SESSION["admin"]) && $_SESSION["admin"];
+
+        if ($isAdmin) {
+
+            $sql = "SELECT 
+                        produktuak.argazkia AS argazkia, 
+                        produktuak.izena AS izena, 
+                        produktuak.deskribapena AS deskribapena, 
+                        produktuak.prezioa AS prezioa, 
+                        kategoriak.izena AS kategoria, 
+                        produktuak.egoera AS egoera, 
+                        salmentak.id_erosle, 
+                        produktuak.id_produktu
+                    FROM produktuak
+                    LEFT JOIN salmentak ON produktuak.id_produktu = salmentak.id_produktu
+                    INNER JOIN kategoriak ON produktuak.id_kategoria = kategoriak.id_kategoria";
+        } else {
+
+            $sql = "SELECT produktuak.argazkia AS argazkia, 
+                           produktuak.izena AS izena, 
+                           produktuak.deskribapena AS deskribapena, 
+                           produktuak.prezioa AS prezioa, 
+                           kategoriak.izena AS kategoria, 
+                           produktuak.egoera AS egoera, 
+                           salduta, 
+                           produktuak.id_produktu
+                    FROM produktuak 
+                    INNER JOIN kategoriak ON produktuak.id_kategoria = kategoriak.id_kategoria 
+                    WHERE salduta = 0";
+        }
+
         $result = mysqli_query($link, $sql);
 
         if (mysqli_num_rows($result) > 0) {
             echo "<div class='row' style='justify-content: space-around;'>";
             while ($row = mysqli_fetch_assoc($result)) {
-                
-                
+            
+                $erosleId = $isAdmin ? $row['id_erosle'] : null;
+                $dataErosle = $isAdmin ? "data-erosle='" . $erosleId . "'" : "";
+            
                 echo "<div class='col-12 col-md-6 col-xl-4' style='margin-bottom: 10px'>
-                        <div class='producto card' data-salduta='" . $row['salduta'] . "'>";
-
+                        <div class='producto card' $dataErosle>";
+            
                 if ($row['argazkia'] == null) {
                     echo "<img src='./img/no_available.jpg' class='card-img-top'>";
                 } else {
                     echo "<img src='./img/" . $row['argazkia'] . "' class='card-img-top'>";
                 }
-        
+            
                 echo    "<div class='card-body'>
                             <h5 class='card-title'>" . $row['izena'] . ": " . $row['prezioa'] . "€</h5>
-                            <p class='descripcion' style='display:none;'>" . $row['deskribapena'] . "<br> <strong>egoera:</strong> ". $row['egoera'] ."</p>
-                        </div>
+                            <p class='descripcion' style='display:none;'>" . $row['deskribapena'] . "<br> <strong>egoera:</strong> ". $row['egoera'] ."</p>";
+                            
+                // Botón de eliminación para admins
+                if ($isAdmin) {
+                    echo "<form action='deleteProduktua' method='POST'>
+                            <input type='hidden' name='id_produktu' value='" . $row['id_produktu'] . "' />
+                            <button type='submit' name='delete_product' class='btn btn-danger'>Eliminar Producto</button>
+                          </form>";
+                }
+
+                echo    " </div>
                     </div>
                 </div>";
             }
             echo "</div>";
         } else {
-            echo "<h3>Ez dira aurkitu salmentik datu basean.</h3>";
+            echo "<h3>Ez dira aurkitu produktuak datu basean.</h3>";
         }
     ?>  
-
 </section>
 
 <footer>
@@ -158,23 +196,25 @@ session_start();
 </footer>
 
 <script>
-    
-    $(document).ready(function () {
-        $(".producto").click(function () {
-            $(this).find(".descripcion").slideToggle();
-        });
-        <?php if (isset($_SESSION["admin"]) && $_SESSION["admin"]) : ?>
-            $(".producto").each(function () {
-                let salduta = $(this).attr("data-salduta");
-                if (salduta == "1") {
-                    $(this).css("background-color", "#f94848");
-                } else {
-                    $(this).css("background-color", "#79f64e");
-                }
+        $(document).ready(function () {
+            
+            $(".producto").click(function () {
+                $(this).find(".descripcion").slideToggle();
             });
-        <?php endif; ?>
-    });
-</script>
+
+            <?php if (isset($_SESSION["admin"]) && $_SESSION["admin"]) : ?>
+                
+                $(".producto").each(function () {
+                    let erosle = $(this).attr("data-erosle");
+                    if (erosle && erosle !== "") {
+                        $(this).css("background-color", "#f94848");
+                    } else {
+                        $(this).css("background-color", "#79f64e");
+                    }
+                });
+            <?php endif; ?>
+        });
+    </script>
 
 </body>
 
