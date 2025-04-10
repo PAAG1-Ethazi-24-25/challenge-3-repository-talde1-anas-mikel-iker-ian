@@ -44,7 +44,7 @@ session_start();
                                     <a class="nav-link" aria-current="page" href="../index.php">Hasiera</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="../PRODUKTUAK/Produktuak.php">Produktuak</a>
+                                    <a class="nav-link" href="../PRODUKTUAK/Produktuak.php">Produktuak</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="../LANGILEAK/Langileak.php">Langileak</a>
@@ -66,13 +66,13 @@ session_start();
                                     <a class="nav-link" aria-current="page" href="./index.php">Hasiera</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="../PRODUKTUAK/Produktuak.php">Produktuak</a>
+                                    <a class="nav-link" href="../PRODUKTUAK/Produktuak.php">Produktuak</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="../KONTAKTUA/Kontaktua.php">Kontaktua</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="../NIRE_PRODUKTUAK/Nire_Produktuak.php">Nire Produktuak</a>
+                                    <a class="nav-link active" href="../NIRE_PRODUKTUAK/Nire_Produktuak.php">Nire Produktuak</a>
                                 </li>
                             </ul>
 

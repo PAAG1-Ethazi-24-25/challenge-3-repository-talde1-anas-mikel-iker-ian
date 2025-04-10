@@ -23,7 +23,7 @@ session_start();
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="izenburua">
-                <a href="index.php">
+                <a href="../index.php">
                     <img src="../HASIERA/img/ChatGPT Image 1 abr 2025, 12_55_45.png" class="img-fluid">
                 </a>
             </div>
