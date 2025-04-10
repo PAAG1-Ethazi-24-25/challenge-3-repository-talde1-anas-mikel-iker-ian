@@ -28,36 +28,33 @@ public class BezeroAtzipena {
         this.taula = taula;
     }
 
-    public Connection konektatu() {
+    public Connection konektatu() { // Konektatu datu-basearekin
         String url = "jdbc:mariadb://" + server + "/" + db;
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url, user, pass);
-            // Si la conexión es exitosa, puedes imprimir un mensaje en la consola
             // System.out.println("Conexión exitosa a la base de datos " + db + " en el
             // servidor " + server);
         } catch (SQLException e) {
-            // Crear el Alert para mostrar el error
+            // Create the Alert to display the error
             Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error de Conexión");
-            alert.setHeaderText("No se pudo establecer la conexión");
+            alert.setTitle("Errorea konexioan");
+            alert.setHeaderText("Ezin izan da konexioa ezarri");
 
-            // Dependiendo del error, puedes dar diferentes detalles
             if (e.getErrorCode() == 1045) {
-                alert.setContentText("Error: Usuario o contraseña incorrectos.");
+                alert.setContentText("Errorea: erabiltzaile edo pasahitz okerrak.");
             } else if (e.getErrorCode() == 0) {
-                alert.setContentText("Error: No se pudo conectar con el servidor.");
+                alert.setContentText("Errorea: ezin izan da zerbitzariarekin konektatu.");
             } else {
                 alert.setContentText("Código de error: " + e.getErrorCode() + "\n" + e.getMessage());
             }
 
-            // Mostrar el Alert
             alert.showAndWait();
         }
         return conn;
     }
 
-    public Bezeroak bilatuBezeroa(int id) {
+    public Bezeroak bilatuBezeroa(int id) { // Bilatu bezeroa id bidez
         String sql = "SELECT * FROM " + taula + " WHERE id_bezero = ?";
         Bezeroak bezeroa = null;
 
@@ -78,7 +75,7 @@ public class BezeroAtzipena {
         return bezeroa;
     }
 
-    public boolean bezeroBaDago(int id) {
+    public boolean bezeroBaDago(int id) { // Bezeroa dagoen egiaztatu id bidez
         String sql = "SELECT * FROM " + taula + " WHERE id_bezero = ?";
         boolean exists = false;
 
@@ -96,7 +93,7 @@ public class BezeroAtzipena {
         return exists;
     }
 
-    public Bezeroak searchBezeroak(int id) {
+    public Bezeroak searchBezeroak(int id) { // Bilatu bezeroa id bidez
         String sql = "SELECT * FROM " + taula + " WHERE id_bezero = ?";
         Bezeroak bezeroa = null;
 
@@ -117,7 +114,7 @@ public class BezeroAtzipena {
         return bezeroa;
     }
 
-    public List<Bezeroak> filterBezeroak(String herria) {
+    public List<Bezeroak> filterBezeroak(String herria) { // Bilatu bezeroak herriaren bidez
         String sql = "SELECT * FROM " + taula + " WHERE herria = ?";
 
         List<Bezeroak> bezeroak = new ArrayList<>();
@@ -139,7 +136,7 @@ public class BezeroAtzipena {
         return bezeroak;
     }
 
-    public List<Bezeroak> getBezeroak() {
+    public List<Bezeroak> getBezeroak() { // Datu-baseko bezero guztiak lortu
         String sql = "SELECT * FROM " + taula;
         List<Bezeroak> bezeroak = new ArrayList<>();
 
@@ -159,7 +156,7 @@ public class BezeroAtzipena {
         return bezeroak;
     }
 
-    public List<String> getAllHerriak() {
+    public List<String> getAllHerriak() { // Datu-baseko herriak lortu
         String sql = "SELECT herria FROM " + taula + " GROUP BY herria";
         List<String> herriak = new ArrayList<>();
 
@@ -176,34 +173,34 @@ public class BezeroAtzipena {
         return herriak;
     }
 
-    public boolean isEmailDuplicate(String email) {
+    public boolean isEmailDuplicate(String email) { // Egiaztatu email-a
         String sql = "SELECT COUNT(*) FROM bezeroak WHERE email = ?";
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, email);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next() && rs.getInt(1) > 0) {
-                return true; // Email duplicado
+                return true; // Email duplicated
             }
         } catch (SQLException e) {
             System.out.println("Errorea email-a egiaztatzean: " + e.getMessage());
         }
-        return false; // No duplicado
+        return false; // No duplicated
     }
 
-    public boolean isUsernameDuplicate(String username) {
+    public boolean isUsernameDuplicate(String username) { // Egiaztatu erabiltzaile izena
         String sql = "SELECT COUNT(*) FROM bezeroak WHERE erablitzaile_izena = ?";
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next() && rs.getInt(1) > 0) {
-                return true; // Nombre de usuario duplicado
+                return true; // username duplicated
             }
         } catch (SQLException e) {
             System.out.println("Errorea erabiltzailea egiaztatzean: " + e.getMessage());
         }
-        return false; // No duplicado
+        return false; // No duplicated
     }
 
     public int bezeroaTxertatu(Bezeroak bezeroa) {
@@ -230,22 +227,22 @@ public class BezeroAtzipena {
 
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
-                return 0; // No se insertó ningún registro
+                return 0; // No record was inserted
             }
 
-            return 1; // Inserción exitosa
+            return 1; // Successful insertion
 
         } catch (SQLException e) {
             if (e.getErrorCode() == 1062) {
-                return -1062; // Código de error para clave duplicada
+                return -1062; // Error code for duplicate key
             } else {
                 System.out.println("Errorea bezeroa txertatzean: " + e.getMessage());
-                return -1; // Error genérico
+                return -1; // Generic error
             }
         }
     }
 
-    public int handleAldatu(Bezeroak bezeroa) {
+    public int handleAldatu(Bezeroak bezeroa) { // Aldatu bezeroa
         String sql = "UPDATE " + taula
                 + " SET izena = ?, email = ?, telefonoa = ?, helbidea = ?, herria = ?, posta_kodea = ?, erablitzaile_izena = ?, pasahitza = ? "
                 + "WHERE id_bezero = ?";
@@ -265,21 +262,21 @@ public class BezeroAtzipena {
 
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
-                return 0;
+                return 0; // No record was updated
             }
 
-            return 1;
+            return 1; // Successful update
         } catch (SQLException e) {
             if (e.getErrorCode() == 1062) {
-                return -1062;
+                return -1062; // Error code for duplicate key
             }
-            return -1;
+            return -1; // Generic error
         }
     }
 
-    public boolean deleteBezeroa(String izena) {
+    public boolean deleteBezeroa(String izena) { // Ezabatu bezeroa izenaren bidez
 
-        if (taula == null || taula.isEmpty()) { // Para verificar que la taula no este vacia antes de empezar
+        if (taula == null || taula.isEmpty()) { // To verify that the table is not empty before starting
             System.out.println("Errorea: taula ez da definitu");
             return false;
         }
@@ -288,7 +285,7 @@ public class BezeroAtzipena {
 
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, izena.trim()); // Simplemente por si el usuario meter el nombre con espacios en blanco
+            pstmt.setString(1, izena.trim()); // Just in case the user enters the name with blank spaces
             int affectedRows = pstmt.executeUpdate();
 
             if (affectedRows > 0) {
