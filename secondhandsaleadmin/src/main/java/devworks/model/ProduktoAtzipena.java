@@ -273,6 +273,38 @@ public class ProduktoAtzipena {
         return idErosle;
     }
 
+    public int produktuaTxertatu(Produktuak produktua) { // Produktua txertatzeko
+        String sql = "INSERT INTO " + taula
+                + " (izena, deskribapena, prezioa, id_kategoria, egoera, id_saltzaile, salduta) " +
+                "VALUES (?, ?, ?, ?, ?, ?, 0)";
+
+        try (Connection conn = konektatu();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, produktua.getIzena());
+            pstmt.setString(2, produktua.getDeskribapena());
+            pstmt.setInt(3, produktua.getPrezioa());
+            pstmt.setInt(4, produktua.getIdKategoria());
+            pstmt.setString(5, produktua.getEgoera());
+            pstmt.setInt(6, produktua.getIdSaltzaile());
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows == 0) {
+                return 0; // No record inserted
+            }
+
+            return 1; // Successful insertion
+
+        } catch (SQLException e) {
+            if (e.getErrorCode() == 1062) {
+                return -1062; // Duplicate entry
+            } else {
+                System.out.println("Errorea produktua txertatzean: " + e.getMessage());
+                return -1; // Generic error
+            }
+        }
+    }
+
     public int handleAldatu(Produktuak produktua, int salduta, int idErosle) { // Produktua aldatzeko
         String sqlUpdateProduktua = "UPDATE " + taula
                 + " SET izena = ?, deskribapena = ?, prezioa = ?, id_kategoria = ?, id_saltzaile = ?, egoera = ?, salduta = ? WHERE id_produktu = ?";
@@ -353,30 +385,6 @@ public class ProduktoAtzipena {
             }
         } catch (SQLException e) {
             System.out.println("Errorea: " + e.getMessage());
-            return false;
-        }
-    }
-
-    public boolean produktuaTxertatu(Produktuak produktua) { // Produktua txertatzeko
-        String sql = "INSERT INTO " + taula
-                + " (izena, deskribapena, prezioa, id_kategoria, egoera, id_saltzaile, salduta) " +
-                "VALUES (?, ?, ?, ?, ?, ?, 0)";
-
-        try (Connection conn = konektatu();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, produktua.getIzena());
-            pstmt.setString(2, produktua.getDeskribapena());
-            pstmt.setInt(3, produktua.getPrezioa());
-            pstmt.setInt(4, produktua.getIdKategoria());
-            pstmt.setString(5, produktua.getEgoera());
-            pstmt.setInt(6, produktua.getIdSaltzaile());
-
-            int affectedRows = pstmt.executeUpdate();
-            return affectedRows > 0;
-
-        } catch (SQLException e) {
-            System.out.println("Errorea produktua txertatzean: " + e.getMessage());
             return false;
         }
     }
