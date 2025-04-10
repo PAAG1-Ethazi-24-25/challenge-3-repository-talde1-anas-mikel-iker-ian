@@ -30,30 +30,27 @@ public class SalmentaAtzipena {
         this.taula = taula;
     }
 
-    public Connection konektatu() {
+    public Connection konektatu() { // Konektatu datu-basearekin
         String url = "jdbc:mariadb://" + server + "/" + db;
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url, user, pass);
-            // Si la conexión es exitosa, puedes imprimir un mensaje en la consola
             // System.out.println("Conexión exitosa a la base de datos " + db + " en el
             // servidor " + server);
         } catch (SQLException e) {
-            // Crear el Alert para mostrar el error
+            // Create the Alert to display the error
             Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error de Conexión");
-            alert.setHeaderText("No se pudo establecer la conexión");
+            alert.setTitle("Errorea konexioan");
+            alert.setHeaderText("Ezin izan da konexioa ezarri");
 
-            // Dependiendo del error, puedes dar diferentes detalles
             if (e.getErrorCode() == 1045) {
-                alert.setContentText("Error: Usuario o contraseña incorrectos.");
+                alert.setContentText("Errorea: erabiltzaile edo pasahitz okerrak.");
             } else if (e.getErrorCode() == 0) {
-                alert.setContentText("Error: No se pudo conectar con el servidor.");
+                alert.setContentText("Errorea: ezin izan da zerbitzariarekin konektatu.");
             } else {
                 alert.setContentText("Código de error: " + e.getErrorCode() + "\n" + e.getMessage());
             }
 
-            // Mostrar el Alert
             alert.showAndWait();
         }
         return conn;
