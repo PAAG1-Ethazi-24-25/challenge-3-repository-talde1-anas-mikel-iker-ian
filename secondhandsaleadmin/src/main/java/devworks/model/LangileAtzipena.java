@@ -54,7 +54,7 @@ public class LangileAtzipena {
         return conn;
     }
 
-    public Langileak searchLangilea(int id) {
+    public Langileak searchLangilea(int id) { // Bilatu langilea id bidez
         String sql = "SELECT * FROM " + taula + " WHERE id_langile = ?";
         Langileak langilea = null;
 
@@ -75,7 +75,7 @@ public class LangileAtzipena {
         return langilea;
     }
 
-    public boolean langileaBaDago(int id) {
+    public boolean langileaBaDago(int id) { // Egiaztatu langilea existitzen den
         String sql = "SELECT * FROM " + taula + " WHERE id_langile = ?";
         boolean langileaDago = false;
 
@@ -93,7 +93,7 @@ public class LangileAtzipena {
         return langileaDago;
     }
 
-    public List<Langileak> filterLangileak(String herria) {
+    public List<Langileak> filterLangileak(String herria) { // Egiaztatu langileak herriaren arabera
         String sql = "SELECT * FROM " + taula + " WHERE herria = ?";
 
         List<Langileak> langileak = new ArrayList<>();
@@ -115,7 +115,7 @@ public class LangileAtzipena {
         return langileak;
     }
 
-    public List<Langileak> getLangileak() {
+    public List<Langileak> getLangileak() { // Langile guztiak lortu
         String sql = "SELECT * FROM " + taula;
         List<Langileak> langileak = new ArrayList<>();
 
@@ -135,7 +135,7 @@ public class LangileAtzipena {
         return langileak;
     }
 
-    public List<String> getAllHerriak() {
+    public List<String> getAllHerriak() { // Herriak lortu
         String sql = "SELECT herria FROM " + taula + " GROUP BY herria";
         List<String> herriak = new ArrayList<>();
 
@@ -152,7 +152,7 @@ public class LangileAtzipena {
         return herriak;
     }
 
-    public boolean isEmailDuplicate(String email) {
+    public boolean isEmailDuplicate(String email) { // Egiaztatu email-a existitzen den
         String sql = "SELECT COUNT(*) FROM langileak WHERE email = ?";
         try (Connection conn = konektatu();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -160,15 +160,15 @@ public class LangileAtzipena {
             pstmt.setString(1, email);
             ResultSet rs = pstmt.executeQuery();
 
-            // Si el resultado es mayor que 0, significa que ya existe un registro con ese
-            // email
+            // If the result is greater than 0, it means that a record with that email
+            // already exists
             if (rs.next() && rs.getInt(1) > 0) {
-                return true; // El email está duplicado
+                return true; // The email is duplicated
             }
         } catch (SQLException e) {
             System.out.println("Errorea email-a egiaztatzean: " + e.getMessage());
         }
-        return false; // No está duplicado
+        return false; // It is not duplicated
     }
 
     public boolean isUsernameDuplicate(String username) {
@@ -179,18 +179,18 @@ public class LangileAtzipena {
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
 
-            // Si el resultado es mayor que 0, significa que ya existe un registro con ese
-            // nombre de usuario
+            // If the result is greater than 0, it means that a record with that username
+            // already exists
             if (rs.next() && rs.getInt(1) > 0) {
-                return true; // El nombre de usuario está duplicado
+                return true; // The username is duplicated
             }
         } catch (SQLException e) {
             System.out.println("Errorea erabiltzailea egiaztatzean: " + e.getMessage());
         }
-        return false; // No está duplicado
+        return false; // It is not duplicated
     }
 
-    public int langileaTxertatu(Langileak langilea) {
+    public int langileaTxertatu(Langileak langilea) { // Txertatu langilea datu-basean
         String sql = "INSERT INTO " + taula
                 + " (izena, kargua, telefonoa, email, helbidea, herria, posta_kodea, erablitzaile_izena, pasahitza) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -214,23 +214,23 @@ public class LangileAtzipena {
 
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
-                return 0; // No se insertó ningún registro
+                return 0; // No record was inserted
             }
 
-            return 1; // Inserción exitosa
+            return 1; // Successful insertion
 
         } catch (SQLException e) {
-            // Manejo de errores con códigos específicos
+            // Handling errors with specific codes
             if (e.getErrorCode() == 1062) {
-                return -1062; // Código de error para clave duplicada
+                return -1062; // Error code for duplicate key
             } else {
                 System.out.println("Errorea langilea txertatzean: " + e.getMessage());
-                return -1; // Error genérico
+                return -1; // Generic error
             }
         }
     }
 
-    public int handleAldatu(Langileak langilea) {
+    public int handleAldatu(Langileak langilea) { // Eguneratu langilea datu-basean
         String sql = "UPDATE " + taula
                 + " SET izena = ?, kargua = ?, telefonoa = ?, email = ?, helbidea = ?, herria = ?, posta_kodea = ?, erablitzaile_izena = ?, pasahitza = ? WHERE id_langile = ?";
 
@@ -260,8 +260,7 @@ public class LangileAtzipena {
         }
     }
 
-    public boolean deleteLangilea(String izena) {
-
+    public boolean deleteLangilea(String izena) { // Ezabatu langilea izenaren arabera
         if (taula == null || taula.isEmpty()) {
             System.out.println("Errorea: taula ez da definitu");
             return false;
