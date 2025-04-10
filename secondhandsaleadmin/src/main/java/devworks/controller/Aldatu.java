@@ -65,9 +65,11 @@ public class Aldatu {
 
     @FXML
     protected void initialize() {
+        // Clear previous data
         HBAldatu.getChildren().clear();
         HBBotoiak.getChildren().clear();
 
+        // Add text to the label next to the search field
         if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
             lbBilatu.setText("Produktuak ID bilatu:");
         } else if (App.conectionIdentifier.equalsIgnoreCase("Langileak")) {
@@ -76,6 +78,7 @@ public class Aldatu {
             lbBilatu.setText("Bezeroak ID bilatu:");
         }
 
+        // Create the go back button
         Button btnAtzera = new Button("ATZERA");
         btnAtzera.setPrefSize(300, 24);
         btnAtzera.setOnAction(event -> {
@@ -90,7 +93,7 @@ public class Aldatu {
     }
 
     @FXML
-    void handleBilatu() throws IOException {
+    void handleBilatu() throws IOException { // Search button action handler
         if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
             int bilatu = 0;
             try {
@@ -152,7 +155,8 @@ public class Aldatu {
     }
 
     @FXML
-    void imprimatuAldatu(int bilatu) throws IOException {
+    void imprimatuAldatu(int bilatu) throws IOException { // Print the data to be modified
+        // Clear previous data
         HBAldatu.getChildren().clear();
         HBBotoiak.getChildren().clear();
 
@@ -183,10 +187,10 @@ public class Aldatu {
             kategoriaChoiceBox = new ChoiceBox<>();
             kategoriaChoiceBox.getItems().addAll(App.produktuak.getAllKategoriak());
 
-            // Obtener el ID de la categoría seleccionada en el producto
+            // Get the ID of the selected category in the product
             int kategoriaId = produktua.getIdKategoria();
 
-            // Buscar la categoría correspondiente por su ID
+            // Search for the corresponding category by its ID
             Kategoria selectedKategoria = null;
             for (Kategoria kategoria : kategoriaChoiceBox.getItems()) {
                 if (kategoria.getId() == kategoriaId) {
@@ -195,7 +199,7 @@ public class Aldatu {
                 }
             }
 
-            // Establecer el valor preseleccionado en el ChoiceBox
+            // Set the preselected value in the ChoiceBox
             if (selectedKategoria != null) {
                 kategoriaChoiceBox.setValue(selectedKategoria);
             }
@@ -214,10 +218,10 @@ public class Aldatu {
             saltzaileChoiceBox = new ChoiceBox<>();
             saltzaileChoiceBox.getItems().addAll(App.produktuak.getAllSaltzaileak());
 
-            // Obtener el ID del saltzaile asociado al producto
+            // Get the ID of the saltzaile associated with the product
             int saltzaileId = produktua.getIdSaltzaile();
 
-            // Buscar el saltzaile correspondiente por su ID
+            // Search for the corresponding saltzaile by its ID
             Saltzaileak selectedSaltzaile = null;
             for (Saltzaileak saltzaile : saltzaileChoiceBox.getItems()) {
                 if (saltzaile.getId() == saltzaileId) {
@@ -226,7 +230,7 @@ public class Aldatu {
                 }
             }
 
-            // Establecer el valor preseleccionado en el ChoiceBox
+            // Set the preselected value in the ChoiceBox
             if (selectedSaltzaile != null) {
                 saltzaileChoiceBox.setValue(selectedSaltzaile);
             }
@@ -237,17 +241,17 @@ public class Aldatu {
             cbSalduta = new CheckBox("Produktua salduta?");
             grid.add(cbSalduta, 0, 6);
 
-            // Eroslea (ChoiceBox) - oculto por defecto
+            // Eroslea (ChoiceBox) - hidden by default
             lblIdErosle = new Label("Eroslea:");
             erosleChoiceBox = new ChoiceBox<>();
             erosleChoiceBox.setVisible(false);
             lblIdErosle.setVisible(false);
 
-            // Cargar erosleak
+            // load erosleak
             List<Erosleak> erosleakList = App.produktuak.getAllErosleak();
             erosleChoiceBox.getItems().addAll(erosleakList);
 
-            // Preseleccionar eroslea si ya está vendido
+            // Preselects eroslea if it is already sold
             boolean isSold = App.produktuak.saldutaBaDago(produktua.getId());
             if (isSold) {
                 cbSalduta.setSelected(true);
@@ -289,16 +293,16 @@ public class Aldatu {
             // Kargua (choicebox)
             grid.add(new Label("Kargua:"), 0, 1);
 
-            // Crear el ChoiceBox con valores del enum
+            // Create the ChoiceBox with enum values
             cbKargua = new ChoiceBox<>();
             cbKargua.getItems().addAll(KarguakEnum.values());
 
-            // Obtener el valor actual desde el langilea
+            // Get the current value from the langilea
             KarguakEnum karguaEnum = KarguakEnum.fromIzena(langilea.getKargua());
             if (karguaEnum != null) {
                 cbKargua.setValue(karguaEnum);
             } else {
-                cbKargua.setValue(KarguakEnum.SALTZAILEA); // valor por defecto
+                cbKargua.setValue(KarguakEnum.SALTZAILEA); // default value
             }
 
             grid.add(cbKargua, 1, 1);
@@ -388,7 +392,7 @@ public class Aldatu {
             HBAldatu.getChildren().add(grid);
         }
 
-        // Botón ALDATU
+        // Button ALDATU
         Button btnAldatu = new Button("ALDATU");
         btnAldatu.setPrefSize(300, 24);
         btnAldatu.setOnAction(event -> {
@@ -400,7 +404,7 @@ public class Aldatu {
             }
         });
 
-        // Botón ATZERA
+        // Button ATZERA
         Button btnAtzera = new Button("ATZERA");
         btnAtzera.setPrefSize(300, 24);
         btnAtzera.setOnAction(event -> {
@@ -414,7 +418,9 @@ public class Aldatu {
         HBBotoiak.getChildren().addAll(btnAldatu, btnAtzera);
     }
 
-    public void handleAldatu() {
+    // Sorry, I didn't have time to add all the checks, so there are fields that are
+    // not verified.
+    public void handleAldatu() { // Update button action handler
         if (App.conectionIdentifier.equalsIgnoreCase("Produktuak")) {
             String izena = txfIzenaLocal.getText();
             String deskribapena = txfDeskribapena.getText();
@@ -426,11 +432,10 @@ public class Aldatu {
             Erosleak erosle = erosleChoiceBox.getValue();
             Integer idErosle = (erosle != null) ? erosle.getId() : null;
 
-            // Asegúrate de realizar las comprobaciones necesarias
             if (izena != null && !izena.isEmpty() && deskribapena != null && !deskribapena.isEmpty() && egoera != null
                     && kategoria != null && saltzaile != null) {
 
-                // Verificar si alguno de los campos contiene posibles inyecciones de código
+                // Check if any of the fields contain possible code injections
                 String[] inputs = {
                         izena,
                         deskribapena,
@@ -445,7 +450,7 @@ public class Aldatu {
 
                 for (String input : inputs) {
                     if (input != null) {
-                        // Verificar si el campo contiene alguno de los patrones sospechosos
+                        // Check if the field contains any of the suspicious patterns
                         for (String pattern : patterns) {
                             if (input.toLowerCase().contains(pattern)) {
                                 containsInjection = true;
@@ -463,7 +468,7 @@ public class Aldatu {
                 }
 
                 try {
-                    // Verificar que el precio sea un número válido
+                    // Verify that the price is a valid number
                     double precio;
                     try {
                         precio = Double.parseDouble(prezioa);
@@ -472,12 +477,12 @@ public class Aldatu {
                         return;
                     }
 
-                    // Obtener el producto de la interfaz de usuario
+                    // Get the product from the user interface
                     Produktuak produktuaActualizado = new Produktuak(produktua.getId(), izena, deskribapena,
                             (int) precio,
                             kategoria.getId(), saltzaile.getId(), egoera, null);
 
-                    // Si el producto está marcado como vendido, asignar el ID del comprador
+                    // If the product is marked as sold, assign the buyer ID
                     if (salduta) {
                         if (idErosle != null) {
                             int result = App.produktuak.handleAldatu(produktuaActualizado, 1, idErosle);
@@ -491,7 +496,7 @@ public class Aldatu {
                             lbMezua.setText("Erosle bat aukeratu behar da saldutako produktuarentzat.");
                         }
                     } else {
-                        // Si el producto no está vendido, solo actualizamos el producto
+                        // If the product is not sold, we only update the product
                         int result = App.produktuak.handleAldatu(produktuaActualizado, 0, 0);
                         if (result > 0) {
                             initialize();
@@ -519,13 +524,12 @@ public class Aldatu {
             String erabiltzaileIzena = txfErabiltzaileIzena.getText();
             String pasahitza = txfPasahitza.getText();
 
-            // Asegúrate de realizar las comprobaciones necesarias
             if (izena != null && !izena.isEmpty() && email != null && !email.isEmpty() && telefonoa != null
                     && !telefonoa.isEmpty() && helbidea != null && !helbidea.isEmpty() && herria != null
                     && !herria.isEmpty() && postaKodea != null && !postaKodea.isEmpty() && erabiltzaileIzena != null
                     && !erabiltzaileIzena.isEmpty() && pasahitza != null && !pasahitza.isEmpty()) {
 
-                // Verificar si alguno de los campos contiene posibles inyecciones de código
+                // Check if any of the fields contain possible code injections
                 String[] inputs = {
                         izena,
                         email,
@@ -542,7 +546,7 @@ public class Aldatu {
 
                 for (String input : inputs) {
                     if (input != null) {
-                        // Verificar si el campo contiene alguno de los patrones sospechosos
+                        // Check if the field contains any of the suspicious patterns
                         for (String pattern : patterns) {
                             if (input.toLowerCase().contains(pattern)) {
                                 containsInjection = true;
@@ -560,7 +564,7 @@ public class Aldatu {
                 }
 
                 try {
-                    // Verificar que el teléfono sea un número válido
+                    // Verify that the phone number is valid
                     int telefono;
                     try {
                         telefono = Integer.parseInt(telefonoa);
@@ -569,13 +573,13 @@ public class Aldatu {
                         return;
                     }
 
-                    // Crear el objeto Langileak con los datos actualizados
+                    // Create the Langileak object with the updated data
                     Langileak langileaActualizado = new Langileak(langilea.getId(), izena, kargua, email, telefono,
                             herria, postaKodea, helbidea, langilea.getAltaData(), erabiltzaileIzena, pasahitza);
 
                     System.out.println(langileaActualizado.toString());
 
-                    // Actualizar el empleado en la base de datos
+                    // Update the employee in the database
                     int result = App.langileak.handleAldatu(langileaActualizado);
                     if (result > 0) {
                         initialize();
@@ -603,13 +607,12 @@ public class Aldatu {
             String erabiltzaileIzena = txfErabiltzaileIzena.getText();
             String pasahitza = txfPasahitza.getText();
 
-            // Asegúrate de realizar las comprobaciones necesarias
             if (izena != null && !izena.isEmpty() && email != null && !email.isEmpty() && telefonoa != null
                     && !telefonoa.isEmpty() && helbidea != null && !helbidea.isEmpty() && herria != null
                     && !herria.isEmpty() && postaKodea != null && !postaKodea.isEmpty() && erabiltzaileIzena != null
                     && !erabiltzaileIzena.isEmpty() && pasahitza != null && !pasahitza.isEmpty()) {
 
-                // Verificar si alguno de los campos contiene posibles inyecciones de código
+                // Check if any of the fields contain possible code injections
                 String[] inputs = {
                         izena,
                         email,
@@ -626,7 +629,7 @@ public class Aldatu {
 
                 for (String input : inputs) {
                     if (input != null) {
-                        // Verificar si el campo contiene alguno de los patrones sospechosos
+                        // Check if the field contains any of the suspicious patterns
                         for (String pattern : patterns) {
                             if (input.toLowerCase().contains(pattern)) {
                                 containsInjection = true;
@@ -644,7 +647,7 @@ public class Aldatu {
                 }
 
                 try {
-                    // Verificar que el teléfono sea un número válido
+                    // Verify that the phone number is valid
                     int telefono;
                     try {
                         telefono = Integer.parseInt(telefonoa);
@@ -653,11 +656,11 @@ public class Aldatu {
                         return;
                     }
 
-                    // Crear el objeto Bezeroak con los datos actualizados
+                    // Create the Bezeroak object with the updated data
                     Bezeroak bezeroaActualizado = new Bezeroak(bezeroa.getId(), izena, email, telefono, herria,
                             postaKodea, helbidea, bezeroa.getAltaData(), erabiltzaileIzena, pasahitza);
 
-                    // Actualizar el cliente en la base de datos
+                    // Update the client in the database
                     int result = App.bezeroak.handleAldatu(bezeroaActualizado);
                     if (result > 0) {
                         initialize();

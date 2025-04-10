@@ -38,17 +38,16 @@ public class App extends Application {
         scene = new Scene(loadFXML("MenuBotoiak"));
         scene.getStylesheets().add(getClass().getResource("css/ModenaAldatua.css").toExternalForm());
 
-        // Configurar el título y el ícono de la ventana
+        // To set the icon of the window and the title
         stage.setTitle("Second Hand Sale Admin");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/devworks/img/icon.png")));
         stage.setScene(scene);
 
-        // Configurar la ventana para que esté en pantalla completa por defecto
+        // Set the window to be full screen by default
         stage.setFullScreen(true);
         stage.setFullScreenExitHint("ALT + Enter sakatzen du pantaila osoaren eta leiho moduaren artean tenkatzeko.");
 
-        // Detectar la combinación de teclas Alt + Enter para cambiar el estado de
-        // pantalla completa
+        // Detect the Alt + Enter key combination to toggle full screen state
         scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER && event.isAltDown()) {
                 // Alternar entre pantalla completa y modo normal
@@ -56,7 +55,7 @@ public class App extends Application {
             }
         });
 
-        // Mostrar la ventana
+        // Show window
         stage.show();
     }
 
