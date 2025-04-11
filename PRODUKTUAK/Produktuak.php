@@ -174,7 +174,7 @@ session_start();
                             
                 // Botón de eliminación para admins
                 if ($isAdmin) {
-                    echo "<form action='deleteProduktua' method='POST'>
+                    echo "<form action='deleteProduktua.php' method='POST'>
                             <input type='hidden' name='id_produktu' value='" . $row['id_produktu'] . "' />
                             <button type='submit' name='delete_product' class='btn btn-danger'>Eliminar Producto</button>
                           </form>";

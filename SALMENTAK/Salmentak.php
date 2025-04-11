@@ -163,7 +163,7 @@ session_start();
             $sql = "INSERT INTO salmentak (id_produktu, id_saltzaile, id_erosle, data, salmenta_prezioa) VALUES ('$id_producto', (SELECT id_saltzaile FROM produktuak where id_produktu='$id_producto') , '$id_bezero', '$data', '$precio')";
 
             // Ejecutar la consulta
-            if (mysqli_errno($link) == 0) {
+            if (mysqli_query($link, $sql)) {
                 echo "<div class='alert alert-warning' role='alert'>
                         Produktu hau dagoeneko salmenten taulan existitzen da!
                       </div>";
