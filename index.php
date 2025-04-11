@@ -55,6 +55,17 @@ session_start();
                                     Ongi etorri, <?php echo htmlspecialchars($_SESSION["usuario"]); ?>.
                                 </p>
                                 <a href="logout.php" class="btn btn-danger">Itxi Saioa</a>
+                                <div class="dropdown">
+                                <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Language
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="index.php">Euskera</a></li>
+                <li><a class="dropdown-item" href="indexIngles.php">English</a></li>
+            </ul>
+        </div>
+                    </div>
                             </div>
                         <?php else: ?>
                             <!-- Opciones de usuario -->
@@ -78,6 +89,17 @@ session_start();
                                     Ongi etorri, <?php echo htmlspecialchars($_SESSION["usuario"]); ?>.
                                 </p>
                                 <a href="logout.php" class="btn btn-danger">Itxi Saioa</a>
+                                <div class="dropdown">
+                                <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Language
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="index.php">Euskera</a></li>
+                <li><a class="dropdown-item" href="indexIngles.php">English</a></li>
+            </ul>
+        </div>
+                    </div>
                             </div>
 
                         <?php endif; ?>
@@ -94,11 +116,21 @@ session_start();
                                 <a class="nav-link" href="./KONTAKTUA/Kontaktua.php">Kontaktua</a>
                             </li>
                         </ul>
-                        <div class="d-flex align-items-center ms-auto gap-3"></div>
-                        <button class="btn">
+                        <div class="d-flex align-items-center ms-auto gap-3"> <button class="btn">
                             <a href="./SAIOA_HASI/Saioa_Hasi.html">
                                 <img src="./HASIERA/img/imagen inicio sesion copy.png" class="img-fluid">
                             </a>
+                        </button></div>
+                        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Language
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="index.php">Euskera</a></li>
+                <li><a class="dropdown-item" href="indexIngles.php">English</a></li>
+            </ul>
+        </div>
+                    </div>
                         </button>
 
                         <p class="m-0 text-white">
