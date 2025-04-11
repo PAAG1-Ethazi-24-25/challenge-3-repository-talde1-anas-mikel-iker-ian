@@ -35,7 +35,7 @@ session_start();
                             <!-- Opciones de administrador -->
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                    <a class="nav-link" aria-current="page" href="index.php">Hasiera</a>
+                                    <a class="nav-link" aria-current="page" href="../index.php">Hasiera</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link active" href="../PRODUKTUAK/Produktuak.php">Produktuak</a>
@@ -58,7 +58,7 @@ session_start();
                             <!-- Opciones de usuario -->
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                    <a class="nav-link" aria-current="page" href="index.php">Hasiera</a>
+                                    <a class="nav-link" aria-current="page" href="../index.php">Hasiera</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="../PRODUKTUAK/Produktuak.php">Produktuak</a>
