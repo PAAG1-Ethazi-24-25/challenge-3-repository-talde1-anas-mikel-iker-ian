@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-04-2025 a las 15:56:17
+-- Tiempo de generación: 11-04-2025 a las 09:09:31
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -212,16 +212,23 @@ CREATE TABLE `produktuak` (
 --
 
 INSERT INTO `produktuak` (`id_produktu`, `izena`, `deskribapena`, `prezioa`, `id_kategoria`, `egoera`, `id_saltzaile`, `salduta`, `argazkia`) VALUES
-(2, 'Sofa bikoitza', 'Kolore grisa, material erosoa', 300.00, 2, 'erabilia', 2, 1, 'sofa.webp'),
 (3, 'Bizikleta', 'Mendiko bizikleta 26 hazbete', 500.00, 3, 'erabilia', 3, 1, 'descarga.jpg'),
-(5, 'Kotxea - BMW X5', 'Diesel, 2015eko modeloa', 25000.00, 5, 'erabilia', 5, 1, 'bmw.jpg'),
-(8, 'playstation 4', 'playstation 4 berria 3 mandoekin', 120.00, 1, 'berria', 3, 1, 'play.jpg'),
+(5, 'Kotxea - BMW X5', 'Diesel, 2015eko modeloa', 25000.00, 5, 'erabilia', 5, 0, 'bmw.jpg'),
+(8, 'playstation 4', 'playstation 4 berria 3 mandoekin', 120.00, 1, 'berria', 3, 0, 'play.jpg'),
 (9, 'ordenagailu portatila', 'Ordengailu erabilia', 110.00, 1, 'erabilia', 2, 0, 'portatil.jpg'),
-(10, 'ordenagailu dorrea', 'Ordengailu erabilia', 50.00, 1, 'erabilia', 2, 1, NULL);
+(10, 'ordenagailu dorrea', 'Ordengailu erabilia', 50.00, 1, 'erabilia', 2, 1, NULL),
+(16, 'Sofa bikoitza', 'Kolore grisa, material erosoa', 300.00, 2, 'erabilia', 2, 1, 'sofa.webp');
 
 --
 -- Disparadores `produktuak`
 --
+DELIMITER $$
+CREATE TRIGGER `after_delete_produktuak` AFTER DELETE ON `produktuak` FOR EACH ROW BEGIN
+    DELETE FROM salmentak 
+    WHERE id_produktu = OLD.id_produktu;
+END
+$$
+DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `after_product_sold` AFTER UPDATE ON `produktuak` FOR EACH ROW BEGIN
     
@@ -229,6 +236,16 @@ CREATE TRIGGER `after_product_sold` AFTER UPDATE ON `produktuak` FOR EACH ROW BE
         
         INSERT INTO Salmentak (id_produktu, id_saltzaile, id_erosle, data, salmenta_prezioa)
         VALUES (NEW.id_produktu, NEW.id_saltzaile, NULL, NOW(), NEW.prezioa);
+    END IF;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `after_update_produktuak_salduta_0` AFTER UPDATE ON `produktuak` FOR EACH ROW BEGIN
+    IF NEW.salduta = 0 AND OLD.salduta = 1 THEN
+
+        DELETE FROM salmentak 
+        WHERE id_produktu = NEW.id_produktu;
     END IF;
 END
 $$
@@ -255,7 +272,6 @@ CREATE TABLE `salmentak` (
 
 INSERT INTO `salmentak` (`id_salmenta`, `id_produktu`, `id_saltzaile`, `id_erosle`, `data`, `salmenta_prezioa`) VALUES
 (2, 3, 3, 5, '2025-04-03 08:41:52', 500.00),
-(3, 5, 5, 2, '2025-04-03 08:41:52', 25000.00),
 (15, 10, 2, 3, '2025-04-10 09:27:01', 50.00);
 
 --
@@ -353,13 +369,13 @@ ALTER TABLE `langileak`
 -- AUTO_INCREMENT de la tabla `produktuak`
 --
 ALTER TABLE `produktuak`
-  MODIFY `id_produktu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_produktu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `salmentak`
 --
 ALTER TABLE `salmentak`
-  MODIFY `id_salmenta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_salmenta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Restricciones para tablas volcadas
