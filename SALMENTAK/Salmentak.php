@@ -159,18 +159,24 @@ session_start();
             $data = mysqli_real_escape_string($link, $data);
             $precio = mysqli_real_escape_string($link, $precio);
 
-            // Preparar la consulta SQL para insertar la venta
-            $sql = "INSERT INTO salmentak (id_produktu, id_saltzaile, id_erosle, data, salmenta_prezioa) VALUES ('$id_producto', (SELECT id_saltzaile FROM produktuak where id_produktu='$id_producto') , '$id_bezero', '$data', '$precio')";
+            $sql = "INSERT INTO salmentak (id_produktu, id_saltzaile, id_erosle, data, salmenta_prezioa)
+                    VALUES (
+                        '$id_producto',
+                        (SELECT id_saltzaile FROM produktuak WHERE id_produktu='$id_producto'),
+                        '$id_bezero',
+                        '$data',
+                        '$precio'
+                    )";
 
             // Ejecutar la consulta
             if (mysqli_query($link, $sql)) {
                 echo "<div class='alert alert-success' role='alert'>
                         Salmenta ondo gorde da!
-                      </div>";
+                    </div>";
             } else {
                 echo "<div class='alert alert-danger' role='alert'>
                         Errore egon da salmenta txertatzean (" . mysqli_errno($link) . "): " . mysqli_error($link) . "
-                      </div>";
+                    </div>";
             }
 
             // Cerrar la conexión
