@@ -323,7 +323,7 @@ public class Aldatu {
 
             // Herria
             grid.add(new Label("Herria:"), 0, 5);
-            txfHerria = new TextField(String.valueOf(langilea.getHerriIzena()));
+            txfHerria = new TextField(String.valueOf(langilea.getHerria()));
             grid.add(txfHerria, 1, 5);
 
             // Posta kodea
@@ -381,7 +381,7 @@ public class Aldatu {
 
             // Erabiltzaile izena
             grid.add(new Label("Erabiltzaile izena:"), 0, 6);
-            txfErabiltzaileIzena = new TextField(String.valueOf(bezeroa.getErabiltzalea()));
+            txfErabiltzaileIzena = new TextField(String.valueOf(bezeroa.getErabiltzailea()));
             grid.add(txfErabiltzaileIzena, 1, 6);
 
             // Pasahitza

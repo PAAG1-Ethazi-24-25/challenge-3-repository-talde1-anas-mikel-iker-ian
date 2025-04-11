@@ -203,7 +203,7 @@ public class LangileAtzipena {
             pstmt.setInt(3, langilea.getTelefonoa());
             pstmt.setString(4, langilea.getEmail());
             pstmt.setString(5, langilea.getHelbidea());
-            pstmt.setString(6, langilea.getHerriIzena());
+            pstmt.setString(6, langilea.getHerria());
             pstmt.setString(7, langilea.getPostaKodea());
             pstmt.setString(8, langilea.getErabiltzailea());
             pstmt.setString(9, langilea.getPasahitza());
@@ -238,7 +238,7 @@ public class LangileAtzipena {
             pstmt.setInt(3, langilea.getTelefonoa());
             pstmt.setString(4, langilea.getEmail());
             pstmt.setString(5, langilea.getHelbidea());
-            pstmt.setString(6, langilea.getHerriIzena());
+            pstmt.setString(6, langilea.getHerria());
             pstmt.setString(7, langilea.getPostaKodea());
             pstmt.setString(8, langilea.getErabiltzailea());
             pstmt.setString(9, langilea.getPasahitza());

@@ -299,7 +299,7 @@ public class Bistaratu {
             columnHerria = new TableColumn<>("Herria");
             columnHerria.setCellValueFactory(cellData -> {
                 Bezeroak b = (Bezeroak) cellData.getValue();
-                return new SimpleStringProperty(b.getHerriIzena());
+                return new SimpleStringProperty(b.getHerria());
             });
 
             columnPostaKodea = new TableColumn<>("PostaKodea");
@@ -323,7 +323,7 @@ public class Bistaratu {
             erabiltzaileIzena = new TableColumn<>("erabiltzailea");
             erabiltzaileIzena.setCellValueFactory(cellData -> {
                 Bezeroak b = (Bezeroak) cellData.getValue();
-                return new SimpleStringProperty(b.getErabiltzalea());
+                return new SimpleStringProperty(b.getErabiltzailea());
             });
 
             tableView.getColumns().addAll(
@@ -378,7 +378,7 @@ public class Bistaratu {
             columnHerria = new TableColumn<>("Herria");
             columnHerria.setCellValueFactory(cellData -> {
                 Langileak l = (Langileak) cellData.getValue();
-                return new SimpleStringProperty(l.getHerriIzena());
+                return new SimpleStringProperty(l.getHerria());
             });
 
             columnPostaKodea = new TableColumn<>("PostaKodea");

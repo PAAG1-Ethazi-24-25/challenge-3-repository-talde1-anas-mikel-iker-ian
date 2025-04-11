@@ -217,7 +217,7 @@ public class BezeroAtzipena {
             pstmt.setString(4, bezeroa.getHelbidea());
             pstmt.setString(5, bezeroa.getHerria());
             pstmt.setString(6, bezeroa.getPostaKodea());
-            pstmt.setString(7, bezeroa.getErabiltzalea());
+            pstmt.setString(7, bezeroa.getErabiltzailea());
             pstmt.setString(8, bezeroa.getPasahitza());
 
             int affectedRows = pstmt.executeUpdate();
@@ -251,7 +251,7 @@ public class BezeroAtzipena {
             pstmt.setString(4, bezeroa.getHelbidea());
             pstmt.setString(5, bezeroa.getHerria());
             pstmt.setString(6, bezeroa.getPostaKodea());
-            pstmt.setString(7, bezeroa.getErabiltzalea());
+            pstmt.setString(7, bezeroa.getErabiltzailea());
             pstmt.setString(8, bezeroa.getPasahitza());
             pstmt.setInt(9, bezeroa.getId());
 
