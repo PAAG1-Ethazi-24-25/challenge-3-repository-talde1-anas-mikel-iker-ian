@@ -10,7 +10,7 @@
 
 ## **Klase diagrama**
 
- [sakatu Hemen klase diagrama ikus ahal izateko](3.ErronkaDiagrama.png)
+ [sakatu Hemen klase diagrama ikus ahal izateko](3.ErronkaDiagramaDia.svg)
 
 ---
 
